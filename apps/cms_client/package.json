@@ -8,7 +8,9 @@
     "sass": "sass --watch ../../packages/ui-styles/:app/styles/",
     "build": "remix build",
     "dev": "concurrently \"npm run sass\" \"remix dev\"",
-    "start": "remix-serve build"
+    "start": "remix-serve build",
+    "test": "jest --coverage --passWithNoTests",
+    "lint": "eslint app --fix"
   },
   "dependencies": {
     "@remix-run/node": "^1.4.3",

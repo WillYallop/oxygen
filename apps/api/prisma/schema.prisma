@@ -1,0 +1,425 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------
+// User
+// ---------------------------------------------------
+
+// the user model
+model User {
+  id              String       @id @default(uuid())
+  password        String
+  first_name      String
+  last_name       String
+  username        String
+  email           String       @unique
+  country         String       @db.VarChar(2) // Country code as Alpha-2 iso 
+  locality        String // City / Town
+  postal_code     String // PostType code or ZIP code
+  street_address  String // Street address
+  premise         String // Apartment, Suite, Box number etc.
+  profile_picture String
+  Invoice         Invoice[]
+  SiteAccess      SiteAccess[]
+}
+
+// ---------------------------------------------------
+// User Installs / purchases
+// ---------------------------------------------------
+
+// users installed components
+model UserComponent {
+  id                String              @id @default(uuid())
+  component         ComponentLibrary    @relation(fields: [component_id], references: [id])
+  component_id      String
+  installed_at      DateTime            @default(now())
+  version           Version             @relation(fields: [version_id], references: [id]) // the version of the component installed
+  version_id        String
+  PageComponent     PageComponent[]
+  TemplateComponent TemplateComponent[]
+}
+
+// users purchased components
+model PurchasedComponent {
+  id           String           @id @default(uuid())
+  purchased_at DateTime         @default(now())
+  component    ComponentLibrary @relation(fields: [component_id], references: [id])
+  component_id String
+  invoice      Invoice          @relation(fields: [invoice_id], references: [id])
+  invoice_id   String
+}
+
+// users installed plugins
+model UserPlugin {
+  id           String        @id @default(uuid())
+  plugin       PluginLibrary @relation(fields: [plugin_id], references: [id])
+  plugin_id    String
+  installed_at DateTime      @default(now())
+  version      Version       @relation(fields: [version_id], references: [id]) // the version of the component installed
+  version_id   String
+}
+
+// users purchased plugins
+model PurchasedPlugin {
+  id                     String             @id @default(uuid())
+  purchased_at           DateTime           @default(now())
+  plugin                 PluginLibrary      @relation(fields: [plugin_id], references: [id])
+  plugin_id              String
+  invoice                Invoice            @relation(fields: [invoice_id], references: [id])
+  invoice_id             String
+  subscription           Boolean            @default(false)
+  plugin_subscription    PluginSubscription @relation(fields: [plugin_subscription_id], references: [id])
+  plugin_subscription_id String
+}
+
+// plugin subscription model
+model PluginSubscription {
+  id              String            @id @default(uuid())
+  purchased_at    DateTime          @default(now())
+  renew_date      DateTime
+  plugin          PluginLibrary     @relation(fields: [plugin_id], references: [id])
+  plugin_id       String
+  PurchasedPlugin PurchasedPlugin[]
+}
+
+// users installed kits
+model UserKit {
+  id           String     @id @default(uuid())
+  kit          KitLibrary @relation(fields: [kit_id], references: [id])
+  kit_id       String
+  installed_at DateTime   @default(now())
+}
+
+// users purchased kits
+model PurchasedKit {
+  id           String     @id @default(uuid())
+  purchased_at DateTime   @default(now())
+  kit          KitLibrary @relation(fields: [kit_id], references: [id])
+  kit_id       String
+  invoice      Invoice    @relation(fields: [invoice_id], references: [id])
+  invoice_id   String
+}
+
+// invoices from site subscriptions, components, plugins, and kit purchases - these are specific to the user, not the site
+model Invoice {
+  id                 String               @id @default(uuid())
+  type               String // component, plugin, kit or site subscription
+  subscription       Boolean              @default(false) // if its a monthly subscription or single payment
+  user               User                 @relation(fields: [user_id], references: [id])
+  user_id            String
+  created            DateTime             @default(now())
+  free               Boolean              @default(true)
+  price              Int
+  currency_code      String // currency code (iso 4217)
+  PurchasedKit       PurchasedKit[]
+  PurchasedPlugin    PurchasedPlugin[]
+  PurchasedComponent PurchasedComponent[]
+}
+
+// ---------------------------------------------------
+// Internal Config
+// ---------------------------------------------------
+
+// an internal table to store all pakages
+model Package {
+  id                  String             @id @default(uuid())
+  name                String
+  price               Int
+  free_trial          Boolean
+  free_trial_duration Int
+  SiteSubscription    SiteSubscription[]
+}
+
+// an internal table to stall all permission levels
+model Permission {
+  id         String       @id @default(uuid())
+  level      Int          @unique
+  title      String
+  SiteAccess SiteAccess[]
+}
+
+// ---------------------------------------------------
+// Sites
+// ---------------------------------------------------
+
+// the sites subscription information
+model SiteSubscription {
+  id           String   @id @default(uuid())
+  site         Site     @relation(fields: [site_id], references: [id])
+  site_id      String
+  package      Package  @relation(fields: [package_id], references: [id])
+  package_id   String
+  started_date DateTime
+  renew_date   DateTime
+}
+
+// store site user access
+model SiteAccess {
+  id      String @id @default(uuid())
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+  site    Site   @relation(fields: [site_id], references: [id])
+  site_id String
+
+  permission       Permission @relation(fields: [permission_level], references: [level])
+  permission_level Int
+}
+
+// sites
+model Site {
+  id               String             @id @default(uuid())
+  name             String
+  host             String // the aws s3/elastic bean stalk host info - will likely change based on setup
+  bs_version       String
+  created          DateTime           @default(now())
+  modified         DateTime           @updatedAt
+  active           Boolean            @default(true)
+  domain           String
+  SiteAccess       SiteAccess[]
+  SiteSubscription SiteSubscription[]
+  Page             Page[]
+  PostType         PostType[]
+  Template         Template[]
+  SiteMenu         SiteMenu[]
+}
+
+// site menu
+model SiteMenu {
+  id           String         @id @default(uuid())
+  site         Site           @relation(fields: [site_id], references: [id])
+  site_id      String
+  name         String
+  created      DateTime       @default(now())
+  modified     DateTime       @updatedAt
+  SiteMenuItem SiteMenuItem[]
+}
+
+// site menu items
+model SiteMenuItem {
+  id           String   @id @default(uuid())
+  site_menu    SiteMenu @relation(fields: [site_menu_id], references: [id])
+  site_menu_id String
+  name         String
+  added        DateTime @default(now())
+  modified     DateTime @updatedAt
+  parent_item  Boolean  @default(false)
+  parent_id    String
+  external     Boolean  @default(false) // internal is to a page, extarnal is custom
+  href         String
+  page         Page     @relation(fields: [page_id], references: [id])
+  page_id      String
+}
+
+// site pages
+model Page {
+  id            String          @id @default(uuid())
+  site          Site            @relation(fields: [site_id], references: [id])
+  site_id       String
+  created       DateTime        @default(now())
+  modified      DateTime        @updatedAt
+  type          String // page / post
+  post          PostType        @relation(fields: [post_id], references: [id])
+  post_id       String
+  template      Template        @relation(fields: [template_id], references: [id])
+  template_id   String
+  PageComponent PageComponent[]
+  SiteMenuItem  SiteMenuItem[]
+}
+
+// pages components
+model PageComponent {
+  id           String        @id @default(uuid())
+  page         Page          @relation(fields: [page_id], references: [id])
+  page_id      String
+  added        DateTime      @default(now())
+  modified     DateTime      @updatedAt
+  component    UserComponent @relation(fields: [component_id], references: [id])
+  component_id String
+  position     Int
+  field_type   String // text, number, repeater etc
+}
+
+// TODO add models and group model for component data
+
+// post types
+model PostType {
+  id          String   @id @default(uuid())
+  name        String
+  site        Site     @relation(fields: [site_id], references: [id])
+  site_id     String
+  created     DateTime @default(now())
+  modified    DateTime @updatedAt
+  template    Template @relation(fields: [template_id], references: [id])
+  template_id String
+  Page        Page[]
+}
+
+// page/post templates
+model Template {
+  id                String              @id @default(uuid())
+  name              String
+  created           DateTime            @default(now())
+  modified          DateTime            @updatedAt
+  site              Site                @relation(fields: [site_id], references: [id])
+  site_id           String
+  PostType          PostType[]
+  Page              Page[]
+  TemplateComponent TemplateComponent[]
+}
+
+// template components
+model TemplateComponent {
+  id           String        @id @default(uuid())
+  template     Template      @relation(fields: [template_id], references: [id])
+  template_id  String
+  added        DateTime      @default(now())
+  modified     DateTime      @updatedAt
+  component    UserComponent @relation(fields: [component_id], references: [id])
+  component_id String
+  position     Int
+}
+
+// ---------------------------------------------------
+// Media
+// ---------------------------------------------------
+model Media {
+  id       String   @id @default(uuid())
+  key      String
+  alt      String
+  width    Int
+  height   Int
+  uploaded DateTime @default(now())
+  modified DateTime @updatedAt
+  types    String[]
+  title    String
+}
+
+// ---------------------------------------------------
+// Developer
+// ---------------------------------------------------
+
+// the developer model
+model Developer {
+  id               String             @id @default(uuid())
+  password         String
+  first_name       String
+  last_name        String
+  username         String
+  email            String             @unique
+  country          String             @db.VarChar(2) // Country code as Alpha-2 iso 
+  locality         String // City / Town
+  postal_code      String // PostType code or ZIP code
+  street_address   String // Street address
+  premise          String // Apartment, Suite, Box number etc.
+  ComponentLibrary ComponentLibrary[]
+  profile_picture  String
+  PluginLibrary    PluginLibrary[]
+  KitLibrary       KitLibrary[]
+}
+
+// ---------------------------------------------------
+// Library
+// ---------------------------------------------------
+
+model Version {
+  id               String             @id @default(uuid())
+  version          String
+  repository       String
+  commit           String
+  ComponentLibrary ComponentLibrary[]
+  PluginLibrary    PluginLibrary[]
+  KitLibrary       KitLibrary[]
+  UserComponent    UserComponent[]
+  UserPlugin       UserPlugin[]
+}
+
+// components library
+model ComponentLibrary {
+  id                 String               @id @default(uuid())
+  verified           Boolean              @default(false)
+  developer          Developer            @relation(fields: [developer_id], references: [id])
+  developer_id       String
+  created            DateTime             @default(now())
+  modified           DateTime             @updatedAt
+  name               String
+  tags               String[]
+  version            Version              @relation(fields: [version_id], references: [id])
+  version_id         String
+  public             Boolean              @default(true)
+  free               Boolean              @default(true)
+  price              Int
+  currency_code      String // currency code (iso 4217)
+  banner_url         String
+  preview_url        String
+  icon_url           String
+  KitComponent       KitComponent[]
+  UserComponent      UserComponent[]
+  PurchasedComponent PurchasedComponent[]
+}
+
+// plugin library
+model PluginLibrary {
+  id                 String               @id @default(uuid())
+  verified           Boolean              @default(false)
+  developer          Developer            @relation(fields: [developer_id], references: [id])
+  developer_id       String
+  created            DateTime             @default(now())
+  modified           DateTime             @updatedAt
+  name               String
+  tags               String[]
+  version            Version              @relation(fields: [version_id], references: [id])
+  version_id         String
+  public             Boolean              @default(true)
+  free               Boolean              @default(true)
+  subscription       Boolean              @default(false)
+  price              Int
+  currency_code      String // currency code (iso 4217)
+  banner_url         String
+  preview_url        String
+  icon_url           String
+  UserPlugin         UserPlugin[]
+  PurchasedPlugin    PurchasedPlugin[]
+  PluginSubscription PluginSubscription[]
+}
+
+// kit library
+model KitLibrary {
+  id            String         @id @default(uuid())
+  verified      Boolean        @default(false)
+  developer     Developer      @relation(fields: [developer_id], references: [id])
+  developer_id  String
+  created       DateTime       @default(now())
+  modified      DateTime       @updatedAt
+  name          String
+  tags          String[]
+  version       Version        @relation(fields: [version_id], references: [id])
+  version_id    String
+  public        Boolean        @default(true)
+  free          Boolean        @default(true)
+  price         Int
+  currency_code String // currency code (iso 4217)
+  banner_url    String
+  preview_url   String
+  icon_url      String
+  KitComponent  KitComponent[]
+  UserKit       UserKit[]
+  PurchasedKit  PurchasedKit[]
+}
+
+// all component refferences for specific kit
+model KitComponent {
+  id           String           @id @default(uuid())
+  kit          KitLibrary       @relation(fields: [kit_id], references: [id])
+  kit_id       String
+  component    ComponentLibrary @relation(fields: [component_id], references: [id])
+  component_id String
+}

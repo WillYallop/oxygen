@@ -16,37 +16,28 @@ datasource db {
 
 // the user model
 model User {
-  id              String       @id @default(uuid())
-  password        String
-  first_name      String
-  last_name       String
-  username        String
-  email           String       @unique
-  country         String       @db.VarChar(2) // Country code as Alpha-2 iso 
-  locality        String // City / Town
-  postal_code     String // PostType code or ZIP code
-  street_address  String // Street address
-  premise         String // Apartment, Suite, Box number etc.
-  profile_picture String
-  Invoice         Invoice[]
-  SiteAccess      SiteAccess[]
+  id               String             @id @default(uuid())
+  password         String
+  first_name       String
+  last_name        String
+  username         String
+  email            String             @unique
+  country          String             @db.VarChar(2) // Country code as Alpha-2 iso 
+  locality         String // City / Town
+  postal_code      String // PostType code or ZIP code
+  street_address   String // Street address
+  premise          String // Apartment, Suite, Box number etc.
+  profile_picture  String
+  Invoice          Invoice[]
+  SiteAccess       SiteAccess[]
+  ComponentLibrary ComponentLibrary[]
+  PluginLibrary    PluginLibrary[]
+  KitLibrary       KitLibrary[]
 }
 
 // ---------------------------------------------------
 // User Installs / purchases
 // ---------------------------------------------------
-
-// users installed components
-model UserComponent {
-  id                String              @id @default(uuid())
-  component         ComponentLibrary    @relation(fields: [component_id], references: [id])
-  component_id      String
-  installed_at      DateTime            @default(now())
-  version           Version             @relation(fields: [version_id], references: [id]) // the version of the component installed
-  version_id        String
-  PageComponent     PageComponent[]
-  TemplateComponent TemplateComponent[]
-}
 
 // users purchased components
 model PurchasedComponent {
@@ -56,16 +47,6 @@ model PurchasedComponent {
   component_id String
   invoice      Invoice          @relation(fields: [invoice_id], references: [id])
   invoice_id   String
-}
-
-// users installed plugins
-model UserPlugin {
-  id           String        @id @default(uuid())
-  plugin       PluginLibrary @relation(fields: [plugin_id], references: [id])
-  plugin_id    String
-  installed_at DateTime      @default(now())
-  version      Version       @relation(fields: [version_id], references: [id]) // the version of the component installed
-  version_id   String
 }
 
 // users purchased plugins
@@ -89,14 +70,6 @@ model PluginSubscription {
   plugin          PluginLibrary     @relation(fields: [plugin_id], references: [id])
   plugin_id       String
   PurchasedPlugin PurchasedPlugin[]
-}
-
-// users installed kits
-model UserKit {
-  id           String     @id @default(uuid())
-  kit          KitLibrary @relation(fields: [kit_id], references: [id])
-  kit_id       String
-  installed_at DateTime   @default(now())
 }
 
 // users purchased kits
@@ -186,106 +159,6 @@ model Site {
   domain           String
   SiteAccess       SiteAccess[]
   SiteSubscription SiteSubscription[]
-  Page             Page[]
-  PostType         PostType[]
-  Template         Template[]
-  SiteMenu         SiteMenu[]
-}
-
-// site menu
-model SiteMenu {
-  id           String         @id @default(uuid())
-  site         Site           @relation(fields: [site_id], references: [id])
-  site_id      String
-  name         String
-  created      DateTime       @default(now())
-  modified     DateTime       @updatedAt
-  SiteMenuItem SiteMenuItem[]
-}
-
-// site menu items
-model SiteMenuItem {
-  id           String   @id @default(uuid())
-  site_menu    SiteMenu @relation(fields: [site_menu_id], references: [id])
-  site_menu_id String
-  name         String
-  added        DateTime @default(now())
-  modified     DateTime @updatedAt
-  parent_item  Boolean  @default(false)
-  parent_id    String
-  external     Boolean  @default(false) // internal is to a page, extarnal is custom
-  href         String
-  page         Page     @relation(fields: [page_id], references: [id])
-  page_id      String
-}
-
-// site pages
-model Page {
-  id            String          @id @default(uuid())
-  site          Site            @relation(fields: [site_id], references: [id])
-  site_id       String
-  created       DateTime        @default(now())
-  modified      DateTime        @updatedAt
-  type          String // page / post
-  post          PostType        @relation(fields: [post_id], references: [id])
-  post_id       String
-  template      Template        @relation(fields: [template_id], references: [id])
-  template_id   String
-  PageComponent PageComponent[]
-  SiteMenuItem  SiteMenuItem[]
-}
-
-// pages components
-model PageComponent {
-  id           String        @id @default(uuid())
-  page         Page          @relation(fields: [page_id], references: [id])
-  page_id      String
-  added        DateTime      @default(now())
-  modified     DateTime      @updatedAt
-  component    UserComponent @relation(fields: [component_id], references: [id])
-  component_id String
-  position     Int
-  field_type   String // text, number, repeater etc
-}
-
-// TODO add models and group model for component data
-
-// post types
-model PostType {
-  id          String   @id @default(uuid())
-  name        String
-  site        Site     @relation(fields: [site_id], references: [id])
-  site_id     String
-  created     DateTime @default(now())
-  modified    DateTime @updatedAt
-  template    Template @relation(fields: [template_id], references: [id])
-  template_id String
-  Page        Page[]
-}
-
-// page/post templates
-model Template {
-  id                String              @id @default(uuid())
-  name              String
-  created           DateTime            @default(now())
-  modified          DateTime            @updatedAt
-  site              Site                @relation(fields: [site_id], references: [id])
-  site_id           String
-  PostType          PostType[]
-  Page              Page[]
-  TemplateComponent TemplateComponent[]
-}
-
-// template components
-model TemplateComponent {
-  id           String        @id @default(uuid())
-  template     Template      @relation(fields: [template_id], references: [id])
-  template_id  String
-  added        DateTime      @default(now())
-  modified     DateTime      @updatedAt
-  component    UserComponent @relation(fields: [component_id], references: [id])
-  component_id String
-  position     Int
 }
 
 // ---------------------------------------------------
@@ -304,29 +177,6 @@ model Media {
 }
 
 // ---------------------------------------------------
-// Developer
-// ---------------------------------------------------
-
-// the developer model
-model Developer {
-  id               String             @id @default(uuid())
-  password         String
-  first_name       String
-  last_name        String
-  username         String
-  email            String             @unique
-  country          String             @db.VarChar(2) // Country code as Alpha-2 iso 
-  locality         String // City / Town
-  postal_code      String // PostType code or ZIP code
-  street_address   String // Street address
-  premise          String // Apartment, Suite, Box number etc.
-  ComponentLibrary ComponentLibrary[]
-  profile_picture  String
-  PluginLibrary    PluginLibrary[]
-  KitLibrary       KitLibrary[]
-}
-
-// ---------------------------------------------------
 // Library
 // ---------------------------------------------------
 
@@ -338,15 +188,13 @@ model Version {
   ComponentLibrary ComponentLibrary[]
   PluginLibrary    PluginLibrary[]
   KitLibrary       KitLibrary[]
-  UserComponent    UserComponent[]
-  UserPlugin       UserPlugin[]
 }
 
 // components library
 model ComponentLibrary {
   id                 String               @id @default(uuid())
   verified           Boolean              @default(false)
-  developer          Developer            @relation(fields: [developer_id], references: [id])
+  developer          User                 @relation(fields: [developer_id], references: [id])
   developer_id       String
   created            DateTime             @default(now())
   modified           DateTime             @updatedAt
@@ -362,7 +210,6 @@ model ComponentLibrary {
   preview_url        String
   icon_url           String
   KitComponent       KitComponent[]
-  UserComponent      UserComponent[]
   PurchasedComponent PurchasedComponent[]
 }
 
@@ -370,7 +217,7 @@ model ComponentLibrary {
 model PluginLibrary {
   id                 String               @id @default(uuid())
   verified           Boolean              @default(false)
-  developer          Developer            @relation(fields: [developer_id], references: [id])
+  developer          User                 @relation(fields: [developer_id], references: [id])
   developer_id       String
   created            DateTime             @default(now())
   modified           DateTime             @updatedAt
@@ -386,7 +233,6 @@ model PluginLibrary {
   banner_url         String
   preview_url        String
   icon_url           String
-  UserPlugin         UserPlugin[]
   PurchasedPlugin    PurchasedPlugin[]
   PluginSubscription PluginSubscription[]
 }
@@ -395,7 +241,7 @@ model PluginLibrary {
 model KitLibrary {
   id            String         @id @default(uuid())
   verified      Boolean        @default(false)
-  developer     Developer      @relation(fields: [developer_id], references: [id])
+  developer     User           @relation(fields: [developer_id], references: [id])
   developer_id  String
   created       DateTime       @default(now())
   modified      DateTime       @updatedAt
@@ -411,7 +257,6 @@ model KitLibrary {
   preview_url   String
   icon_url      String
   KitComponent  KitComponent[]
-  UserKit       UserKit[]
   PurchasedKit  PurchasedKit[]
 }
 

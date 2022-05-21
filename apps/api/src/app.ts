@@ -2,6 +2,13 @@ import express, { NextFunction, Response, Request } from 'express';
 // import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 // import fileUpload from 'express-fileupload';
+import v1Routes from './routes/v1';
+
+interface Error {
+  status?: number;
+}
+
+const app = express();
 
 // ------------------------------------
 // CORS                               |
@@ -28,28 +35,25 @@ const sharedCors = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // ------------------------------------
-// APP                                |
-// ------------------------------------
-const app = express();
-// ------------------------------------
-// CORS
-app.use(sharedCors);
-// ------------------------------------
 // MIDDLEWARE
+// ------------------------------------
+app.use(sharedCors);
 app.use(morgan('dev'));
+
 // ------------------------------------
 // Routes
-app.get('/', (req, res) => {
-  res.send('GET request to the homepage');
-});
+// ------------------------------------
+app.use('/v1/dev/library', v1Routes.developer.library);
 
 // ------------------------------------
 // ERROR HANDLING
+// ------------------------------------
 app.use((req: Request, res: Response, next: NextFunction) => {
   const error = new Error('Not Found');
   next(error);
 });
-app.use((error: any, req: Request, res: Response) => {
+
+app.use((error: Error, req: Request, res: Response) => {
   res.status(error.status || 500);
 });
 

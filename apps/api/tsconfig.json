@@ -1,9 +1,10 @@
 {
-    "extends": "tsconfig/api.json",
-    "compilerOptions": {
-      "rootDir": "./src",
-      "outDir": "dist"
-    },
-    "include": ["src/"],
-    "exclude": ["node_modules", ".turbo", "coverage", "dist", "src/**/*.test.ts"]
+  "extends": "tsconfig/api.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "dist"
+  },
+  "include": ["src/"],
+  "types": ["./types"],
+  "exclude": ["node_modules", ".turbo", "coverage", "dist", "src/**/*.test.ts"]
 }

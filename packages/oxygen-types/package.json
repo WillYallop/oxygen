@@ -1,0 +1,9 @@
+{
+  "name": "oxygen-types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.d.js",
+  "files": [
+    "index.d.js"
+  ]
+}

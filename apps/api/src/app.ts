@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import v1Routes from './routes/v1';
 
 interface Error {
-  status?: number;
+    status?: number;
 }
 
 const app = express();
@@ -14,29 +14,33 @@ const app = express();
 // CORS                               |
 // ------------------------------------
 const sharedCors = (req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigins = [''];
-  const { origin } = req.headers;
-  if (allowedOrigins.includes('*')) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-  } else if (origin) {
-    if (allowedOrigins.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
+    const allowedOrigins = [''];
+    const { origin } = req.headers;
+    if (allowedOrigins.includes('*')) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+    } else if (origin) {
+        if (allowedOrigins.includes(origin)) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
+        }
     }
-  }
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization, Auth-Strategy',
-  );
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    res.status(200).json({});
-  }
-  next();
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization, Auth-Strategy',
+    );
+    if (req.method === 'OPTIONS') {
+        res.header(
+            'Access-Control-Allow-Methods',
+            'PUT, POST, PATCH, DELETE, GET',
+        );
+        res.status(200).json({});
+    }
+    next();
 };
 
 // ------------------------------------
 // MIDDLEWARE
 // ------------------------------------
+app.use(express.json());
 app.use(sharedCors);
 app.use(morgan('dev'));
 
@@ -54,12 +58,12 @@ app.use('/v1/core/user', v1Routes.core.user);
 // ERROR HANDLING
 // ------------------------------------
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new Error('Not Found');
-  next(error);
+    const error = new Error('Not Found');
+    next(error);
 });
 
 app.use((error: Error, req: Request, res: Response) => {
-  res.status(error.status || 500);
+    res.status(error.status || 500);
 });
 
 export default app;

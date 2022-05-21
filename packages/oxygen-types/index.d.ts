@@ -1,3 +1,3 @@
-import { Res_JSONBody, Res_Error } from './api/responses';
+import { Res_JSONBody, Res_Error, Res_ExpressError } from './api/responses';
 
-export { Res_JSONBody, Res_Error };
+export { Res_JSONBody, Res_Error, Res_ExpressError };

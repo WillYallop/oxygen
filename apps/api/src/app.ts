@@ -43,7 +43,12 @@ app.use(morgan('dev'));
 // ------------------------------------
 // Routes
 // ------------------------------------
+// developer routes
 app.use('/v1/dev/library', v1Routes.developer.library);
+app.use('/v1/dev/setting', v1Routes.developer.setting);
+// core routes
+app.use('/v1/core/authentication', v1Routes.core.authentication);
+app.use('/v1/core/user', v1Routes.core.user);
 
 // ------------------------------------
 // ERROR HANDLING

@@ -1,4 +1,5 @@
 import C from 'oxygen-constants';
+import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
@@ -10,6 +11,7 @@ import {
 import niv, { Validator } from 'node-input-validator';
 import { nameRegexCb } from '../../../../../utils/niv-extend-callbacks';
 import db from '../../../../../utils/prisma-client';
+import generateTokenRes from './helper/generate-token';
 
 // * Description
 /*  
@@ -77,11 +79,13 @@ const registerUser = async (
             }
             // register new user
             else {
+                const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
                 const newUser = await db.user.create({
                     data: {
                         first_name: req.body.firstName,
                         last_name: req.body.lastName,
-                        password: req.body.password,
+                        password: hashedPassword,
                         email: req.body.email,
                         username: req.body.username,
                         country: '',
@@ -97,18 +101,29 @@ const registerUser = async (
                     id: newUser.id,
                     type: 'user',
                     attributes: {
-                        first_name: newUser.first_name,
-                        last_name: newUser.last_name,
+                        firstName: newUser.first_name,
+                        lastName: newUser.last_name,
                         email: newUser.email,
                         username: newUser.username,
                         country: newUser.country,
                         locality: newUser.locality,
-                        postal_code: newUser.postal_code,
-                        street_address: newUser.street_address,
+                        postalCode: newUser.postal_code,
+                        streetAddress: newUser.street_address,
                         premise: newUser.premise,
-                        profile_picture: newUser.profile_picture,
+                        profilePicture: newUser.profile_picture,
+                        accountCreated: newUser.account_created,
                     },
                 });
+
+                generateTokenRes(
+                    {
+                        id: newUser.id,
+                        email: newUser.email,
+                        username: newUser.username,
+                    },
+                    res,
+                );
+
                 // success response
                 res.status(200).json(response);
             }

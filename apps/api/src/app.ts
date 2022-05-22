@@ -1,7 +1,7 @@
 import express, { NextFunction, Response, Request } from 'express';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-// import fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload';
 import v1Routes from './routes/v1';
 
 interface Error {
@@ -43,6 +43,13 @@ const sharedCors = (req: Request, res: Response, next: NextFunction) => {
 app.use(express.json());
 app.use(sharedCors);
 app.use(morgan('dev'));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+    fileUpload({
+        useTempFiles: false,
+        limits: { fileSize: 4 * 1024 * 1024 },
+    }),
+);
 
 // ------------------------------------
 // Routes

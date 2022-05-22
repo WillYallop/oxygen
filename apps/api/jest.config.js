@@ -1,4 +1,4 @@
 module.exports = {
     ...require('config/jest-api'),
-    rootDir: '.',
-  }
+    rootDir: './src',
+};

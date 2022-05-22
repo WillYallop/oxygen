@@ -1,7 +1,5 @@
-const base = require('../../jest.config')
-
 module.exports = {
-  ...base,
-  name: 'developer_client',
-  displayName: 'Developer Client Tests',
-}
+    ...require('config/jest-remix'),
+    name: 'developer_client',
+    displayName: 'Developer Client Tests',
+};

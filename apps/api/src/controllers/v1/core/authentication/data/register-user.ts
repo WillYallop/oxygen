@@ -129,6 +129,7 @@ const registerUser = async (
             }
         } else __resNodeInputValidatorError(v.errors, res);
     } catch (err) {
+        console.log(err);
         res.status(500).json({
             errors: [await __parseErrorString(err as Error | string)],
         });

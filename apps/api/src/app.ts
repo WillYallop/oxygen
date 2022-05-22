@@ -46,7 +46,7 @@ app.use(morgan('dev'));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
     fileUpload({
-        useTempFiles: false,
+        useTempFiles: true,
         limits: { fileSize: 4 * 1024 * 1024 },
     }),
 );

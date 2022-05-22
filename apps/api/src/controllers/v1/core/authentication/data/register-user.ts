@@ -58,8 +58,9 @@ const registerUser = async (
                 },
                 data: [],
             };
+
             // check if user exists with same email address
-            const userExists = await db.user.findUnique({
+            const userEmailExists = await db.user.findUnique({
                 where: {
                     email: req.body.email,
                 },
@@ -67,7 +68,7 @@ const registerUser = async (
                     email: true,
                 },
             });
-            if (userExists) {
+            if (userEmailExists) {
                 throw new Error(
                     __generateErrorString({
                         status: 409,
@@ -77,8 +78,29 @@ const registerUser = async (
                     }),
                 );
             }
+
+            // check if user exists with same username
+            const userUsernameExists = await db.user.findUnique({
+                where: {
+                    username: req.body.username,
+                },
+                select: {
+                    username: true,
+                },
+            });
+            if (userUsernameExists) {
+                throw new Error(
+                    __generateErrorString({
+                        status: 409,
+                        source: 'username',
+                        title: 'User Exists',
+                        detail: `A user with the username ${req.body.username} is already registered!`,
+                    }),
+                );
+            }
+
             // register new user
-            else {
+            if (!userEmailExists && !userUsernameExists) {
                 const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
                 const newUser = await db.user.create({
@@ -129,9 +151,9 @@ const registerUser = async (
             }
         } else __resNodeInputValidatorError(v.errors, res);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            errors: [await __parseErrorString(err as Error | string)],
+        const error = await __parseErrorString(err as Error | string);
+        res.status(error.status).json({
+            errors: [error],
         });
     }
 };

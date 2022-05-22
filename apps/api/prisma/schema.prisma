@@ -20,7 +20,7 @@ model User {
     password         String
     first_name       String
     last_name        String
-    username         String
+    username         String             @unique
     email            String             @unique
     country          String             @db.VarChar(2) // Country code as Alpha-2 iso 
     locality         String // City / Town

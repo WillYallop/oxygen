@@ -7,7 +7,7 @@
     "scripts": {
         "build": "ts-node src/index.ts",
         "dev": "nodemon --watch 'src/**' --ext 'ts,json' --exec 'ts-node src/index.ts'",
-        "test": "jest --coverage --passWithNoTests",
+        "test": "jest --coverage --passWithNoTests --runInBand",
         "lint": "eslint src --fix"
     },
     "engines": {

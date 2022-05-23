@@ -3,26 +3,25 @@ import db from '../../../../../utils/prisma-client';
 import app from '../../../../../app';
 
 describe('Test register user authentication route', () => {
-    // test successfull post request
-    test('successfull POST request', async () => {
-        const body = {
-            username: 'OxygenCMS',
-            firstName: 'Oxygen',
-            lastName: 'CMS',
-            email: 'test@oxygencms.com',
-            password: 'password',
-            passwordRepeat: 'password',
-        };
+    // user register body
+    const userRegisterBody = {
+        username: 'OxygenCMS',
+        firstName: 'Oxygen',
+        lastName: 'CMS',
+        email: 'test@oxygencms.com',
+        password: 'password',
+        passwordRepeat: 'password',
+    };
 
+    // create a new user before each test
+    beforeEach(async () => {
         const response = await request(app)
             .post('/v1/core/authentication/register')
             .set('Accept', 'application/json')
-            .send(body)
+            .send(userRegisterBody)
             .expect('Content-Type', /json/);
-
         // should receive 200 code
         expect(response.statusCode).toEqual(200);
-
         // check response body
         expect(response.body.data[0]).toMatchObject({
             attributes: {
@@ -32,12 +31,32 @@ describe('Test register user authentication route', () => {
                 email: 'test@oxygencms.com',
             },
         });
+        // check headers have been set
+        expect(response.headers['set-cookie']).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining('authCookie='),
+                expect.stringContaining('signedIn='),
+                expect.stringContaining('userID'),
+            ]),
+        );
+        return true;
+    });
 
-        await db.user.delete({
+    // remove added user
+    afterEach(async () => {
+        const user = await db.user.findUnique({
             where: {
-                email: body.email,
+                email: userRegisterBody.email,
             },
         });
+        if (user) {
+            await db.user.delete({
+                where: {
+                    email: userRegisterBody.email,
+                },
+            });
+            return true;
+        } else return true;
     });
 
     // test invalid post request
@@ -74,68 +93,47 @@ describe('Test register user authentication route', () => {
 
     // username or email address already registered
     test('username or email address already registered', async () => {
-        // user details
-        const body = {
-            username: 'OxygenCMS',
-            firstName: 'Oxygen',
-            lastName: 'CMS',
-            email: 'test@oxygencms.com',
-            password: 'password',
-            passwordRepeat: 'password',
-        };
-
-        // register new user successfully
+        // try and register a user again with the same email, should return 409 with error body
         const response1 = await request(app)
             .post('/v1/core/authentication/register')
             .set('Accept', 'application/json')
-            .send(body)
+            .send({
+                username: 'OxygenCMS2',
+                firstName: userRegisterBody.firstName,
+                lastName: userRegisterBody.lastName,
+                email: userRegisterBody.email,
+                password: userRegisterBody.password,
+                passwordRepeat: userRegisterBody.passwordRepeat,
+            })
             .expect('Content-Type', /json/);
-
-        // should receive 200 code
-        expect(response1.statusCode).toEqual(200);
-
-        // try and register a user again with the same email, should return 409 with error body
-        body.username = 'OxygenCMS2'; // update username so there arent two conflicts
-        const response2 = await request(app)
-            .post('/v1/core/authentication/register')
-            .set('Accept', 'application/json')
-            .send(body)
-            .expect('Content-Type', /json/);
-
         // should receive 409 code
-        expect(response2.statusCode).toEqual(409);
-
+        expect(response1.statusCode).toEqual(409);
         // check for the correct error message
-        expect(response2.body.errors).toEqual(
+        expect(response1.body.errors).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ status: 409, source: 'email' }),
             ]),
         );
-
         // try and register a user again with the same username, should return 409 with error body
-        body.username = 'OxygenCMS'; // reset to og username
-        body.email = 'test3@oxygencms.com'; // update to avoid conflict
-        const response3 = await request(app)
+        const response2 = await request(app)
             .post('/v1/core/authentication/register')
             .set('Accept', 'application/json')
-            .send(body)
+            .send({
+                username: userRegisterBody.username,
+                firstName: userRegisterBody.firstName,
+                lastName: userRegisterBody.lastName,
+                email: 'test3@oxygencms.com',
+                password: userRegisterBody.password,
+                passwordRepeat: userRegisterBody.passwordRepeat,
+            })
             .expect('Content-Type', /json/);
-
         // should receive 409 code
-        expect(response3.statusCode).toEqual(409);
-
+        expect(response2.statusCode).toEqual(409);
         // check for the correct error message
-        expect(response3.body.errors).toEqual(
+        expect(response2.body.errors).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ status: 409, source: 'username' }),
             ]),
         );
-
-        // delete
-        await db.user.delete({
-            where: {
-                username: body.username,
-            },
-        });
     });
 });

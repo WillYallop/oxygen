@@ -87,7 +87,7 @@ const signIn = async (
                     // else throw 401
                     throw new Error(
                         __generateErrorString({
-                            status: 401,
+                            status: 403,
                             source: 'authentication',
                             title: 'Invalid Password',
                             detail: `Make sure you enter the correct password!`,

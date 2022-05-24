@@ -3,19 +3,18 @@ import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
-import niv, { Validator } from 'node-input-validator';
+import { Validator } from 'node-input-validator';
 import {
     generateErrorString,
     parseErrorString,
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
-import { nameRegexCb } from '../../../../../utils/niv-extend-callbacks';
 import db from '../../../../../utils/prisma-client';
 import generateTokenRes from './helper/generate-token';
 
 // * Description
 /*  
-
+    Sign in both developer users and standard users - frontend is responsible for redirect location on status 200
 */
 
 interface SignInBody {

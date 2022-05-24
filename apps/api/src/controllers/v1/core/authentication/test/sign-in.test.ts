@@ -1,4 +1,4 @@
-const request = require('supertest');
+import request from 'supertest';
 import db from '../../../../../utils/prisma-client';
 import app from '../../../../../app';
 
@@ -37,7 +37,8 @@ describe('Test sign in authentication route', () => {
                 },
             });
             return true;
-        } else return true;
+        }
+        return true;
     });
 
     // test successfull post request with email

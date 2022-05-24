@@ -1,4 +1,4 @@
-const request = require('supertest');
+import request from 'supertest';
 import db from '../../../../../utils/prisma-client';
 import app from '../../../../../app';
 
@@ -15,30 +15,30 @@ describe('Test register user authentication route', () => {
 
     // create a new user before each test
     beforeEach(async () => {
-        const response = await request(app)
+        await request(app)
             .post('/v1/core/authentication/register')
             .set('Accept', 'application/json')
             .send(userRegisterBody)
             .expect('Content-Type', /json/);
-        // should receive 200 code
-        expect(response.statusCode).toEqual(200);
-        // check response body
-        expect(response.body.data[0]).toMatchObject({
-            attributes: {
-                username: 'OxygenCMS',
-                firstName: 'Oxygen',
-                lastName: 'CMS',
-                email: 'test@oxygencms.com',
-            },
-        });
-        // check headers have been set
-        expect(response.headers['set-cookie']).toEqual(
-            expect.arrayContaining([
-                expect.stringContaining('authCookie='),
-                expect.stringContaining('signedIn='),
-                expect.stringContaining('userID'),
-            ]),
-        );
+        // // should receive 200 code
+        // expect(response.statusCode).toEqual(200);
+        // // check response body
+        // expect(response.body.data[0]).toMatchObject({
+        //     attributes: {
+        //         username: 'OxygenCMS',
+        //         firstName: 'Oxygen',
+        //         lastName: 'CMS',
+        //         email: 'test@oxygencms.com',
+        //     },
+        // });
+        // // check headers have been set
+        // expect(response.headers['set-cookie']).toEqual(
+        //     expect.arrayContaining([
+        //         expect.stringContaining('authCookie='),
+        //         expect.stringContaining('signedIn='),
+        //         expect.stringContaining('userID'),
+        //     ]),
+        // );
         return true;
     });
 
@@ -56,7 +56,8 @@ describe('Test register user authentication route', () => {
                 },
             });
             return true;
-        } else return true;
+        }
+        return true;
     });
 
     // test invalid post request

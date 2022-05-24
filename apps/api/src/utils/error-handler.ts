@@ -3,20 +3,17 @@ import { Validator } from 'node-input-validator';
 import { Response } from 'express';
 
 // generate an error string from object for use in Error class
-export const __generateErrorString = (data: Res_Error): string => {
-    return `oxygen-error:status:${data.status}source:${data.source}title:${data.title}detail:${data.detail}`;
-};
+export const generateErrorString = (data: Res_Error): string =>
+    `oxygen-error:status:${data.status}source:${data.source}title:${data.title}detail:${data.detail}`;
 
 // parse error string as either instance of error or string
-export const __parseErrorString = (
-    error: Error | string,
-): Promise<Res_Error> => {
-    return new Promise(resolve => {
+export const parseErrorString = (error: Error | string): Promise<Res_Error> =>
+    new Promise(resolve => {
         // parse custom error string
         const parseCustom = (err: string) => {
             resolve({
                 status:
-                    parseInt(err.split('status:')[1].split('source:')[0]) ||
+                    parseInt(err.split('status:')[1].split('source:')[0], 10) ||
                     500,
                 source: err.split('source:')[1].split('title:')[0] || '',
                 title: err.split('title:')[1].split('detail:')[0] || '',
@@ -37,34 +34,31 @@ export const __parseErrorString = (
             if (error.message.includes('oxygen-error:'))
                 parseCustom(error.message);
             else resolveStandard(error);
-        } else {
-            if (error.includes('oxygen-error:')) parseCustom(error);
-            else {
-                resolveStandard(
-                    new Error(
-                        '__parseErrorString function requires custom oxygen string error or an instance of error!',
-                    ),
-                );
-            }
+        } else if (error.includes('oxygen-error:')) parseCustom(error);
+        else {
+            resolveStandard(
+                new Error(
+                    'parseErrorString function requires custom oxygen string error or an instance of error!',
+                ),
+            );
         }
     });
-};
 
 // Handle node-input-validator erros
-export const __resNodeInputValidatorError = (
+export const resNodeInputValidatorError = (
     errors: Validator['errors'],
     res: Response<Res_ExpressError>,
 ) => {
     const code = 400;
     const errorResponse: Array<Res_Error> = [];
-    for (const [key, value] of Object.entries(errors)) {
+    Object.keys(errors).forEach(key => {
         errorResponse.push({
             status: code,
             source: `${key}`,
             title: `Request Body Validation Error`,
             detail: errors[key].message,
         });
-    }
+    });
     res.status(code).json({
         errors: errorResponse,
     });

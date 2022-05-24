@@ -3,12 +3,12 @@ import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
-import {
-    __generateErrorString,
-    __parseErrorString,
-    __resNodeInputValidatorError,
-} from '../../../../../utils/error-handler';
 import niv, { Validator } from 'node-input-validator';
+import {
+    generateErrorString,
+    parseErrorString,
+    resNodeInputValidatorError,
+} from '../../../../../utils/error-handler';
 import { nameRegexCb } from '../../../../../utils/niv-extend-callbacks';
 import db from '../../../../../utils/prisma-client';
 import generateTokenRes from './helper/generate-token';
@@ -29,7 +29,7 @@ interface RegisterUserBody {
 }
 
 const registerUser = async (
-    req: Request<{}, {}, RegisterUserBody>,
+    req: Request<RegisterUserBody>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
@@ -70,7 +70,7 @@ const registerUser = async (
             });
             if (userEmailExists) {
                 throw new Error(
-                    __generateErrorString({
+                    generateErrorString({
                         status: 409,
                         source: 'email',
                         title: 'User Exists',
@@ -90,7 +90,7 @@ const registerUser = async (
             });
             if (userUsernameExists) {
                 throw new Error(
-                    __generateErrorString({
+                    generateErrorString({
                         status: 409,
                         source: 'username',
                         title: 'User Exists',
@@ -149,9 +149,9 @@ const registerUser = async (
                 // success response
                 res.status(200).json(response);
             }
-        } else __resNodeInputValidatorError(v.errors, res);
+        } else resNodeInputValidatorError(v.errors, res);
     } catch (err) {
-        const error = await __parseErrorString(err as Error | string);
+        const error = await parseErrorString(err as Error | string);
         res.status(error.status).json({
             errors: [error],
         });

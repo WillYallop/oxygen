@@ -3,12 +3,12 @@ import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
-import {
-    __generateErrorString,
-    __parseErrorString,
-    __resNodeInputValidatorError,
-} from '../../../../../utils/error-handler';
 import niv, { Validator } from 'node-input-validator';
+import {
+    generateErrorString,
+    parseErrorString,
+    resNodeInputValidatorError,
+} from '../../../../../utils/error-handler';
 import { nameRegexCb } from '../../../../../utils/niv-extend-callbacks';
 import db from '../../../../../utils/prisma-client';
 import generateTokenRes from './helper/generate-token';
@@ -25,7 +25,7 @@ interface SignInBody {
 }
 
 const signIn = async (
-    req: Request<{}, {}, SignInBody>,
+    req: Request<SignInBody>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
@@ -57,7 +57,7 @@ const signIn = async (
 
             // find user either via the email or password
             const user = await db.user.findUnique({
-                where: where,
+                where,
                 select: {
                     id: true,
                     email: true,
@@ -86,7 +86,7 @@ const signIn = async (
                 } else {
                     // else throw 401
                     throw new Error(
-                        __generateErrorString({
+                        generateErrorString({
                             status: 403,
                             source: 'authentication',
                             title: 'Invalid Password',
@@ -96,7 +96,7 @@ const signIn = async (
                 }
             } else {
                 throw new Error(
-                    __generateErrorString({
+                    generateErrorString({
                         status: 404,
                         source: 'authentication',
                         title: 'Cannot Find User',
@@ -104,9 +104,9 @@ const signIn = async (
                     }),
                 );
             }
-        } else __resNodeInputValidatorError(v.errors, res);
+        } else resNodeInputValidatorError(v.errors, res);
     } catch (err) {
-        const error = await __parseErrorString(err as Error | string);
+        const error = await parseErrorString(err as Error | string);
         res.status(error.status).json({
             errors: [error],
         });

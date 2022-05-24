@@ -1,6 +1,6 @@
 import getSingle from '../data/get-single';
 
-describe('Test library get single component', function () {
+describe('Test library get single component', () => {
     test('check response code', async () => {
         // const options = {
         //     query: {},

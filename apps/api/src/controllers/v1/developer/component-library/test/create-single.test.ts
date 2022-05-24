@@ -1,6 +1,6 @@
 import createSingle from '../data/create-single';
 
-describe('Test library create single component', function () {
+describe('Test library create single component', () => {
     test('check response code', async () => {
         // const options = {
         //     query: {},

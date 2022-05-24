@@ -8,40 +8,36 @@ interface GenerateTokenInterface {
     email: User['email'];
 }
 
-const __generateTokenRes = (data: GenerateTokenInterface, res: Response) => {
-    try {
-        const tokenData = {
-            id: data.id,
-            username: data.username,
-        };
-        const token = jsonwebtoken.sign(
-            tokenData,
-            process.env.SECRET_KEY as string,
-            {
-                expiresIn: '7d',
-            },
-        );
+const generateTokenRes = (data: GenerateTokenInterface, res: Response) => {
+    const tokenData = {
+        id: data.id,
+        username: data.username,
+    };
+    const token = jsonwebtoken.sign(
+        tokenData,
+        process.env.SECRET_KEY as string,
+        {
+            expiresIn: '7d',
+        },
+    );
 
-        const maxAge = 86400000 * 7;
+    const maxAge = 86400000 * 7;
 
-        res.cookie('authCookie', token, {
-            maxAge: maxAge,
-            httpOnly: true,
-            signed: true,
-        });
-        // signed in state cookie
-        res.cookie('signedIn', true, {
-            maxAge: maxAge,
-            httpOnly: false,
-            signed: false,
-        });
-        res.cookie('userID', data.id, {
-            maxAge: maxAge,
-            httpOnly: false,
-            signed: false,
-        });
-    } catch (err) {
-        throw err;
-    }
+    res.cookie('authCookie', token, {
+        maxAge,
+        httpOnly: true,
+        signed: true,
+    });
+    // signed in state cookie
+    res.cookie('signedIn', true, {
+        maxAge,
+        httpOnly: false,
+        signed: false,
+    });
+    res.cookie('userID', data.id, {
+        maxAge,
+        httpOnly: false,
+        signed: false,
+    });
 };
-export default __generateTokenRes;
+export default generateTokenRes;

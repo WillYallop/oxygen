@@ -1,6 +1,6 @@
 import getMultiple from '../data/get-multiple';
 
-describe('Test library get multiple components', function () {
+describe('Test library get multiple components', () => {
     test('check response code', async () => {
         // const options = {
         //     query: {},

@@ -184,8 +184,6 @@ model Media {
 model Version {
     id               String             @id @default(uuid())
     version          String
-    repository       String
-    commit           String
     ComponentLibrary ComponentLibrary[]
     PluginLibrary    PluginLibrary[]
     KitLibrary       KitLibrary[]

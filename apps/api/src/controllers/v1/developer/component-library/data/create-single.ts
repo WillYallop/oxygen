@@ -15,7 +15,7 @@ import { ComponentLibrary } from '@prisma/client';
     Create a new un-verified component library entry for developers.
 */
 
-interface CreateSingleBody {
+export interface Body {
     name: ComponentLibrary['name'];
     tags: ComponentLibrary['tags'];
     public: ComponentLibrary['public'];
@@ -26,7 +26,7 @@ interface CreateSingleBody {
 }
 
 const createSingle = async (
-    req: Request<CreateSingleBody>,
+    req: Request<Body>,
     res: Response<Res_ExpressError>,
 ) => {
     try {

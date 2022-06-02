@@ -19,7 +19,7 @@ import generateTokenRes from './helper/generate-token';
     So if you create an account for one you can use it for the other.
 */
 
-interface RegisterUserBody {
+export interface Body {
     username: User['username'];
     firstName: User['first_name'];
     lastName: User['last_name'];
@@ -29,7 +29,7 @@ interface RegisterUserBody {
 }
 
 const registerUser = async (
-    req: Request<RegisterUserBody>,
+    req: Request<Body>,
     res: Response<Res_ExpressError>,
 ) => {
     try {

@@ -17,16 +17,13 @@ import generateTokenRes from './helper/generate-token';
     Sign in both developer users and standard users - frontend is responsible for redirect location on status 200
 */
 
-interface SignInBody {
+export interface Body {
     username?: User['username'];
     email?: User['email'];
     password: User['password'];
 }
 
-const signIn = async (
-    req: Request<SignInBody>,
-    res: Response<Res_ExpressError>,
-) => {
+const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
     try {
         // validate body config
         const v = new Validator(req.body, {

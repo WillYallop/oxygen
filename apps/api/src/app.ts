@@ -57,6 +57,7 @@ app.use(
 // developer routes
 app.use('/v1/dev/library', v1Routes.developer.library);
 app.use('/v1/dev/setting', v1Routes.developer.setting);
+app.use('/v1/dev/version', v1Routes.developer.version);
 // core routes
 app.use('/v1/core/authentication', v1Routes.core.authentication);
 app.use('/v1/core/user', v1Routes.core.user);

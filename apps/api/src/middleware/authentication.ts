@@ -1,6 +1,16 @@
 import { NextFunction, Response } from 'express';
+import { User } from '@prisma/client';
 import jsonwebtoken from 'jsonwebtoken';
 import { generateErrorString, parseErrorString } from '../utils/error-handler';
+
+declare module 'express-serve-static-core' {
+    interface Request {
+        auth?: {
+            id: User['id'];
+            username: User['username'];
+        };
+    }
+}
 
 // Check auth
 export default async (req: any, res: Response, next: NextFunction) => {
@@ -12,10 +22,7 @@ export default async (req: any, res: Response, next: NextFunction) => {
                 token,
                 process.env.SECRET_KEY as string,
             );
-            req.authentication = {
-                authorised: true,
-                data: decoded,
-            };
+            req.auth = decoded;
             return next();
         } else {
             throw new Error(

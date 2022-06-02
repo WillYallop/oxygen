@@ -14,12 +14,7 @@ import {
     It will just hide it from the component library to stop more installs - it will also remove it from the developers account.
 */
 
-export interface Body {}
-
-const deleteSingle = async (
-    req: Request<Body>,
-    res: Response<Res_ExpressError>,
-) => {
+const deleteSingle = async (req: Request, res: Response<Res_ExpressError>) => {
     try {
         // validate body config
         const v = new Validator(req.body, {});

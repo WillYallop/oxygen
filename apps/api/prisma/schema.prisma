@@ -181,12 +181,14 @@ model Media {
 // Library
 // ---------------------------------------------------
 
-model Version {
-    id               String             @id @default(uuid())
-    version          String
-    ComponentLibrary ComponentLibrary[]
-    PluginLibrary    PluginLibrary[]
-    KitLibrary       KitLibrary[]
+// Component Version
+model ComponentVersion {
+    id         String           @id @default(uuid())
+    key        String
+    version    String
+    created    DateTime         @default(now())
+    component  ComponentLibrary @relation(fields: [library_id], references: [id])
+    library_id String
 }
 
 // components library
@@ -199,17 +201,23 @@ model ComponentLibrary {
     modified           DateTime             @updatedAt
     name               String
     tags               String[]
-    version            Version              @relation(fields: [version_id], references: [id])
-    version_id         String
     public             Boolean              @default(true)
     free               Boolean              @default(true)
     price              Int
     currency_code      String // currency code (iso 4217)
-    // banner_url         String // convert these to use the Media
-    // preview_url        String
-    // icon_url           String
     KitComponent       KitComponent[]
     PurchasedComponent PurchasedComponent[]
+    ComponentVersion   ComponentVersion[]
+}
+
+// plugin Version
+model PluginVersion {
+    id         String        @id @default(uuid())
+    key        String
+    version    String
+    created    DateTime      @default(now())
+    plugin     PluginLibrary @relation(fields: [library_id], references: [id])
+    library_id String
 }
 
 // plugin library
@@ -222,8 +230,6 @@ model PluginLibrary {
     modified           DateTime             @updatedAt
     name               String
     tags               String[]
-    version            Version              @relation(fields: [version_id], references: [id])
-    version_id         String
     public             Boolean              @default(true)
     free               Boolean              @default(true)
     subscription       Boolean              @default(false)
@@ -234,6 +240,7 @@ model PluginLibrary {
     icon_url           String
     PurchasedPlugin    PurchasedPlugin[]
     PluginSubscription PluginSubscription[]
+    PluginVersion      PluginVersion[]
 }
 
 // kit library
@@ -246,8 +253,6 @@ model KitLibrary {
     modified      DateTime       @updatedAt
     name          String
     tags          String[]
-    version       Version        @relation(fields: [version_id], references: [id])
-    version_id    String
     public        Boolean        @default(true)
     free          Boolean        @default(true)
     price         Int

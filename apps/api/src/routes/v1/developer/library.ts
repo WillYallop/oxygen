@@ -4,7 +4,7 @@ import {
     kitLibrary,
     pluginLibrary,
 } from '../../../controllers/v1/developer';
-import { authMiddleware } from '../../../middleware';
+import middleware from '../../../middleware';
 
 const router = express.Router();
 
@@ -17,28 +17,28 @@ const router = express.Router();
 // ------------------------------------
 
 // Components
-router.get('/component/:id', authMiddleware, componentLibrary.getSingle);
+router.get('/component/:id', middleware.auth, componentLibrary.getSingle);
 router.get(
     '/component/:offset/:limit',
-    authMiddleware,
+    middleware.auth,
     componentLibrary.getMultiple,
 );
-router.post('/component', authMiddleware, componentLibrary.createSingle);
-router.patch('/component', authMiddleware, componentLibrary.updateSingle);
-router.delete('/component/:id', authMiddleware, componentLibrary.deleteSingle);
+router.post('/component', middleware.auth, componentLibrary.createSingle);
+router.patch('/component', middleware.auth, componentLibrary.updateSingle);
+router.delete('/component/:id', middleware.auth, componentLibrary.deleteSingle);
 
 // Kits
-router.get('/kit/:id', authMiddleware, kitLibrary.getSingle);
-router.get('/kit/:offset/:limit', authMiddleware, kitLibrary.getMultiple);
-router.post('/kit', authMiddleware, kitLibrary.createSingle);
-router.patch('/kit', authMiddleware, kitLibrary.updateSingle);
-router.delete('/kit/:id', authMiddleware, kitLibrary.deleteSingle);
+router.get('/kit/:id', middleware.auth, kitLibrary.getSingle);
+router.get('/kit/:offset/:limit', middleware.auth, kitLibrary.getMultiple);
+router.post('/kit', middleware.auth, kitLibrary.createSingle);
+router.patch('/kit', middleware.auth, kitLibrary.updateSingle);
+router.delete('/kit/:id', middleware.auth, kitLibrary.deleteSingle);
 
 // Plugins
-router.get('/kit/:id', authMiddleware, pluginLibrary.getSingle);
-router.get('/kit/:offset/:limit', authMiddleware, pluginLibrary.getMultiple);
-router.post('/kit', authMiddleware, pluginLibrary.createSingle);
-router.patch('/kit', authMiddleware, pluginLibrary.updateSingle);
-router.delete('/kit/:id', authMiddleware, pluginLibrary.deleteSingle);
+router.get('/kit/:id', middleware.auth, pluginLibrary.getSingle);
+router.get('/kit/:offset/:limit', middleware.auth, pluginLibrary.getMultiple);
+router.post('/kit', middleware.auth, pluginLibrary.createSingle);
+router.patch('/kit', middleware.auth, pluginLibrary.updateSingle);
+router.delete('/kit/:id', middleware.auth, pluginLibrary.deleteSingle);
 
 export default router;

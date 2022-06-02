@@ -1,11 +1,22 @@
 import express, { NextFunction, Response, Request } from 'express';
 import cookieParser from 'cookie-parser';
+import { User } from '@prisma/client';
 import morgan from 'morgan';
-import fileUpload from 'express-fileupload';
+import fileUpload, { UploadedFile } from 'express-fileupload';
 import v1Routes from './routes/v1';
 
 interface Error {
     status?: number;
+}
+
+declare module 'express-serve-static-core' {
+    interface Request {
+        auth?: {
+            id: User['id'];
+            username: User['username'];
+        };
+        files?: fileUpload.FileArray | undefined;
+    }
 }
 
 const app = express();
@@ -46,7 +57,7 @@ app.use(morgan('dev'));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
     fileUpload({
-        useTempFiles: true,
+        useTempFiles: false,
         limits: { fileSize: 4 * 1024 * 1024 },
     }),
 );

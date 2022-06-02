@@ -1,6 +1,7 @@
 import express from 'express';
 import { version } from '../../../controllers/v1/developer';
-import { authMiddleware } from '../../../middleware';
+import middleware from '../../../middleware';
+
 const router = express.Router();
 
 // ------------------------------------
@@ -12,6 +13,10 @@ const router = express.Router();
 // ------------------------------------
 
 // Components
-router.post('/version/:version', authMiddleware, version.createSingle);
+router.post(
+    '/:type/:library_id/:version',
+    middleware.auth,
+    version.createSingle,
+);
 
 export default router;

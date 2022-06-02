@@ -1,3 +1,5 @@
-import authMiddleware from './authentication';
+import authentication from './authentication';
 
-export { authMiddleware };
+export default {
+    auth: authentication,
+};

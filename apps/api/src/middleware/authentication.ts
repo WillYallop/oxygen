@@ -1,39 +1,32 @@
-import { NextFunction, Response } from 'express';
-import { User } from '@prisma/client';
+import { NextFunction, Response, Request } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
+import { User } from '@prisma/client';
 import { generateErrorString, parseErrorString } from '../utils/error-handler';
 
-declare module 'express-serve-static-core' {
-    interface Request {
-        auth?: {
-            id: User['id'];
-            username: User['username'];
-        };
-    }
-}
-
 // Check auth
-export default async (req: any, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
     // Then try standard auth check
     try {
-        const token = req.signedCookies['authCookie'];
-        if (token != undefined) {
+        const token = req.signedCookies.authCookie;
+        if (token !== undefined) {
             const decoded = jsonwebtoken.verify(
                 token,
                 process.env.SECRET_KEY as string,
             );
-            req.auth = decoded;
+            req.auth = decoded as {
+                id: User['id'];
+                username: User['username'];
+            };
             return next();
-        } else {
-            throw new Error(
-                generateErrorString({
-                    status: 401,
-                    source: 'auth',
-                    title: 'Auth Failed',
-                    detail: `Auth failed, please make a request with a valid token!`,
-                }),
-            );
         }
+        throw new Error(
+            generateErrorString({
+                status: 401,
+                source: 'auth',
+                title: 'Auth Failed',
+                detail: `Auth failed, please make a request with a valid token!`,
+            }),
+        );
     } catch (err) {
         const error = await parseErrorString(err as Error | string);
         return res.status(error.status).json({

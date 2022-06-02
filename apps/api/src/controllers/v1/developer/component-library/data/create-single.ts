@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
+import * as core from 'express-serve-static-core';
 import { Validator } from 'node-input-validator';
+import { ComponentLibrary } from '@prisma/client';
 import {
     generateErrorString,
     parseErrorString,
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
 import db from '../../../../../utils/prisma-client';
-import { ComponentLibrary } from '@prisma/client';
 
 // * Description
 /*  
@@ -22,11 +23,10 @@ export interface Body {
     free: ComponentLibrary['free'];
     price: ComponentLibrary['price'];
     currencyCode: ComponentLibrary['currency_code']; // currency code (iso 4217)
-    versionId: ComponentLibrary['version_id'];
 }
 
 const createSingle = async (
-    req: Request<Body>,
+    req: Request<core.ParamsDictionary, any, Body>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
@@ -39,7 +39,6 @@ const createSingle = async (
             free: 'required',
             price: 'required',
             currencyCode: 'required',
-            versionId: 'required',
         });
 
         // if valid
@@ -61,7 +60,6 @@ const createSingle = async (
                         verified: false,
                         name: req.body.name,
                         tags: req.body.tags || [],
-                        version_id: req.body.versionId,
                         public: req.body.public,
                         free: req.body.free,
                         price: req.body.price,
@@ -81,7 +79,6 @@ const createSingle = async (
                         modified: createSingleRes.modified,
                         name: createSingleRes.name,
                         tags: createSingleRes.tags,
-                        version_id: createSingleRes.version_id,
                         public: createSingleRes.public,
                         free: createSingleRes.free,
                         price: createSingleRes.price,

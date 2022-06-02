@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
-import niv, { Validator } from 'node-input-validator';
+import { Validator } from 'node-input-validator';
 import {
     generateErrorString,
     parseErrorString,
@@ -13,7 +13,15 @@ import {
     Create a new un-verified component library entry for developers.
 */
 
-interface CreateSingleBody {}
+interface CreateSingleBody {
+    name: string;
+    tags: Array<string>;
+    public: boolean;
+    free: boolean;
+    price: number;
+    currencyCode: string; // currency code (iso 4217)
+    versionId: string;
+}
 
 const createSingle = async (
     req: Request<CreateSingleBody>,

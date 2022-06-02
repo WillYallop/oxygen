@@ -207,9 +207,9 @@ model ComponentLibrary {
     free               Boolean              @default(true)
     price              Int
     currency_code      String // currency code (iso 4217)
-    banner_url         String
-    preview_url        String
-    icon_url           String
+    // banner_url         String // convert these to use the Media
+    // preview_url        String
+    // icon_url           String
     KitComponent       KitComponent[]
     PurchasedComponent PurchasedComponent[]
 }

@@ -24,7 +24,7 @@ router.get(
     componentLibrary.getMultiple,
 );
 router.post('/component', middleware.auth, componentLibrary.createSingle);
-router.patch('/component', middleware.auth, componentLibrary.updateSingle);
+router.patch('/component/:id', middleware.auth, componentLibrary.updateSingle);
 router.delete('/component/:id', middleware.auth, componentLibrary.deleteSingle);
 
 // Kits

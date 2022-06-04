@@ -18,6 +18,7 @@ import db from '../../../../../utils/prisma-client';
 
 export interface Body {
     name: ComponentLibrary['name'];
+    description: ComponentLibrary['description'];
     tags: ComponentLibrary['tags'];
     public: ComponentLibrary['public'];
     free: ComponentLibrary['free'];
@@ -32,13 +33,14 @@ const createSingle = async (
     try {
         // validate body config
         const v = new Validator(req.body, {
-            name: 'required',
-            tags: 'array',
+            name: 'required|string',
+            description: 'required|string',
+            tags: 'required|array',
             'tags.**': 'string',
-            public: 'required',
-            free: 'required',
-            price: 'required',
-            currencyCode: 'required',
+            public: 'required|boolean',
+            free: 'required|boolean',
+            price: 'required|integer',
+            currencyCode: 'required|string',
         });
 
         // if valid
@@ -59,6 +61,7 @@ const createSingle = async (
                         developer_id: req.auth.id,
                         verified: false,
                         name: req.body.name,
+                        description: req.body.description,
                         tags: req.body.tags || [],
                         public: req.body.public,
                         free: req.body.free,
@@ -78,6 +81,7 @@ const createSingle = async (
                         created: createSingleRes.created,
                         modified: createSingleRes.modified,
                         name: createSingleRes.name,
+                        description: createSingleRes.description,
                         tags: createSingleRes.tags,
                         public: createSingleRes.public,
                         free: createSingleRes.free,

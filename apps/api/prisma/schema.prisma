@@ -200,6 +200,7 @@ model ComponentLibrary {
     created            DateTime             @default(now())
     modified           DateTime             @updatedAt
     name               String
+    description        String
     tags               String[]
     public             Boolean              @default(true)
     free               Boolean              @default(true)

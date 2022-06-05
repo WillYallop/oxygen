@@ -5,9 +5,10 @@ import { Response } from 'express';
 interface GenerateTokenInterface {
     id: User['id'];
     username: User['username'];
+    email: User['email'];
 }
 
-export const getToken = (data: GenerateTokenInterface) => {
+const generateTokenRes = (data: GenerateTokenInterface, res: Response) => {
     const tokenData = {
         id: data.id,
         username: data.username,
@@ -19,11 +20,6 @@ export const getToken = (data: GenerateTokenInterface) => {
             expiresIn: '7d',
         },
     );
-    return token;
-};
-
-const generateTokenRes = (data: GenerateTokenInterface, res: Response) => {
-    const token = getToken(data);
 
     const maxAge = 86400000 * 7;
 

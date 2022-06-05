@@ -48,32 +48,30 @@ const updateSingle = async (
         // if valid
         const passed = await v.check();
 
-        const updateData: Body = {};
-        if (req.body.name) updateData.name = req.body.name;
-
         if (passed) {
             // response
             const response: Res_JSONBody = {
                 links: {
-                    self: `${C.API_DOMAIN}/v1/dev/library/component`,
+                    self: `${C.API_DOMAIN}/v1/dev/library/component/${req.params.id}`,
                 },
                 data: [],
             };
 
-            const updateDate: Body = {};
-            if (req.body.name) updateData.name = req.body.name;
-            if (req.body.description)
+            const updateData: Body = {};
+            if (req.body.name !== undefined) updateData.name = req.body.name;
+            if (req.body.description !== undefined)
                 updateData.description = req.body.description;
-            if (req.body.tags) updateData.tags = req.body.tags;
-            if (req.body.public) updateData.public = req.body.public;
-            if (req.body.free) updateData.free = req.body.free;
-            if (req.body.price) updateData.price = req.body.price;
+            if (req.body.tags !== undefined) updateData.tags = req.body.tags;
+            if (req.body.public !== undefined)
+                updateData.public = req.body.public;
+            if (req.body.free !== undefined) updateData.free = req.body.free;
+            if (req.body.price !== undefined) updateData.price = req.body.price;
 
             const updateRes = await db.componentLibrary.update({
                 where: {
                     id: req.params.id,
                 },
-                data: updateDate,
+                data: updateData,
             });
 
             // add to response

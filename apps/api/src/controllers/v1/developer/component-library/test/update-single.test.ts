@@ -2,7 +2,7 @@ import request from 'supertest';
 import db from '../../../../../utils/prisma-client';
 import app from '../../../../../app';
 
-describe('Test developer component library create single route', () => {
+describe('Test developer component library update single route', () => {
     // user register body
     const userRegisterBody = {
         username: 'OxygenCMS',
@@ -13,6 +13,7 @@ describe('Test developer component library create single route', () => {
         passwordRepeat: 'password',
     };
     // component library data
+    let compLibId = '';
     const compLibData = {
         name: 'banner',
         description: 'This is a description',
@@ -48,13 +49,35 @@ describe('Test developer component library create single route', () => {
         // Get cookies from response
         const { header } = loginRes;
         cookies = header['set-cookie'];
+        // create component library doc
+        const response = await request(app)
+            .post('/v1/dev/library/component')
+            .set('Accept', 'application/json')
+            .set('Cookie', [...cookies])
+            .send(compLibData)
+            .expect('Content-Type', /json/);
+        compLibId = response.body.data[0].id;
         return true;
     });
 
     // remove added user
     // reset cookies
     afterEach(async () => {
-        cookies = [];
+        // delete component library
+        const compLib = await db.componentLibrary.findUnique({
+            where: {
+                id: compLibId,
+            },
+        });
+        if (compLib) {
+            // delete component library
+            await db.componentLibrary.delete({
+                where: {
+                    id: compLibId,
+                },
+            });
+        }
+        // delete user
         const user = await db.user.findUnique({
             where: {
                 email: userRegisterBody.email,
@@ -66,19 +89,27 @@ describe('Test developer component library create single route', () => {
                     email: userRegisterBody.email,
                 },
             });
-            return true;
         }
+        // reset data
+        compLibId = '';
+        cookies = [];
         return true;
     });
 
     // test successfull post request
     test('successfull POST request', async () => {
+        const newCompName = 'header';
+
+        // update req
         const response = await request(app)
-            .post('/v1/dev/library/component')
+            .patch(`/v1/dev/library/component/${compLibId}`)
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
-            .send(compLibData)
+            .send({
+                name: newCompName,
+            })
             .expect('Content-Type', /json/);
+
         // should receive 200 code
         expect(response.statusCode).toEqual(200);
 
@@ -87,20 +118,13 @@ describe('Test developer component library create single route', () => {
             attributes: {
                 id: response.body.data[0].id,
                 verified: false,
-                name: compLibData.name,
+                name: newCompName,
                 description: compLibData.description,
                 tags: compLibData.tags,
                 public: compLibData.public,
                 free: compLibData.free,
                 price: compLibData.price,
                 currency_code: compLibData.currencyCode,
-            },
-        });
-
-        // delete component library
-        await db.componentLibrary.delete({
-            where: {
-                id: response.body.data[0].id,
             },
         });
     });

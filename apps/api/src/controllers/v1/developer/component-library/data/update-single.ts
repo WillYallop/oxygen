@@ -10,10 +10,10 @@ import {
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
 import db from '../../../../../utils/prisma-client';
+
 // * Description
 /*  
     Update a component library listing info
-
 */
 
 export interface Body {

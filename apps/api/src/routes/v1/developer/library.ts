@@ -4,13 +4,13 @@ import {
     kitLibrary,
     pluginLibrary,
 } from '../../../controllers/v1/developer';
-import middleware from '../../../middleware';
-
-const router = express.Router();
 
 // ------------------------------------
 // middleware
 // ------------------------------------
+import middleware from '../../../middleware';
+
+const router = express.Router();
 
 // ------------------------------------
 // routes

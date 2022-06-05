@@ -28,7 +28,7 @@ import { versionTypeCb } from '../../../../../utils/niv-extend-callbacks';
 export interface Params extends core.ParamsDictionary {
     version: ComponentVersion['version'] | PluginVersion['version'];
     type: 'component' | 'plugin';
-    library_id: ComponentLibrary['id'] | PluginLibrary['id'];
+    libraryId: ComponentLibrary['id'] | PluginLibrary['id'];
 }
 
 const createSingle = async (
@@ -43,7 +43,7 @@ const createSingle = async (
         const v = new Validator(req.params, {
             version: 'required',
             type: 'required|version_type',
-            library_id: 'required',
+            libraryId: 'required',
         });
 
         // if valid
@@ -125,7 +125,7 @@ const createSingle = async (
                     data: {
                         key,
                         version: req.params.version,
-                        library_id: req.params.library_id,
+                        library_id: req.params.libraryId,
                     },
                 });
                 // response
@@ -145,7 +145,7 @@ const createSingle = async (
                     data: {
                         key,
                         version: req.params.version,
-                        library_id: req.params.library_id,
+                        library_id: req.params.libraryId,
                     },
                 });
                 // response

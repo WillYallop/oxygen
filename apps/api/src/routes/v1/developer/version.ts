@@ -1,12 +1,12 @@
 import express from 'express';
 import { version } from '../../../controllers/v1/developer';
-import middleware from '../../../middleware';
-
-const router = express.Router();
 
 // ------------------------------------
 // middleware
 // ------------------------------------
+import middleware from '../../../middleware';
+
+const router = express.Router();
 
 // ------------------------------------
 // routes
@@ -14,7 +14,7 @@ const router = express.Router();
 
 // Components
 router.post(
-    '/:type/:library_id/:version',
+    '/:type/:libraryId/:version',
     middleware.auth,
     version.createSingle,
 );

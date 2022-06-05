@@ -19,7 +19,7 @@ const router = express.Router();
 // Components
 router.get('/component/:id', middleware.auth, componentLibrary.getSingle);
 router.get(
-    '/component/:offset/:limit',
+    '/component/:cursor/:take/:order',
     middleware.auth,
     componentLibrary.getMultiple,
 );

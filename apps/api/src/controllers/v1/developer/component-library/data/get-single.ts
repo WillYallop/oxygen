@@ -62,7 +62,6 @@ const getSingle = async (
                 type: 'componentLibrary',
                 attributes: {
                     id: getCompRes.id,
-                    incId: getCompRes.inc_id,
                     deactivated: getCompRes.deactivated,
                     verified: getCompRes.verified,
                     developerId: getCompRes.developer_id,

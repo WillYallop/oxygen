@@ -78,7 +78,6 @@ const deactivateSingle = async (
             type: 'componentLibrary',
             attributes: {
                 id: updateRes.id,
-                incId: updateRes.inc_id,
                 deactivated: updateRes.deactivated,
                 verified: updateRes.verified,
                 developerId: updateRes.developer_id,

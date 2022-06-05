@@ -76,7 +76,6 @@ const createSingle = async (
                     type: 'componentLibrary',
                     attributes: {
                         id: createSingleRes.id,
-                        incId: createSingleRes.inc_id,
                         deactivated: createSingleRes.deactivated,
                         verified: createSingleRes.verified,
                         developerId: createSingleRes.developer_id,

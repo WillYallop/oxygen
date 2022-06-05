@@ -137,7 +137,7 @@ const createSingle = async (
                         key: versionRes.key,
                         version: versionRes.version,
                         created: versionRes.created,
-                        library_id: versionRes.library_id,
+                        libraryId: versionRes.library_id,
                     },
                 });
             } else if (req.params.type === 'plugin') {
@@ -157,7 +157,7 @@ const createSingle = async (
                         key: versionRes.key,
                         version: versionRes.version,
                         created: versionRes.created,
-                        library_id: versionRes.library_id,
+                        libraryId: versionRes.library_id,
                     },
                 });
             }

@@ -76,9 +76,10 @@ const createSingle = async (
                     type: 'componentLibrary',
                     attributes: {
                         id: createSingleRes.id,
+                        incId: createSingleRes.inc_id,
                         deactivated: createSingleRes.deactivated,
                         verified: createSingleRes.verified,
-                        developer_id: createSingleRes.developer_id,
+                        developerId: createSingleRes.developer_id,
                         created: createSingleRes.created,
                         modified: createSingleRes.modified,
                         name: createSingleRes.name,
@@ -87,7 +88,7 @@ const createSingle = async (
                         public: createSingleRes.public,
                         free: createSingleRes.free,
                         price: createSingleRes.price,
-                        currency_code: createSingleRes.currency_code,
+                        currencyCode: createSingleRes.currency_code,
                     },
                 });
 

@@ -20,25 +20,6 @@ describe('Test register user authentication route', () => {
             .set('Accept', 'application/json')
             .send(userRegisterBody)
             .expect('Content-Type', /json/);
-        // // should receive 200 code
-        // expect(response.statusCode).toEqual(200);
-        // // check response body
-        // expect(response.body.data[0]).toMatchObject({
-        //     attributes: {
-        //         username: 'OxygenCMS',
-        //         firstName: 'Oxygen',
-        //         lastName: 'CMS',
-        //         email: 'test@oxygencms.com',
-        //     },
-        // });
-        // // check headers have been set
-        // expect(response.headers['set-cookie']).toEqual(
-        //     expect.arrayContaining([
-        //         expect.stringContaining('authCookie='),
-        //         expect.stringContaining('signedIn='),
-        //         expect.stringContaining('userID'),
-        //     ]),
-        // );
         return true;
     });
 

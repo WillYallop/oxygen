@@ -78,9 +78,10 @@ const deactivateSingle = async (
             type: 'componentLibrary',
             attributes: {
                 id: updateRes.id,
+                incId: updateRes.inc_id,
                 deactivated: updateRes.deactivated,
                 verified: updateRes.verified,
-                developer_id: updateRes.developer_id,
+                developerId: updateRes.developer_id,
                 created: updateRes.created,
                 modified: updateRes.modified,
                 name: updateRes.name,
@@ -89,7 +90,7 @@ const deactivateSingle = async (
                 public: updateRes.public,
                 free: updateRes.free,
                 price: updateRes.price,
-                currency_code: updateRes.currency_code,
+                currencyCode: updateRes.currency_code,
             },
         });
 

@@ -125,7 +125,7 @@ describe('Test developer component library update single route', () => {
                 public: compLibData.public,
                 free: compLibData.free,
                 price: compLibData.price,
-                currency_code: compLibData.currencyCode,
+                currencyCode: compLibData.currencyCode,
             },
         });
     });

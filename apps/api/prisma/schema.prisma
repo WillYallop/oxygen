@@ -43,6 +43,7 @@ model User {
 // users purchased components
 model PurchasedComponent {
     id           String           @id @default(uuid())
+    inc_id       Int              @default(autoincrement())
     purchased_at DateTime         @default(now())
     component    ComponentLibrary @relation(fields: [component_id], references: [id])
     component_id String
@@ -53,6 +54,7 @@ model PurchasedComponent {
 // users purchased plugins
 model PurchasedPlugin {
     id                     String             @id @default(uuid())
+    inc_id                 Int                @default(autoincrement())
     purchased_at           DateTime           @default(now())
     plugin                 PluginLibrary      @relation(fields: [plugin_id], references: [id])
     plugin_id              String
@@ -66,6 +68,7 @@ model PurchasedPlugin {
 // plugin subscription model
 model PluginSubscription {
     id              String            @id @default(uuid())
+    inc_id          Int               @default(autoincrement())
     purchased_at    DateTime          @default(now())
     renew_date      DateTime
     plugin          PluginLibrary     @relation(fields: [plugin_id], references: [id])
@@ -76,6 +79,7 @@ model PluginSubscription {
 // users purchased kits
 model PurchasedKit {
     id           String     @id @default(uuid())
+    inc_id       Int        @default(autoincrement())
     purchased_at DateTime   @default(now())
     kit          KitLibrary @relation(fields: [kit_id], references: [id])
     kit_id       String
@@ -86,6 +90,7 @@ model PurchasedKit {
 // invoices from site subscriptions, components, plugins, and kit purchases - these are specific to the user, not the site
 model Invoice {
     id                 String               @id @default(uuid())
+    inc_id             Int                  @default(autoincrement())
     type               String // component, plugin, kit or site subscription
     subscription       Boolean              @default(false) // if its a monthly subscription or single payment
     user               User                 @relation(fields: [user_id], references: [id])
@@ -167,6 +172,7 @@ model Site {
 // ---------------------------------------------------
 model Media {
     id       String   @id @default(uuid())
+    inc_id   Int      @default(autoincrement())
     key      String
     alt      String
     width    Int
@@ -194,6 +200,7 @@ model ComponentVersion {
 // components library
 model ComponentLibrary {
     id                 String               @id @default(uuid())
+    inc_id             Int                  @default(autoincrement())
     deactivated        Boolean              @default(false)
     verified           Boolean              @default(false)
     developer          User                 @relation(fields: [developer_id], references: [id])
@@ -225,6 +232,7 @@ model PluginVersion {
 // plugin library
 model PluginLibrary {
     id                 String               @id @default(uuid())
+    inc_id             Int                  @default(autoincrement())
     deactivated        Boolean              @default(false)
     verified           Boolean              @default(false)
     developer          User                 @relation(fields: [developer_id], references: [id])
@@ -250,6 +258,7 @@ model PluginLibrary {
 // kit library
 model KitLibrary {
     id            String         @id @default(uuid())
+    inc_id        Int            @default(autoincrement())
     deactivated   Boolean        @default(false)
     verified      Boolean        @default(false)
     developer     User           @relation(fields: [developer_id], references: [id])

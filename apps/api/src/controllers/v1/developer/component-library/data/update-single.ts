@@ -36,13 +36,13 @@ const updateSingle = async (
     try {
         // validate body config
         const v = new Validator(req.body, {
-            name: 'required|string',
-            description: 'required|string',
-            tags: 'required|array',
-            'tags.**': 'required|string',
-            public: 'required|boolean',
-            free: 'required|boolean',
-            price: 'required|integer',
+            name: 'string',
+            description: 'string',
+            tags: 'array',
+            'tags.**': 'string',
+            public: 'boolean',
+            free: 'boolean',
+            price: 'integer|requiredWith:free',
         });
 
         // if valid
@@ -60,18 +60,20 @@ const updateSingle = async (
                 data: [],
             };
 
+            const updateDate: Body = {};
+            if (req.body.name) updateData.name = req.body.name;
+            if (req.body.description)
+                updateData.description = req.body.description;
+            if (req.body.tags) updateData.tags = req.body.tags;
+            if (req.body.public) updateData.public = req.body.public;
+            if (req.body.free) updateData.free = req.body.free;
+            if (req.body.price) updateData.price = req.body.price;
+
             const updateRes = await db.componentLibrary.update({
                 where: {
                     id: req.params.id,
                 },
-                data: {
-                    name: req.body.name,
-                    description: req.body.description,
-                    tags: req.body.tags,
-                    public: req.body.public,
-                    free: req.body.free,
-                    price: req.body.price,
-                },
+                data: updateDate,
             });
 
             // add to response

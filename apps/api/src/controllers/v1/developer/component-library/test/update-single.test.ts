@@ -118,6 +118,7 @@ describe('Test developer component library update single route', () => {
             attributes: {
                 id: response.body.data[0].id,
                 verified: false,
+                deactivated: false,
                 name: newCompName,
                 description: compLibData.description,
                 tags: compLibData.tags,

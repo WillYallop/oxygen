@@ -25,7 +25,11 @@ router.get(
 );
 router.post('/component', middleware.auth, componentLibrary.createSingle);
 router.patch('/component/:id', middleware.auth, componentLibrary.updateSingle);
-router.delete('/component/:id', middleware.auth, componentLibrary.deleteSingle);
+router.patch(
+    '/component/deactivate/:state/:id',
+    middleware.auth,
+    componentLibrary.deactivateSingle,
+);
 
 // Kits
 router.get('/kit/:id', middleware.auth, kitLibrary.getSingle);

@@ -88,6 +88,7 @@ describe('Test developer component library create single route', () => {
                 id: response.body.data[0].id,
                 verified: false,
                 name: compLibData.name,
+                deactivated: false,
                 description: compLibData.description,
                 tags: compLibData.tags,
                 public: compLibData.public,

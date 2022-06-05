@@ -194,6 +194,7 @@ model ComponentVersion {
 // components library
 model ComponentLibrary {
     id                 String               @id @default(uuid())
+    deactivated        Boolean              @default(false)
     verified           Boolean              @default(false)
     developer          User                 @relation(fields: [developer_id], references: [id])
     developer_id       String
@@ -224,12 +225,14 @@ model PluginVersion {
 // plugin library
 model PluginLibrary {
     id                 String               @id @default(uuid())
+    deactivated        Boolean              @default(false)
     verified           Boolean              @default(false)
     developer          User                 @relation(fields: [developer_id], references: [id])
     developer_id       String
     created            DateTime             @default(now())
     modified           DateTime             @updatedAt
     name               String
+    description        String
     tags               String[]
     public             Boolean              @default(true)
     free               Boolean              @default(true)
@@ -247,12 +250,14 @@ model PluginLibrary {
 // kit library
 model KitLibrary {
     id            String         @id @default(uuid())
+    deactivated   Boolean        @default(false)
     verified      Boolean        @default(false)
     developer     User           @relation(fields: [developer_id], references: [id])
     developer_id  String
     created       DateTime       @default(now())
     modified      DateTime       @updatedAt
     name          String
+    description   String
     tags          String[]
     public        Boolean        @default(true)
     free          Boolean        @default(true)

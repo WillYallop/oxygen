@@ -35,15 +35,19 @@ const updateSingle = async (
 ) => {
     try {
         // validate body config
-        const v = new Validator(req.body, {
-            name: 'string',
-            description: 'string',
-            tags: 'array',
-            'tags.**': 'string',
-            public: 'boolean',
-            free: 'boolean',
-            price: 'integer|requiredWith:free',
-        });
+        const v = new Validator(
+            { ...req.body, ...req.params },
+            {
+                id: 'required|string',
+                name: 'string',
+                description: 'string',
+                tags: 'array',
+                'tags.**': 'string',
+                public: 'boolean',
+                free: 'boolean',
+                price: 'integer|requiredWith:free',
+            },
+        );
 
         // if valid
         const passed = await v.check();
@@ -56,6 +60,23 @@ const updateSingle = async (
                 },
                 data: [],
             };
+
+            // check if the component library exists
+            const compExists = await db.componentLibrary.findUnique({
+                where: {
+                    id: req.params.id,
+                },
+            });
+            if (!compExists) {
+                throw new Error(
+                    generateErrorString({
+                        status: 404,
+                        source: 'id',
+                        title: 'Component Doesnt Exist',
+                        detail: `A component library doc with an ID of "${req.params.id}" cannt be found!`,
+                    }),
+                );
+            }
 
             const updateData: Body = {};
             if (req.body.name !== undefined) updateData.name = req.body.name;
@@ -80,6 +101,7 @@ const updateSingle = async (
                 type: 'componentLibrary',
                 attributes: {
                     id: updateRes.id,
+                    deactivated: updateRes.deactivated,
                     verified: updateRes.verified,
                     developer_id: updateRes.developer_id,
                     created: updateRes.created,

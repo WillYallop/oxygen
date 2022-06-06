@@ -12,7 +12,6 @@ const router = express.Router();
 // routes
 // ------------------------------------
 
-// Components
 router.post(
     '/:type/:libraryId/:version',
     middleware.auth,

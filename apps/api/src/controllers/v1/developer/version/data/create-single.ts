@@ -103,7 +103,7 @@ const createSingle = async (
             }
 
             // upload to S3
-            const key = uuidv1();
+            const key = `package_${uuidv1()}`;
             const params = {
                 Bucket: process.env.AWS_S3_VERSIONS_BUCKET_NAME as string,
                 Key: key,

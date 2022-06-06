@@ -72,6 +72,7 @@ app.use('/v1/dev/version', v1Routes.developer.version);
 // core routes
 app.use('/v1/core/authentication', v1Routes.core.authentication);
 app.use('/v1/core/user', v1Routes.core.user);
+app.use('/v1/core/media', v1Routes.core.media);
 
 // ------------------------------------
 // ERROR HANDLING

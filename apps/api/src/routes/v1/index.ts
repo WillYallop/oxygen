@@ -5,6 +5,7 @@ import developerVersion from './developer/version';
 // core
 import coreAuthentication from './core/authentication';
 import coreUser from './core/user';
+import coreMedia from './core/media';
 // cms
 
 export default {
@@ -16,6 +17,7 @@ export default {
     core: {
         authentication: coreAuthentication,
         user: coreUser,
+        media: coreMedia,
     },
     cms: {},
 };

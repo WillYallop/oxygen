@@ -12,6 +12,7 @@ import middleware from '../../../middleware';
 // routes
 // ------------------------------------
 
+router.get('/cdn/:key', media.streamMedia);
 router.get('/:id', middleware.auth, media.getSingle);
 router.get('/:cursor/:take/:order', middleware.auth, media.getMultiple);
 router.delete('/:id', middleware.auth, media.deleteSingle);

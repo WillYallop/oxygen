@@ -105,18 +105,14 @@ const createSingle = async (
             // upload to S3
             const key = `package_${uuidv1()}`;
             const params = {
-                Bucket: process.env.AWS_S3_VERSIONS_BUCKET_NAME as string,
+                Bucket: process.env.AWS_S3_MAIN_BUCKET_NAME as string,
                 Key: key,
                 Body: file,
                 ContentType: 'application/zip',
                 ACL: 'authenticated-read',
             };
 
-            s3Clients.versions.upload(params, (err: Error) => {
-                if (err) {
-                    throw err;
-                }
-            });
+            s3Clients.main.upload(params).promise();
 
             // if successfull create a new version instance
             let versionRes: ComponentVersion | PluginVersion;

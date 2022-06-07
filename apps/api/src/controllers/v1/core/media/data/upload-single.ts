@@ -5,6 +5,7 @@ import mime from 'mime-types';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import * as core from 'express-serve-static-core';
 import C from 'oxygen-constants';
+import buildURLs from './util/build-image-url';
 import {
     generateErrorString,
     parseErrorString,
@@ -122,7 +123,9 @@ const uploadSingle = async (
         // if image optimise it
         // upload file to AWS
         let isImageMime = IMAGE_MIMES.find(x => x === file.mimetype);
+        let isImage = false;
         if (isImageMime !== undefined) {
+            isImage = true;
             processedImage = await processImage({
                 input: file.data,
             });
@@ -145,14 +148,13 @@ const uploadSingle = async (
             data: {
                 key: key,
                 alt: '',
-                width:
-                    isImageMime !== undefined
-                        ? processedImage?.metadata.resolution[0] || 0
-                        : 0,
-                height:
-                    isImageMime !== undefined
-                        ? processedImage?.metadata.resolution[1] || 0
-                        : 0,
+                is_image: isImage,
+                width: isImage
+                    ? processedImage?.metadata.resolution[0] || 0
+                    : 0,
+                height: isImage
+                    ? processedImage?.metadata.resolution[1] || 0
+                    : 0,
                 extensions: storedMedia.extensions,
                 title: file.name,
             },
@@ -161,7 +163,18 @@ const uploadSingle = async (
         response.data.push({
             id: mediaDoc.id,
             type: 'media',
-            attributes: mediaDoc,
+            attributes: {
+                id: mediaDoc.id,
+                alt: mediaDoc.alt,
+                width: mediaDoc.width,
+                height: mediaDoc.height,
+                uploaded: mediaDoc.uploaded,
+                modified: mediaDoc.modified,
+                extensions: mediaDoc.extensions,
+                title: mediaDoc.title,
+                isImage: mediaDoc.is_image,
+                src: await buildURLs(mediaDoc.key, mediaDoc.extensions),
+            },
         });
 
         res.status(200).json(response);

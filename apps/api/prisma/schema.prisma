@@ -175,6 +175,7 @@ model Media {
     modified   DateTime @updatedAt
     extensions String[]
     title      String
+    is_image   Boolean  @default(false)
 }
 
 // ---------------------------------------------------

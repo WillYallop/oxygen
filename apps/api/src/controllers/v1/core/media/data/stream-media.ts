@@ -3,6 +3,11 @@ import * as core from 'express-serve-static-core';
 import { parseErrorString } from '../../../../../utils/error-handler';
 import getMediaStream from './util/get-media-stream';
 
+// * Description
+/*  
+    Steam media files
+*/
+
 export interface Params extends core.ParamsDictionary {
     key: string;
 }

@@ -56,16 +56,13 @@ const uploadSingle = async (
                 }),
             );
         }
-        console.log();
+
         const images = await processImage({
             input: file.data,
         });
 
-        res.status(200).json({
-            // @ts-ignore
-            og_size: file.size,
-            new: images,
-        });
+        //@ts-ignore
+        res.status(200).json(images);
     } catch (err) {
         const error = await parseErrorString(err as Error | string);
         res.status(error.status).json({

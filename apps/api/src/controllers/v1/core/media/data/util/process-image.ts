@@ -14,10 +14,16 @@ interface ProcessImageParams {
 }
 
 interface ProcessImageRes {
-    webp?: Buffer;
-    // avif?: Buffer;
-    jpeg?: Buffer;
-    png?: Buffer;
+    images: {
+        webp?: Buffer;
+        // avif?: Buffer;
+        jpeg?: Buffer;
+        png?: Buffer;
+    };
+    metadata: {
+        resolution?: [number, number];
+        averageSavings?: number;
+    };
 }
 
 // Constants
@@ -127,12 +133,40 @@ const processImage = async (
     params: ProcessImageParams,
 ): Promise<ProcessImageRes> => {
     try {
-        const res: ProcessImageRes = {};
+        const res: ProcessImageRes = {
+            images: {},
+            metadata: {},
+        };
+
+        const sizes = [];
+
         const metadata = await sharp(params.input).metadata();
-        if (metadata.hasAlpha) res.png = await convertToPNG(params);
-        else res.jpeg = await convertToJPEG(params);
-        res.webp = await convertToWebP(params);
+
+        if (metadata.hasAlpha)
+            (res.images.png = await convertToPNG(params)),
+                sizes.push(res.images.png.length);
+        else
+            (res.images.jpeg = await convertToJPEG(params)),
+                sizes.push(res.images.jpeg.length);
+        res.images.webp = await convertToWebP(params);
         // res.avif = await convertToAVIF(params);
+
+        sizes.push(res.images.webp.length);
+        // sizes.push(res.images.avif.length);
+
+        // work out average size saving
+        let newSizeAvg = 0;
+        sizes.map(size => (newSizeAvg += size));
+        newSizeAvg / sizes.length;
+        let percent = (newSizeAvg / params.input.length) * 100;
+        res.metadata.averageSavings = percent;
+
+        // add meta resolution
+        if (params.resize !== undefined)
+            res.metadata.resolution = params.resize;
+        else if (metadata.width !== undefined && metadata.height !== undefined)
+            res.metadata.resolution = [metadata.width, metadata.height];
+
         return res;
     } catch (err) {
         throw err;

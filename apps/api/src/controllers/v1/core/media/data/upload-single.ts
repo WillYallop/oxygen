@@ -46,14 +46,12 @@ const VALID_MIMBES = {
     ],
 };
 
-export interface Body {}
-
 export interface Params extends core.ParamsDictionary {
     mode: 'internal' | 'site';
 }
 
 const uploadSingle = async (
-    req: Request<Params, any, Body>,
+    req: Request<Params>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
@@ -101,7 +99,7 @@ const uploadSingle = async (
             allowedMimes = VALID_MIMBES.internal;
         else allowedMimes = VALID_MIMBES.site;
         // check uploaded file against allowed mimes
-        let findMatchingMime = allowedMimes.find(x => x === file.mimetype);
+        const findMatchingMime = allowedMimes.find(x => x === file.mimetype);
         if (findMatchingMime === undefined) {
             throw new Error(
                 generateErrorString({
@@ -122,7 +120,7 @@ const uploadSingle = async (
 
         // if image optimise it
         // upload file to AWS
-        let isImageMime = IMAGE_MIMES.find(x => x === file.mimetype);
+        const isImageMime = IMAGE_MIMES.find(x => x === file.mimetype);
         let isImage = false;
         if (isImageMime !== undefined) {
             isImage = true;
@@ -146,7 +144,7 @@ const uploadSingle = async (
         // store entry in db
         const mediaDoc = await db.media.create({
             data: {
-                key: key,
+                key,
                 alt: '',
                 is_image: isImage,
                 width: isImage

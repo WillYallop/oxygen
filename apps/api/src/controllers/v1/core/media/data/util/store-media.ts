@@ -7,33 +7,25 @@ interface StoreMediaFiles {
 }
 
 const storeWithS3 = (data: Buffer, key: string, mime: string | string) => {
-    try {
-        const params = {
-            Bucket: process.env.AWS_S3_MAIN_BUCKET_NAME as string,
-            Key: key,
-            Body: data,
-            ContentType: mime,
-        };
-        s3Clients.main.upload(params).promise();
-    } catch (err) {
-        throw err;
-    }
+    const params = {
+        Bucket: process.env.AWS_S3_MAIN_BUCKET_NAME as string,
+        Key: key,
+        Body: data,
+        ContentType: mime,
+    };
+    s3Clients.main.upload(params).promise();
 };
 
 const storeMedia = async (files: Array<StoreMediaFiles>, key: string) => {
-    try {
-        const extensions: Array<string> = [];
-        for await (const file of files) {
-            storeWithS3(file.data, `${key}${file.ext}`, file.mime);
-            extensions.push(file.ext);
-        }
-        return {
-            key: key,
-            extensions: extensions,
-        };
-    } catch (err) {
-        throw err;
+    const extensions: Array<string> = [];
+    for (let i = 0; i < files.length; i += 1) {
+        storeWithS3(files[i].data, `${key}${files[i].ext}`, files[i].mime);
+        extensions.push(files[i].ext);
     }
+    return {
+        key,
+        extensions,
+    };
 };
 
 export default storeMedia;

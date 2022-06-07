@@ -10,14 +10,12 @@ import db from '../utils/prisma-client';
     Only authorise requests for key paramaters that exist in the media table in the db
 */
 
-export interface Body {}
-
 export interface Params extends core.ParamsDictionary {
     key: string;
 }
 
 const cdnImageAuth = async (
-    req: Request<Params, any, Body>,
+    req: Request<Params>,
     res: Response<Res_ExpressError>,
     next: NextFunction,
 ) => {
@@ -28,20 +26,19 @@ const cdnImageAuth = async (
 
         const exist = await db.media.findFirst({
             where: {
-                key: key,
+                key,
             },
         });
         if (exist) return next();
-        else {
-            throw new Error(
-                generateErrorString({
-                    status: 404,
-                    source: 'key',
-                    title: 'Media Missing',
-                    detail: `We cannot find a media file with that key!`,
-                }),
-            );
-        }
+
+        throw new Error(
+            generateErrorString({
+                status: 404,
+                source: 'key',
+                title: 'Media Missing',
+                detail: `We cannot find a media file with that key!`,
+            }),
+        );
     } catch (err) {
         const error = await parseErrorString(err as Error | string);
         return res.status(error.status).json({

@@ -17,7 +17,7 @@ import db from '../../../../../utils/prisma-client';
 
 export interface Body {}
 
-export interface Params extends core.ParamsDictionary {}
+export type Params = core.ParamsDictionary
 
 const getMultiple = async (
     req: Request<Params, any, Body>,

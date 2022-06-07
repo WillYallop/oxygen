@@ -1,5 +1,5 @@
 import getSingle from './data/get-single';
-import getMultiple from './data/delete-multiple';
+import getMultiple from './data/get-multiple';
 import deleteSingle from './data/delete-single';
 import deleteMultiple from './data/delete-multiple';
 import updateSingle from './data/update-single';

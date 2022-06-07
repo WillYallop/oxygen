@@ -3,5 +3,5 @@ import cdnImageAuth from './cdn-image-auth';
 
 export default {
     auth: authentication,
-    cdnImageAuth: cdnImageAuth,
+    cdnImageAuth,
 };

@@ -1,12 +1,12 @@
 import express from 'express';
 import { media } from '../../../controllers/v1/core';
 
-const router = express.Router();
-
 // ------------------------------------
 // middleware
 // ------------------------------------
 import middleware from '../../../middleware';
+
+const router = express.Router();
 
 // ------------------------------------
 // routes

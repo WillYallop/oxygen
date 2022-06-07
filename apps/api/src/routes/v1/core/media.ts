@@ -15,9 +15,8 @@ const router = express.Router();
 router.get('/cdn/:key', middleware.cdnImageAuth, media.streamMedia);
 router.get('/:id', middleware.auth, media.getSingle);
 router.get('/:cursor/:take/:order', middleware.auth, media.getMultiple);
-router.delete('/:id', middleware.auth, media.deleteSingle);
-router.delete('/', middleware.auth, media.deleteMultiple);
-router.patch('/:id', middleware.auth, media.updateSingle);
+router.delete('/', middleware.auth, media.delete);
+router.patch('/:id/:mode', middleware.auth, media.updateSingle);
 router.post('/:mode', middleware.auth, media.uploadSingle);
 
 export default router;

@@ -17,9 +17,9 @@ import db from '../../../../../utils/prisma-client';
 
 export interface Body {}
 
-export type Params = core.ParamsDictionary
+export type Params = core.ParamsDictionary;
 
-const deleteSingle = async (
+const deleteMedia = async (
     req: Request<Params, any, Body>,
     res: Response<Res_ExpressError>,
 ) => {
@@ -47,4 +47,4 @@ const deleteSingle = async (
     }
 };
 
-export default deleteSingle;
+export default deleteMedia;

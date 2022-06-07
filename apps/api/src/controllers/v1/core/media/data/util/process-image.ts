@@ -14,14 +14,13 @@ interface ProcessImageParams {
 }
 
 interface ProcessImageRes {
-    images: {
-        webp?: Buffer;
-        // avif?: Buffer;
-        jpeg?: Buffer;
-        png?: Buffer;
-    };
+    images: Array<{
+        data: Buffer;
+        mime: string;
+        ext: string;
+    }>;
     metadata: {
-        resolution?: [number, number];
+        resolution: [number, number];
         averageSavings?: number;
     };
 }
@@ -133,26 +132,44 @@ const processImage = async (
     params: ProcessImageParams,
 ): Promise<ProcessImageRes> => {
     try {
-        const res: ProcessImageRes = {
-            images: {},
-            metadata: {},
-        };
-
         const sizes = [];
-
         const metadata = await sharp(params.input).metadata();
 
-        if (metadata.hasAlpha)
-            (res.images.png = await convertToPNG(params)),
-                sizes.push(res.images.png.length);
-        else
-            (res.images.jpeg = await convertToJPEG(params)),
-                sizes.push(res.images.jpeg.length);
-        res.images.webp = await convertToWebP(params);
-        // res.avif = await convertToAVIF(params);
+        const res: ProcessImageRes = {
+            images: [],
+            metadata: {
+                resolution:
+                    params.resize !== undefined
+                        ? params.resize
+                        : [metadata.width || 0, metadata.height || 0],
+            },
+        };
 
-        sizes.push(res.images.webp.length);
-        // sizes.push(res.images.avif.length);
+        if (metadata.hasAlpha) {
+            const pngImageBuffer = await convertToPNG(params);
+            res.images.push({
+                data: pngImageBuffer,
+                mime: 'image/png',
+                ext: '.png',
+            });
+            sizes.push(pngImageBuffer.length);
+        } else {
+            const jpegImageBuffer = await convertToJPEG(params);
+            res.images.push({
+                data: jpegImageBuffer,
+                mime: 'image/jpeg',
+                ext: '.jpeg',
+            });
+            sizes.push(jpegImageBuffer.length);
+        }
+
+        const webpImageBuffer = await convertToWebP(params);
+        res.images.push({
+            data: webpImageBuffer,
+            mime: 'image/webp',
+            ext: '.webp',
+        });
+        sizes.push(webpImageBuffer.length);
 
         // work out average size saving
         let newSizeAvg = 0;
@@ -160,12 +177,6 @@ const processImage = async (
         newSizeAvg / sizes.length;
         let percent = (newSizeAvg / params.input.length) * 100;
         res.metadata.averageSavings = percent;
-
-        // add meta resolution
-        if (params.resize !== undefined)
-            res.metadata.resolution = params.resize;
-        else if (metadata.width !== undefined && metadata.height !== undefined)
-            res.metadata.resolution = [metadata.width, metadata.height];
 
         return res;
     } catch (err) {

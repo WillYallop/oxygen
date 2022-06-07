@@ -166,15 +166,15 @@ model Site {
 // Media
 // ---------------------------------------------------
 model Media {
-    id       String   @id @default(uuid())
-    key      String
-    alt      String
-    width    Int
-    height   Int
-    uploaded DateTime @default(now())
-    modified DateTime @updatedAt
-    types    String[]
-    title    String
+    id         String   @id @default(uuid())
+    key        String
+    alt        String
+    width      Int
+    height     Int
+    uploaded   DateTime @default(now())
+    modified   DateTime @updatedAt
+    extensions String[]
+    title      String
 }
 
 // ---------------------------------------------------

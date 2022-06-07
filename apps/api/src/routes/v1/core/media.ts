@@ -17,6 +17,6 @@ router.get('/:cursor/:take/:order', middleware.auth, media.getMultiple);
 router.delete('/:id', middleware.auth, media.deleteSingle);
 router.delete('/', middleware.auth, media.deleteMultiple);
 router.patch('/:id', middleware.auth, media.updateSingle);
-router.post('/', middleware.auth, media.uploadSingle);
+router.post('/:mode', middleware.auth, media.uploadSingle);
 
 export default router;

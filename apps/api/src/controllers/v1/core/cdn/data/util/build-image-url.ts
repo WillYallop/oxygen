@@ -1,6 +1,6 @@
 import C from 'oxygen-constants';
 
-const ROUTE = `${C.API_DOMAIN}/v1/core/media/cdn/`;
+const ROUTE = `${C.API_DOMAIN}/v1/core/cdn/`;
 
 const buildURLs = async (key: string, extensions: Array<string>) => {
     const urls = [];

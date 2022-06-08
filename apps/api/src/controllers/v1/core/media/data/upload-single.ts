@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { UploadedFile } from 'express-fileupload';
+import { UploadedFile, FileArray } from 'express-fileupload';
 import { v1 as uuidv1 } from 'uuid';
 import mime from 'mime-types';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import { Res_JSONBodyData } from 'oxygen-types';
 import * as core from 'express-serve-static-core';
 import C from 'oxygen-constants';
-import buildURLs from './util/build-image-url';
+import buildURLs from '../../cdn/data/util/build-image-url';
 import {
     generateErrorString,
     parseErrorString,
@@ -46,25 +46,18 @@ const VALID_MIMBES = {
     ],
 };
 
-export interface Params extends core.ParamsDictionary {
+export interface Params {
     mode: 'internal' | 'site';
+    files: FileArray;
 }
 
-const uploadSingle = async (
-    req: Request<Params>,
-    res: Response<Res_ExpressError>,
-) => {
+const uploadSingle = async (params: Params) => {
     try {
         // response
-        const response: Res_JSONBody = {
-            links: {
-                self: `${C.API_DOMAIN}/v1/core/media/${req.params.mode}`,
-            },
-            data: [],
-        };
+        let response: Res_JSONBodyData = {};
 
         // vefify files exists and set
-        if (!req.files) {
+        if (!params.files) {
             throw new Error(
                 generateErrorString({
                     status: 400,
@@ -75,12 +68,12 @@ const uploadSingle = async (
             );
         }
 
-        const keys: Array<string> = Object.keys(req.files);
+        const keys: Array<string> = Object.keys(params.files);
         let file: UploadedFile;
-        if (Array.isArray(req.files[keys[0]])) {
-            const [firstFile] = req.files[keys[0]] as UploadedFile[];
+        if (Array.isArray(params.files[keys[0]])) {
+            const [firstFile] = params.files[keys[0]] as UploadedFile[];
             file = firstFile;
-        } else file = req.files[keys[0]] as UploadedFile;
+        } else file = params.files[keys[0]] as UploadedFile;
 
         if (!file) {
             throw new Error(
@@ -95,8 +88,7 @@ const uploadSingle = async (
 
         let allowedMimes;
         // depending on the mode set the current allowed mimes
-        if (req.params.mode === 'internal')
-            allowedMimes = VALID_MIMBES.internal;
+        if (params.mode === 'internal') allowedMimes = VALID_MIMBES.internal;
         else allowedMimes = VALID_MIMBES.site;
         // check uploaded file against allowed mimes
         const findMatchingMime = allowedMimes.find(x => x === file.mimetype);
@@ -158,7 +150,7 @@ const uploadSingle = async (
             },
         });
 
-        response.data.push({
+        response = {
             id: mediaDoc.id,
             type: 'media',
             attributes: {
@@ -173,14 +165,11 @@ const uploadSingle = async (
                 isImage: mediaDoc.is_image,
                 src: await buildURLs(mediaDoc.key, mediaDoc.extensions),
             },
-        });
+        };
 
-        res.status(200).json(response);
+        return response;
     } catch (err) {
-        const error = await parseErrorString(err as Error | string);
-        res.status(error.status).json({
-            errors: [error],
-        });
+        throw err;
     }
 };
 

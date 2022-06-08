@@ -7,15 +7,17 @@ export interface Res_JSONBody {
         next?: string;
         last?: string;
     };
-    data: Array<{
-        type: string; // ie: article, use, component
-        id: string;
-        attributes?: {};
-        relationships?: {};
-        links?: {
-            self?: string;
-        };
-    }>;
+    data: Array<Res_JSONBodyData>;
+}
+
+export interface Res_JSONBodyData {
+    type: string; // ie: article, use, component
+    id: string;
+    attributes?: {};
+    relationships?: {};
+    links?: {
+        self?: string;
+    };
 }
 
 // Error response interface

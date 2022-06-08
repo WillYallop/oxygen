@@ -13,7 +13,7 @@ import db from '../../../../../utils/prisma-client';
 
 export interface Params {}
 
-const getSingle = async () => {
+const deleteSingle = async () => {
     try {
         // validate body config
         const v = new Validator({}, {});
@@ -30,4 +30,4 @@ const getSingle = async () => {
     }
 };
 
-export default getSingle;
+export default deleteSingle;

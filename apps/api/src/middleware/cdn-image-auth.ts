@@ -22,14 +22,9 @@ const cdnImageAuth = async (
     try {
         // the key param includes an axtension so remove it.
         // TODO - update this to split extensions instead
-        const key = req.params.key.split('.')[0];
-
-        const exist = await db.media.findFirst({
-            where: {
-                key,
-            },
-        });
-        if (exist) return next();
+        if (req.params.key.includes('media_')) {
+            return next();
+        }
 
         throw new Error(
             generateErrorString({

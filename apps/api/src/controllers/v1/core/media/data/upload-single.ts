@@ -1,15 +1,7 @@
-import { Request, Response } from 'express';
 import { UploadedFile, FileArray } from 'express-fileupload';
 import { v1 as uuidv1 } from 'uuid';
 import mime from 'mime-types';
-import { Res_JSONBodyData } from 'oxygen-types';
-import * as core from 'express-serve-static-core';
-import C from 'oxygen-constants';
-import buildURLs from '../../cdn/data/util/build-image-url';
-import {
-    generateErrorString,
-    parseErrorString,
-} from '../../../../../utils/error-handler';
+import { generateErrorString } from '../../../../../utils/error-handler';
 import processImage from './util/process-image';
 import storeMedia from './util/store-media';
 import db from '../../../../../utils/prisma-client';
@@ -48,14 +40,11 @@ const VALID_MIMBES = {
 
 export interface Params {
     mode: 'internal' | 'site';
-    files: FileArray;
+    files?: FileArray;
 }
 
 const uploadSingle = async (params: Params) => {
     try {
-        // response
-        let response: Res_JSONBodyData = {};
-
         // vefify files exists and set
         if (!params.files) {
             throw new Error(
@@ -113,14 +102,23 @@ const uploadSingle = async (params: Params) => {
         // if image optimise it
         // upload file to AWS
         const isImageMime = IMAGE_MIMES.find(x => x === file.mimetype);
-        let isImage = false;
         if (isImageMime !== undefined) {
-            isImage = true;
             processedImage = await processImage({
                 input: file.data,
             });
             storedMedia = await storeMedia(processedImage.images, key);
         } else {
+            // its not an image - internal only accepts images
+            if (params.mode === 'internal') {
+                throw new Error(
+                    generateErrorString({
+                        status: 400,
+                        source: 'file',
+                        title: 'Upload Failed',
+                        detail: `Only images can be uploaded to this route!`,
+                    }),
+                );
+            }
             storedMedia = await storeMedia(
                 [
                     {
@@ -133,41 +131,13 @@ const uploadSingle = async (params: Params) => {
             );
         }
 
-        // store entry in db
-        const mediaDoc = await db.media.create({
-            data: {
-                key,
-                alt: '',
-                is_image: isImage,
-                width: isImage
-                    ? processedImage?.metadata.resolution[0] || 0
-                    : 0,
-                height: isImage
-                    ? processedImage?.metadata.resolution[1] || 0
-                    : 0,
-                extensions: storedMedia.extensions,
-                title: file.name,
-            },
-        });
-
-        response = {
-            id: mediaDoc.id,
-            type: 'media',
-            attributes: {
-                id: mediaDoc.id,
-                alt: mediaDoc.alt,
-                width: mediaDoc.width,
-                height: mediaDoc.height,
-                uploaded: mediaDoc.uploaded,
-                modified: mediaDoc.modified,
-                extensions: mediaDoc.extensions,
-                title: mediaDoc.title,
-                isImage: mediaDoc.is_image,
-                src: await buildURLs(mediaDoc.key, mediaDoc.extensions),
-            },
+        return {
+            key: key,
+            extensions: storedMedia.extensions,
+            title: file.name,
+            width: processedImage?.metadata.resolution[0] || 0,
+            height: processedImage?.metadata.resolution[1] || 0,
         };
-
-        return response;
     } catch (err) {
         throw err;
     }

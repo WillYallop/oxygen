@@ -44,9 +44,9 @@ model User {
 model PurchasedComponent {
     id           String           @id @default(uuid())
     purchased_at DateTime         @default(now())
-    component    ComponentLibrary @relation(fields: [component_id], references: [id])
+    component    ComponentLibrary @relation(fields: [component_id], references: [id], onDelete: SetNull)
     component_id String
-    invoice      Invoice          @relation(fields: [invoice_id], references: [id])
+    invoice      Invoice          @relation(fields: [invoice_id], references: [id], onDelete: SetNull)
     invoice_id   String
 }
 
@@ -54,12 +54,12 @@ model PurchasedComponent {
 model PurchasedPlugin {
     id                     String             @id @default(uuid())
     purchased_at           DateTime           @default(now())
-    plugin                 PluginLibrary      @relation(fields: [plugin_id], references: [id])
+    plugin                 PluginLibrary      @relation(fields: [plugin_id], references: [id], onDelete: SetNull)
     plugin_id              String
-    invoice                Invoice            @relation(fields: [invoice_id], references: [id])
+    invoice                Invoice            @relation(fields: [invoice_id], references: [id], onDelete: SetNull)
     invoice_id             String
     subscription           Boolean            @default(false)
-    plugin_subscription    PluginSubscription @relation(fields: [plugin_subscription_id], references: [id])
+    plugin_subscription    PluginSubscription @relation(fields: [plugin_subscription_id], references: [id], onDelete: SetNull)
     plugin_subscription_id String
 }
 
@@ -68,7 +68,7 @@ model PluginSubscription {
     id              String            @id @default(uuid())
     purchased_at    DateTime          @default(now())
     renew_date      DateTime
-    plugin          PluginLibrary     @relation(fields: [plugin_id], references: [id])
+    plugin          PluginLibrary     @relation(fields: [plugin_id], references: [id], onDelete: SetNull)
     plugin_id       String
     PurchasedPlugin PurchasedPlugin[]
 }
@@ -77,9 +77,9 @@ model PluginSubscription {
 model PurchasedKit {
     id           String     @id @default(uuid())
     purchased_at DateTime   @default(now())
-    kit          KitLibrary @relation(fields: [kit_id], references: [id])
+    kit          KitLibrary @relation(fields: [kit_id], references: [id], onDelete: SetNull)
     kit_id       String
-    invoice      Invoice    @relation(fields: [invoice_id], references: [id])
+    invoice      Invoice    @relation(fields: [invoice_id], references: [id], onDelete: SetNull)
     invoice_id   String
 }
 
@@ -88,7 +88,7 @@ model Invoice {
     id                 String               @id @default(uuid())
     type               String // component, plugin, kit or site subscription
     subscription       Boolean              @default(false) // if its a monthly subscription or single payment
-    user               User                 @relation(fields: [user_id], references: [id])
+    user               User                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
     user_id            String
     created            DateTime             @default(now())
     free               Boolean              @default(true)
@@ -128,9 +128,9 @@ model Permission {
 // the sites subscription information
 model SiteSubscription {
     id           String   @id @default(uuid())
-    site         Site     @relation(fields: [site_id], references: [id])
+    site         Site     @relation(fields: [site_id], references: [id], onDelete: Cascade)
     site_id      String
-    package      Package  @relation(fields: [package_id], references: [id])
+    package      Package  @relation(fields: [package_id], references: [id], onDelete: SetNull)
     package_id   String
     started_date DateTime
     renew_date   DateTime
@@ -139,12 +139,12 @@ model SiteSubscription {
 // store site user access
 model SiteAccess {
     id      String @id @default(uuid())
-    user    User   @relation(fields: [user_id], references: [id])
+    user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
     user_id String
-    site    Site   @relation(fields: [site_id], references: [id])
+    site    Site   @relation(fields: [site_id], references: [id], onDelete: Cascade)
     site_id String
 
-    permission       Permission @relation(fields: [permission_level], references: [level])
+    permission       Permission @relation(fields: [permission_level], references: [level], onDelete: Cascade)
     permission_level Int
 }
 
@@ -163,24 +163,27 @@ model Site {
 }
 
 // ---------------------------------------------------
-// Media
-// ---------------------------------------------------
-model Media {
-    id         String   @id @default(uuid())
-    key        String
-    alt        String
-    width      Int
-    height     Int
-    uploaded   DateTime @default(now())
-    modified   DateTime @updatedAt
-    extensions String[]
-    title      String
-    is_image   Boolean  @default(false)
-}
-
-// ---------------------------------------------------
 // Library
 // ---------------------------------------------------
+
+// ---------------------------------------------------
+// Component Library
+
+model ComponentLibraryMedia {
+    id         String           @id @default(uuid())
+    alt        String
+    title      String
+    key        String
+    extensions String[]
+    width      Int
+    height     Int
+    uploaded   DateTime         @default(now())
+    modified   DateTime         @updatedAt
+    created    DateTime         @default(now())
+    tag        String // icon, banner, preview, desktop, tablet, mobile
+    component  ComponentLibrary @relation(fields: [library_id], references: [id], onDelete: Cascade)
+    library_id String
+}
 
 // Component Version
 model ComponentVersion {
@@ -188,29 +191,49 @@ model ComponentVersion {
     key        String
     version    String
     created    DateTime         @default(now())
-    component  ComponentLibrary @relation(fields: [library_id], references: [id])
+    component  ComponentLibrary @relation(fields: [library_id], references: [id], onDelete: Cascade)
     library_id String
 }
 
 // components library
 model ComponentLibrary {
-    id                 String               @id @default(uuid())
-    deactivated        Boolean              @default(false)
-    verified           Boolean              @default(false)
-    developer          User                 @relation(fields: [developer_id], references: [id])
-    developer_id       String
-    created            DateTime             @default(now())
-    modified           DateTime             @updatedAt
-    name               String
-    description        String
-    tags               String[]
-    public             Boolean              @default(true)
-    free               Boolean              @default(true)
-    price              Int
-    currency_code      String // currency code (iso 4217)
-    KitComponent       KitComponent[]
-    PurchasedComponent PurchasedComponent[]
-    ComponentVersion   ComponentVersion[]
+    id                    String                  @id @default(uuid())
+    deactivated           Boolean                 @default(false)
+    verified              Boolean                 @default(false)
+    developer             User                    @relation(fields: [developer_id], references: [id], onDelete: SetNull)
+    developer_id          String
+    created               DateTime                @default(now())
+    modified              DateTime                @updatedAt
+    name                  String
+    description           String
+    tags                  String[]
+    public                Boolean                 @default(true)
+    free                  Boolean                 @default(true)
+    price                 Int
+    currency_code         String // currency code (iso 4217)
+    KitComponent          KitComponent[]
+    PurchasedComponent    PurchasedComponent[]
+    ComponentVersion      ComponentVersion[]
+    ComponentLibraryMedia ComponentLibraryMedia[]
+}
+
+// ---------------------------------------------------
+// Plugin Library
+
+model PluginLibraryMedia {
+    id         String        @id @default(uuid())
+    alt        String
+    title      String
+    key        String
+    extensions String[]
+    width      Int
+    height     Int
+    uploaded   DateTime      @default(now())
+    modified   DateTime      @updatedAt
+    created    DateTime      @default(now())
+    tag        String // icon, banner, preview, desktop, tablet, mobile
+    plugin     PluginLibrary @relation(fields: [library_id], references: [id], onDelete: Cascade)
+    library_id String
 }
 
 // plugin Version
@@ -219,7 +242,7 @@ model PluginVersion {
     key        String
     version    String
     created    DateTime      @default(now())
-    plugin     PluginLibrary @relation(fields: [library_id], references: [id])
+    plugin     PluginLibrary @relation(fields: [library_id], references: [id], onDelete: Cascade)
     library_id String
 }
 
@@ -228,7 +251,7 @@ model PluginLibrary {
     id                 String               @id @default(uuid())
     deactivated        Boolean              @default(false)
     verified           Boolean              @default(false)
-    developer          User                 @relation(fields: [developer_id], references: [id])
+    developer          User                 @relation(fields: [developer_id], references: [id], onDelete: SetNull)
     developer_id       String
     created            DateTime             @default(now())
     modified           DateTime             @updatedAt
@@ -246,36 +269,57 @@ model PluginLibrary {
     PurchasedPlugin    PurchasedPlugin[]
     PluginSubscription PluginSubscription[]
     PluginVersion      PluginVersion[]
+    PluginLibraryMedia PluginLibraryMedia[]
+}
+
+// ---------------------------------------------------
+// Kit Library
+
+model KitLibraryMedia {
+    id         String     @id @default(uuid())
+    alt        String
+    title      String
+    key        String
+    extensions String[]
+    width      Int
+    height     Int
+    uploaded   DateTime   @default(now())
+    modified   DateTime   @updatedAt
+    created    DateTime   @default(now())
+    tag        String // icon, banner, preview, desktop, tablet, mobile
+    kit        KitLibrary @relation(fields: [library_id], references: [id], onDelete: Cascade)
+    library_id String
 }
 
 // kit library
 model KitLibrary {
-    id            String         @id @default(uuid())
-    deactivated   Boolean        @default(false)
-    verified      Boolean        @default(false)
-    developer     User           @relation(fields: [developer_id], references: [id])
-    developer_id  String
-    created       DateTime       @default(now())
-    modified      DateTime       @updatedAt
-    name          String
-    description   String
-    tags          String[]
-    public        Boolean        @default(true)
-    free          Boolean        @default(true)
-    price         Int
-    currency_code String // currency code (iso 4217)
-    banner_url    String
-    preview_url   String
-    icon_url      String
-    KitComponent  KitComponent[]
-    PurchasedKit  PurchasedKit[]
+    id              String            @id @default(uuid())
+    deactivated     Boolean           @default(false)
+    verified        Boolean           @default(false)
+    developer       User              @relation(fields: [developer_id], references: [id], onDelete: SetNull)
+    developer_id    String
+    created         DateTime          @default(now())
+    modified        DateTime          @updatedAt
+    name            String
+    description     String
+    tags            String[]
+    public          Boolean           @default(true)
+    free            Boolean           @default(true)
+    price           Int
+    currency_code   String // currency code (iso 4217)
+    banner_url      String
+    preview_url     String
+    icon_url        String
+    KitComponent    KitComponent[]
+    PurchasedKit    PurchasedKit[]
+    KitLibraryMedia KitLibraryMedia[]
 }
 
 // all component refferences for specific kit
 model KitComponent {
     id           String           @id @default(uuid())
-    kit          KitLibrary       @relation(fields: [kit_id], references: [id])
+    kit          KitLibrary       @relation(fields: [kit_id], references: [id], onDelete: Cascade)
     kit_id       String
-    component    ComponentLibrary @relation(fields: [component_id], references: [id])
+    component    ComponentLibrary @relation(fields: [component_id], references: [id], onDelete: Cascade)
     component_id String
 }

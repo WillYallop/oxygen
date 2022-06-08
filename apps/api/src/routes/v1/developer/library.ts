@@ -3,6 +3,7 @@ import {
     componentLibrary,
     kitLibrary,
     pluginLibrary,
+    library,
 } from '../../../controllers/v1/developer';
 
 // ------------------------------------
@@ -15,6 +16,9 @@ const router = express.Router();
 // ------------------------------------
 // routes
 // ------------------------------------
+
+// Shared
+router.post('/media/:type/:id/:tag', middleware.auth, library.uploadImage);
 
 // Components
 router.get('/component/:id', middleware.auth, componentLibrary.getSingle);

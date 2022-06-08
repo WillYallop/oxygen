@@ -6,6 +6,7 @@ import getMediaStream from './util/get-media-stream';
 // * Description
 /*  
     Steam media files
+    TODO - add check to see if the image key exists in the db
 */
 
 export interface Params extends core.ParamsDictionary {

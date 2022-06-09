@@ -102,7 +102,7 @@ describe('Test developer component library update single route', () => {
 
         // update req
         const response = await request(app)
-            .patch(`/v1/dev/library/component/${compLibId}`)
+            .patch(`/v1/dev/library/${compLibId}`)
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
             .send({

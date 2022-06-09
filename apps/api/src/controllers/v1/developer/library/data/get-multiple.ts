@@ -79,7 +79,22 @@ const getMultiple = async (
                 response.data.push({
                     id: item.id,
                     type: 'library',
-                    attributes: item,
+                    attributes: {
+                        id: item.id,
+                        type: item.type,
+                        deactivated: item.deactivated,
+                        verified: item.verified,
+                        developerId: item.developer_id,
+                        created: item.created,
+                        modified: item.modified,
+                        name: item.name,
+                        description: item.description,
+                        tags: item.tags,
+                        public: item.public,
+                        free: item.free,
+                        price: item.price,
+                        currencyCode: item.currency_code,
+                    },
                 });
             }
 

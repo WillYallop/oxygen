@@ -104,7 +104,22 @@ const updateSingle = async (
             response.data.push({
                 id: updateRes.id,
                 type: 'library',
-                attributes: updateRes,
+                attributes: {
+                    id: updateRes.id,
+                    type: updateRes.type,
+                    deactivated: updateRes.deactivated,
+                    verified: updateRes.verified,
+                    developerId: updateRes.developer_id,
+                    created: updateRes.created,
+                    modified: updateRes.modified,
+                    name: updateRes.name,
+                    description: updateRes.description,
+                    tags: updateRes.tags,
+                    public: updateRes.public,
+                    free: updateRes.free,
+                    price: updateRes.price,
+                    currencyCode: updateRes.currency_code,
+                },
             });
 
             // success response

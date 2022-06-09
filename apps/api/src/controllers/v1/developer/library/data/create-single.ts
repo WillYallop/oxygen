@@ -86,7 +86,22 @@ const createSingle = async (
                 response.data.push({
                     id: libraryRes.id,
                     type: 'library',
-                    attributes: libraryRes,
+                    attributes: {
+                        id: libraryRes.id,
+                        type: libraryRes.type,
+                        deactivated: libraryRes.deactivated,
+                        verified: libraryRes.verified,
+                        developerId: libraryRes.developer_id,
+                        created: libraryRes.created,
+                        modified: libraryRes.modified,
+                        name: libraryRes.name,
+                        description: libraryRes.description,
+                        tags: libraryRes.tags,
+                        public: libraryRes.public,
+                        free: libraryRes.free,
+                        price: libraryRes.price,
+                        currencyCode: libraryRes.currency_code,
+                    },
                 });
 
                 // success response

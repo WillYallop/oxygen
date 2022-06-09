@@ -3,6 +3,7 @@ import db from '../../../../../utils/prisma-client';
 import app from '../../../../../app';
 
 describe('Test developer component library create single route', () => {
+    const type = 'component';
     // user register body
     const userRegisterBody = {
         username: 'OxygenCMS',
@@ -74,7 +75,7 @@ describe('Test developer component library create single route', () => {
     // test successfull post request
     test('successfull POST request', async () => {
         const response = await request(app)
-            .post('/v1/dev/library/component')
+            .post(`/v1/dev/library/${type}`)
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
             .send(compLibData)
@@ -86,6 +87,7 @@ describe('Test developer component library create single route', () => {
         expect(response.body.data[0]).toMatchObject({
             attributes: {
                 id: response.body.data[0].id,
+                type: type,
                 verified: false,
                 name: compLibData.name,
                 deactivated: false,

@@ -100,7 +100,7 @@ describe('Test developer component library get single route', () => {
     test('successfull POST request', async () => {
         // get req
         const response = await request(app)
-            .get(`/v1/dev/library/component/${compLibId}`)
+            .get(`/v1/dev/library/${compLibId}`)
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
             .expect('Content-Type', /json/);

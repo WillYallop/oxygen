@@ -9,8 +9,12 @@ export const nameRegexCb = (data: { value: string }) => {
     return regex.test(data.value);
 };
 
-export const versionTypeCb = (data: { value: string }) => {
-    if (data.value.includes('component') || data.value.includes('plugin'))
+export const libraryTypeCb = (data: { value: string }) => {
+    if (
+        data.value === 'component' ||
+        data.value === 'plugin' ||
+        data.value === 'kit'
+    )
         return true;
     return false;
 };

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
-import { ComponentLibrary } from '@prisma/client';
+import { Library } from '@prisma/client';
 import {
     generateErrorString,
     parseErrorString,
@@ -11,11 +11,11 @@ import db from '../../../../../utils/prisma-client';
 
 // * Description
 /*  
-    Get single component library doc
+    Get single library doc
 */
 
 export interface Params extends core.ParamsDictionary {
-    id: ComponentLibrary['id'];
+    id: Library['id'];
 }
 
 const getSingle = async (
@@ -26,55 +26,46 @@ const getSingle = async (
         // response
         const response: Res_JSONBody = {
             links: {
-                self: `${C.API_DOMAIN}/v1/dev/library/component/${req.params.id}`,
+                self: `${C.API_DOMAIN}/v1/dev/library/${req.params.id}`,
             },
             data: [],
         };
 
-        // check if the component library exists
-        const compExists = await db.componentLibrary.findUnique({
+        // check if the library exists
+        const libExists = await db.library.findFirst({
             where: {
-                id: req.params.id,
+                id: {
+                    equals: req.params.id,
+                },
+                developer_id: {
+                    equals: req.auth?.id,
+                },
             },
         });
-        if (!compExists) {
+        if (!libExists) {
             throw new Error(
                 generateErrorString({
                     status: 404,
                     source: 'id',
-                    title: 'Component Doesnt Exist',
-                    detail: `A component library doc with an ID of "${req.params.id}" cannt be found!`,
+                    title: 'Library Doc Doesnt Exist',
+                    detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
                 }),
             );
         }
 
         // get
-        const getCompRes = await db.componentLibrary.findUnique({
+        const libraryRes = await db.library.findUnique({
             where: {
                 id: req.params.id,
             },
         });
 
-        if (getCompRes) {
+        if (libraryRes) {
             // add to response
             response.data.push({
-                id: getCompRes.id,
-                type: 'componentLibrary',
-                attributes: {
-                    id: getCompRes.id,
-                    deactivated: getCompRes.deactivated,
-                    verified: getCompRes.verified,
-                    developerId: getCompRes.developer_id,
-                    created: getCompRes.created,
-                    modified: getCompRes.modified,
-                    name: getCompRes.name,
-                    description: getCompRes.description,
-                    tags: getCompRes.tags,
-                    public: getCompRes.public,
-                    free: getCompRes.free,
-                    price: getCompRes.price,
-                    currencyCode: getCompRes.currency_code,
-                },
+                id: libraryRes.id,
+                type: 'library',
+                attributes: libraryRes,
             });
 
             // success response
@@ -84,8 +75,8 @@ const getSingle = async (
                 generateErrorString({
                     status: 404,
                     source: 'id',
-                    title: 'Component Doesnt Exist',
-                    detail: `A component library doc with an ID of "${req.params.id}" cannt be found!`,
+                    title: 'Library Doesnt Exist',
+                    detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
                 }),
             );
         }

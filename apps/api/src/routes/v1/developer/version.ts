@@ -12,10 +12,6 @@ const router = express.Router();
 // routes
 // ------------------------------------
 
-router.post(
-    '/:type/:libraryId/:version',
-    middleware.auth,
-    version.createSingle,
-);
+router.post('/:libraryId/:version', middleware.auth, version.createSingle);
 
 export default router;

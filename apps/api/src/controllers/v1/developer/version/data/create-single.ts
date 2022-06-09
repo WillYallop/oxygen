@@ -5,12 +5,7 @@ import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import * as core from 'express-serve-static-core';
 import C from 'oxygen-constants';
 import niv, { Validator } from 'node-input-validator';
-import {
-    ComponentLibrary,
-    PluginLibrary,
-    ComponentVersion,
-    PluginVersion,
-} from '@prisma/client';
+import { LibraryVersion, Library } from '@prisma/client';
 import s3Clients from '../../../../../utils/s3-clients';
 import {
     generateErrorString,
@@ -18,7 +13,6 @@ import {
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
 import db from '../../../../../utils/prisma-client';
-import { versionTypeCb } from '../../../../../utils/niv-extend-callbacks';
 
 // * Description
 /*  
@@ -26,9 +20,8 @@ import { versionTypeCb } from '../../../../../utils/niv-extend-callbacks';
 */
 
 export interface Params extends core.ParamsDictionary {
-    version: ComponentVersion['version'] | PluginVersion['version'];
-    type: 'component' | 'plugin';
-    libraryId: ComponentLibrary['id'] | PluginLibrary['id'];
+    version: LibraryVersion['version'];
+    libraryId: Library['id'];
 }
 
 const createSingle = async (
@@ -36,13 +29,9 @@ const createSingle = async (
     res: Response<Res_ExpressError>,
 ) => {
     try {
-        // extend niv validator
-        niv.extend('version_type', versionTypeCb);
-
         // validate body config
         const v = new Validator(req.params, {
             version: 'required',
-            type: 'required|version_type',
             libraryId: 'required',
         });
 
@@ -115,48 +104,25 @@ const createSingle = async (
             s3Clients.main.upload(params).promise();
 
             // if successfull create a new version instance
-            let versionRes: ComponentVersion | PluginVersion;
-            if (req.params.type === 'component') {
-                versionRes = await db.componentVersion.create({
-                    data: {
-                        key,
-                        version: req.params.version,
-                        library_id: req.params.libraryId,
-                    },
-                });
-                // response
-                response.data.push({
+            const versionRes = await db.libraryVersion.create({
+                data: {
+                    key,
+                    version: req.params.version,
+                    library_id: req.params.libraryId,
+                },
+            });
+            // response
+            response.data.push({
+                id: versionRes.id,
+                type: 'libraryVersion',
+                attributes: {
                     id: versionRes.id,
-                    type: 'componentVersion',
-                    attributes: {
-                        id: versionRes.id,
-                        key: versionRes.key,
-                        version: versionRes.version,
-                        created: versionRes.created,
-                        libraryId: versionRes.library_id,
-                    },
-                });
-            } else if (req.params.type === 'plugin') {
-                versionRes = await db.pluginVersion.create({
-                    data: {
-                        key,
-                        version: req.params.version,
-                        library_id: req.params.libraryId,
-                    },
-                });
-                // response
-                response.data.push({
-                    id: versionRes.id,
-                    type: 'pluginVersion',
-                    attributes: {
-                        id: versionRes.id,
-                        key: versionRes.key,
-                        version: versionRes.version,
-                        created: versionRes.created,
-                        libraryId: versionRes.library_id,
-                    },
-                });
-            }
+                    key: versionRes.key,
+                    version: versionRes.version,
+                    created: versionRes.created,
+                    libraryId: versionRes.library_id,
+                },
+            });
             res.json(response);
         } else resNodeInputValidatorError(v.errors, res);
     } catch (err) {

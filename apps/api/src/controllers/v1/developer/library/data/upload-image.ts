@@ -3,7 +3,7 @@ import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import niv, { Validator } from 'node-input-validator';
-import { ComponentLibrary } from '@prisma/client';
+import { Library } from '@prisma/client';
 import media from '../../../core/media';
 import buildURLs from '../../../core/cdn/data/util/build-image-url';
 import {
@@ -19,8 +19,7 @@ import db from '../../../../../utils/prisma-client';
 */
 
 export interface Params extends core.ParamsDictionary {
-    type: 'component' | 'plugin' | 'kit';
-    id: ComponentLibrary['id'];
+    id: Library['id'];
     tag: 'icon' | 'banner' | 'preview' | 'desktop' | 'mobile' | 'tablet';
 }
 
@@ -30,6 +29,7 @@ const updateSingle = async (
 ) => {
     try {
         // extend niv validator
+
         niv.extend('tag_check', (data: { value: string }) => {
             if (
                 data.value === 'icon' ||
@@ -57,15 +57,20 @@ const updateSingle = async (
             // response
             const response: Res_JSONBody = {
                 links: {
-                    self: `${C.API_DOMAIN}/v1/dev/library/media/${req.params.type}/${req.params.id}/${req.params.tag}`,
+                    self: `${C.API_DOMAIN}/v1/dev/library/media/${req.params.id}/${req.params.tag}`,
                 },
                 data: [],
             };
 
             // check if the component library exists
-            const compExists = await db.componentLibrary.findUnique({
+            const compExists = await db.library.findFirst({
                 where: {
-                    id: req.params.id,
+                    id: {
+                        equals: req.params.id,
+                    },
+                    developer_id: {
+                        equals: req.auth?.id,
+                    },
                 },
             });
             if (!compExists) {
@@ -73,8 +78,8 @@ const updateSingle = async (
                     generateErrorString({
                         status: 404,
                         source: 'id',
-                        title: 'Component Doesnt Exist',
-                        detail: `A component library doc with an ID of "${req.params.id}" cannt be found!`,
+                        title: 'Library Doc Doesnt Exist',
+                        detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
                     }),
                 );
             }
@@ -85,47 +90,18 @@ const updateSingle = async (
                 files: req.files,
             });
 
-            let libraryMediaRes;
-            if (req.params.type === 'component') {
-                libraryMediaRes = await db.componentLibraryMedia.create({
-                    data: {
-                        key: imageUpload.key,
-                        title: imageUpload.title,
-                        extensions: imageUpload.extensions,
-                        library_id: req.params.id,
-                        tag: req.params.tag,
-                        alt: '',
-                        width: imageUpload.width,
-                        height: imageUpload.height,
-                    },
-                });
-            } else if (req.params.type === 'plugin') {
-                libraryMediaRes = await db.pluginLibraryMedia.create({
-                    data: {
-                        key: imageUpload.key,
-                        title: imageUpload.title,
-                        extensions: imageUpload.extensions,
-                        library_id: req.params.id,
-                        tag: req.params.tag,
-                        alt: '',
-                        width: imageUpload.width,
-                        height: imageUpload.height,
-                    },
-                });
-            } else if (req.params.type === 'kit') {
-                libraryMediaRes = await db.kitLibraryMedia.create({
-                    data: {
-                        key: imageUpload.key,
-                        title: imageUpload.title,
-                        extensions: imageUpload.extensions,
-                        library_id: req.params.id,
-                        tag: req.params.tag,
-                        alt: '',
-                        width: imageUpload.width,
-                        height: imageUpload.height,
-                    },
-                });
-            }
+            const libraryMediaRes = await db.libraryMedia.create({
+                data: {
+                    key: imageUpload.key,
+                    title: imageUpload.title,
+                    extensions: imageUpload.extensions,
+                    library_id: req.params.id,
+                    tag: req.params.tag,
+                    alt: '',
+                    width: imageUpload.width,
+                    height: imageUpload.height,
+                },
+            });
 
             if (libraryMediaRes) {
                 response.data.push({

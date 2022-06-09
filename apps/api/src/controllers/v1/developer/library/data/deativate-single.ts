@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
-import { ComponentLibrary } from '@prisma/client';
+import { Library } from '@prisma/client';
 import {
     generateErrorString,
     parseErrorString,
@@ -16,7 +16,7 @@ import db from '../../../../../utils/prisma-client';
 */
 
 export interface Params extends core.ParamsDictionary {
-    id: ComponentLibrary['id'];
+    id: Library['id'];
     state: 'true' | 'false';
 }
 
@@ -28,7 +28,7 @@ const deactivateSingle = async (
         // response
         const response: Res_JSONBody = {
             links: {
-                self: `${C.API_DOMAIN}/v1/dev/library/component/deactivate/${req.params.state}/${req.params.id}`,
+                self: `${C.API_DOMAIN}/v1/dev/library/deactivate/${req.params.state}/${req.params.id}`,
             },
             data: [],
         };
@@ -46,9 +46,14 @@ const deactivateSingle = async (
         }
 
         // check if the component library exists
-        const compExists = await db.componentLibrary.findUnique({
+        const compExists = await db.library.findFirst({
             where: {
-                id: req.params.id,
+                id: {
+                    equals: req.params.id,
+                },
+                developer_id: {
+                    equals: req.auth?.id,
+                },
             },
         });
         if (!compExists) {
@@ -56,45 +61,34 @@ const deactivateSingle = async (
                 generateErrorString({
                     status: 404,
                     source: 'id',
-                    title: 'Component Doesnt Exist',
-                    detail: `A component library doc with an ID of "${req.params.id}" cannt be found!`,
+                    title: 'Library Doesnt Exist',
+                    detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
                 }),
             );
         }
 
-        // update
-        const updateRes = await db.componentLibrary.update({
-            where: {
-                id: req.params.id,
-            },
-            data: {
-                deactivated: req.params.state === 'true',
-            },
-        });
+        if (req.auth?.id) {
+            // update
+            const libraryRes = await db.library.update({
+                where: {
+                    id: req.params.id,
+                },
+                data: {
+                    deactivated: req.params.state === 'true',
+                },
+            });
+            if (libraryRes) {
+                // add to response
+                response.data.push({
+                    id: libraryRes.id,
+                    type: 'library',
+                    attributes: libraryRes,
+                });
+            }
 
-        // add to response
-        response.data.push({
-            id: updateRes.id,
-            type: 'componentLibrary',
-            attributes: {
-                id: updateRes.id,
-                deactivated: updateRes.deactivated,
-                verified: updateRes.verified,
-                developerId: updateRes.developer_id,
-                created: updateRes.created,
-                modified: updateRes.modified,
-                name: updateRes.name,
-                description: updateRes.description,
-                tags: updateRes.tags,
-                public: updateRes.public,
-                free: updateRes.free,
-                price: updateRes.price,
-                currencyCode: updateRes.currency_code,
-            },
-        });
-
-        // success response
-        res.status(200).json(response);
+            // success response
+            res.status(200).json(response);
+        }
     } catch (err) {
         const error = await parseErrorString(err as Error | string);
         res.status(error.status).json({

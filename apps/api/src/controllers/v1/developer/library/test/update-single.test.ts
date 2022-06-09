@@ -64,14 +64,14 @@ describe('Test developer component library update single route', () => {
     // reset cookies
     afterEach(async () => {
         // delete component library
-        const compLib = await db.componentLibrary.findUnique({
+        const compLib = await db.library.findUnique({
             where: {
                 id: compLibId,
             },
         });
         if (compLib) {
             // delete component library
-            await db.componentLibrary.delete({
+            await db.library.delete({
                 where: {
                     id: compLibId,
                 },

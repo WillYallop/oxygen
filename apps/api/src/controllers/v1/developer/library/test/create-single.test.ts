@@ -87,7 +87,7 @@ describe('Test developer component library create single route', () => {
         expect(response.body.data[0]).toMatchObject({
             attributes: {
                 id: response.body.data[0].id,
-                type: type,
+                type,
                 verified: false,
                 name: compLibData.name,
                 deactivated: false,

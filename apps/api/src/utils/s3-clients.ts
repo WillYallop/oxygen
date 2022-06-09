@@ -1,4 +1,7 @@
 import AWS from 'aws-sdk';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // bucket use for component and plugin versions, and all media
 const s3Main = new AWS.S3({

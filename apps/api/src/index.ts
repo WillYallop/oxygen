@@ -1,9 +1,7 @@
 import http from 'http';
 import ip from 'ip';
-import dotenv from 'dotenv';
+require('dotenv').config();
 import app from './app';
-
-dotenv.config();
 
 const port = 3003;
 

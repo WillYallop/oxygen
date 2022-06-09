@@ -14,18 +14,24 @@ export interface Params extends core.ParamsDictionary {
     key: string;
 }
 
-const cdnImageAuth = async (
+const cdnLibAuth = async (
     req: Request<Params>,
     res: Response<Res_ExpressError>,
     next: NextFunction,
 ) => {
     try {
         // the key param includes an axtension so remove it.
-        // TODO - update this to split extensions instead
         if (req.params.key.includes('media_')) {
-            return next();
+            const lookupKey = req.params.key.split('.')[0];
+            const lib = await db.libraryMedia.findUnique({
+                where: {
+                    key: lookupKey,
+                },
+            });
+            if (lib) {
+                return next();
+            }
         }
-
         throw new Error(
             generateErrorString({
                 status: 404,
@@ -42,4 +48,4 @@ const cdnImageAuth = async (
     }
 };
 
-export default cdnImageAuth;
+export default cdnLibAuth;

@@ -168,7 +168,7 @@ model LibraryMedia {
     id         String   @id @default(uuid())
     alt        String
     title      String
-    key        String
+    key        String   @unique()
     extensions String[]
     width      Int
     height     Int

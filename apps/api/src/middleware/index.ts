@@ -1,7 +1,7 @@
 import authentication from './authentication';
-import cdnImageAuth from './cdn-image-auth';
+import cdnLibAuth from './cdn-lib-auth';
 
 export default {
     auth: authentication,
-    cdnImageAuth,
+    cdnLibAuth,
 };

@@ -12,6 +12,6 @@ const router = express.Router();
 // routes
 // ------------------------------------
 
-router.get('/:key', middleware.cdnImageAuth, cdn.streamMedia);
+router.get('/library/:key', middleware.cdnLibAuth, cdn.streamMedia);
 
 export default router;

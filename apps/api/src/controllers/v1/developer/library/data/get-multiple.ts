@@ -4,6 +4,7 @@ import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import { Library } from '@prisma/client';
 import niv, { Validator } from 'node-input-validator';
+import getImages from './util/get-images';
 import { libraryTypeCb } from '../../../../../utils/niv-extend-callbacks';
 import {
     parseErrorString,
@@ -56,7 +57,7 @@ const getMultiple = async (
             };
 
             // get multiple
-            const results = await db.library.findMany({
+            const libResults = await db.library.findMany({
                 take: parseInt(req.params.take, 10),
                 cursor:
                     req.params.cursor === 'start' ? undefined : cursorQueryObj,
@@ -73,30 +74,35 @@ const getMultiple = async (
                 },
             });
 
-            for (let i = 0; i < results.length; i += 1) {
-                const item = results[i];
-                // add to response
-                response.data.push({
-                    id: item.id,
+            const buildLibResArr = [];
+            const buildLibRes = async (library: Library) => {
+                return {
+                    id: library.id,
                     type: 'library',
                     attributes: {
-                        id: item.id,
-                        type: item.type,
-                        deactivated: item.deactivated,
-                        verified: item.verified,
-                        developerId: item.developer_id,
-                        created: item.created,
-                        modified: item.modified,
-                        name: item.name,
-                        description: item.description,
-                        tags: item.tags,
-                        public: item.public,
-                        free: item.free,
-                        price: item.price,
-                        currencyCode: item.currency_code,
+                        id: library.id,
+                        type: library.type,
+                        deactivated: library.deactivated,
+                        verified: library.verified,
+                        developerId: library.developer_id,
+                        created: library.created,
+                        modified: library.modified,
+                        name: library.name,
+                        description: library.description,
+                        tags: library.tags,
+                        public: library.public,
+                        free: library.free,
+                        price: library.price,
+                        currencyCode: library.currency_code,
+                        images: await getImages(library.id, 'multiple'),
                     },
-                });
+                };
+            };
+
+            for (let i = 0; i < libResults.length; i += 1) {
+                buildLibResArr.push(buildLibRes(libResults[i]));
             }
+            response.data.push(...(await Promise.all(buildLibResArr)));
 
             // success response
             res.status(200).json(response);

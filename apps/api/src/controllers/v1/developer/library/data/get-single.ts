@@ -3,6 +3,7 @@ import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import { Library } from '@prisma/client';
+import getImages from './util/get-images';
 import {
     generateErrorString,
     parseErrorString,
@@ -80,6 +81,7 @@ const getSingle = async (
                     free: libraryRes.free,
                     price: libraryRes.price,
                     currencyCode: libraryRes.currency_code,
+                    images: await getImages(libraryRes.id, 'single'),
                 },
             });
 

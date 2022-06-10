@@ -109,7 +109,7 @@ const updateSingle = async (
                     type: 'libraryMedia',
                     attributes: {
                         ...libraryMediaRes,
-                        src: await buildURLs(
+                        src: buildURLs(
                             'library',
                             imageUpload.key,
                             imageUpload.extensions,

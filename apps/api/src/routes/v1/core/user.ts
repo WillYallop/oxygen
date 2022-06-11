@@ -6,12 +6,13 @@ const router = express.Router();
 // ------------------------------------
 // middleware
 // ------------------------------------
+import middleware from '../../../middleware';
 
 // ------------------------------------
 // routes
 // ------------------------------------
 
 // Components
-router.get('/user/:id', user.getSingle);
+router.get('/me', middleware.auth, user.getCurrent);
 
 export default router;

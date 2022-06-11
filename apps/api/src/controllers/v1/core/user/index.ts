@@ -1,5 +1,5 @@
-import getSingle from './data/get-single';
+import getCurrent from './data/get-current';
 
 export default {
-  getSingle,
+    getCurrent,
 };

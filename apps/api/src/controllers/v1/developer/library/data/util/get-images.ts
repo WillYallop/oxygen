@@ -57,7 +57,7 @@ const getImages = async (
     });
 
     for (let i = 0; i < images.length; i += 1) {
-        let img = images[i];
+        const img = images[i];
         if (mode === 'multiple') {
             if (img.tag === 'icon' || img.tag === 'preview') {
                 response[img.tag as 'icon' | 'preview'].push({

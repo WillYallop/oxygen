@@ -27,7 +27,6 @@ model User {
     postal_code     String // PostType code or ZIP code
     street_address  String // Street address
     premise         String // Apartment, Suite, Box number etc.
-    profile_picture String
     account_created DateTime     @default(now())
     Invoice         Invoice[]
     SiteAccess      SiteAccess[]

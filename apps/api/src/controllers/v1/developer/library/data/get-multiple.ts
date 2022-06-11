@@ -75,29 +75,27 @@ const getMultiple = async (
             });
 
             const buildLibResArr = [];
-            const buildLibRes = async (library: Library) => {
-                return {
+            const buildLibRes = async (library: Library) => ({
+                id: library.id,
+                type: 'library',
+                attributes: {
                     id: library.id,
-                    type: 'library',
-                    attributes: {
-                        id: library.id,
-                        type: library.type,
-                        deactivated: library.deactivated,
-                        verified: library.verified,
-                        developerId: library.developer_id,
-                        created: library.created,
-                        modified: library.modified,
-                        name: library.name,
-                        description: library.description,
-                        tags: library.tags,
-                        public: library.public,
-                        free: library.free,
-                        price: library.price,
-                        currencyCode: library.currency_code,
-                        images: await getImages(library.id, 'multiple'),
-                    },
-                };
-            };
+                    type: library.type,
+                    deactivated: library.deactivated,
+                    verified: library.verified,
+                    developerId: library.developer_id,
+                    created: library.created,
+                    modified: library.modified,
+                    name: library.name,
+                    description: library.description,
+                    tags: library.tags,
+                    public: library.public,
+                    free: library.free,
+                    price: library.price,
+                    currencyCode: library.currency_code,
+                    images: await getImages(library.id, 'multiple'),
+                },
+            });
 
             for (let i = 0; i < libResults.length; i += 1) {
                 buildLibResArr.push(buildLibRes(libResults[i]));

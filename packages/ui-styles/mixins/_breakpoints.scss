@@ -1,0 +1,22 @@
+@use '../settings/vars' as *;
+
+// Small devices
+@mixin small_mobile {
+    @media (max-width: #{map-get($breakpoints, _small_mobile)}) {
+        @content;
+    }
+}
+
+// mobile
+@mixin mobile {
+    @media (max-width: #{map-get($breakpoints, _mobile)}) {
+        @content;
+    }
+}
+
+// tablet
+@mixin tablet {
+    @media (max-width: #{map-get($breakpoints, _tablet)}) {
+        @content;
+    }
+}

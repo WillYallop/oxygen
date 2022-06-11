@@ -1,0 +1,74 @@
+// alt
+$html-font-size: 16px;
+$font_family: Roboto;
+$border_radius: rem(5);
+$border_style: rem(1) solid var(--border-c);
+
+// ------------------------------------
+// Wrapper
+// ------------------------------------
+$block_wrapper: (
+    _large: rem(600),
+    _medium: rem(400),
+    _small: rem(200),
+);
+$section_wrapper: (
+    _large: rem(1400),
+    _medium: rem(1200),
+    _small: rem(800),
+);
+
+// ------------------------------------
+// Padding
+// ------------------------------------
+$block_padding: (
+    _desktop: rem(40),
+    _tablet: rem(30),
+    _mobile: rem(20),
+    _small_mobile: rem(10),
+);
+$section_padding: (
+    _desktop: rem(100),
+    _tablet: rem(80),
+    _mobile: rem(50),
+    _small_mobile: rem(50),
+);
+$section_padding_horizontal: (
+    _desktop: rem(40),
+    _tablet: rem(30),
+    _mobile: rem(20),
+    _small_mobile: rem(20),
+);
+
+// ------------------------------------
+// Block Margin
+// ------------------------------------
+$block_margin: (
+    _large: rem(40),
+    _medium: rem(20),
+    _small: rem(10),
+);
+
+// ------------------------------------
+// Grid
+// ------------------------------------
+$grid_gap: (
+    _large: rem(40),
+    _medium: rem(20),
+    _small: rem(10),
+);
+
+// ------------------------------------
+// Transition
+// ------------------------------------
+$transition_time: 0.2s;
+$transition_type: ease-out;
+
+// ------------------------------------
+// Breakpoints
+// ------------------------------------
+$breakpoints: (
+    _small_mobile: 467px,
+    _mobile: 768px,
+    _tablet: 1024px,
+);

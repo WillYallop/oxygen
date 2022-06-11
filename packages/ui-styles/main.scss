@@ -1,3 +1,16 @@
-body {
-    background-color: red;
-}
+// ------------------------------------
+// Base
+// ------------------------------------
+@use './base/core';
+@use './base/a';
+@use './base/layout';
+@use './base/typography';
+@use './base/input';
+@use './base/reset';
+@use './base/table';
+@use './base/fonts';
+
+// ------------------------------------
+// Components
+// ------------------------------------
+// @import './components/';

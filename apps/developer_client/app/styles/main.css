@@ -1,5 +1,507 @@
+:root {
+  --site-bg: #f7f7f7;
+  --border-c: rgb(95, 95, 95);
+  --error: red;
+  --success: green;
+  --warning: orange;
+  --accent: #40D2B9;
+  --accent-h: #3cbea9;
+  --accent-c: #FFFFFF;
+}
+
 body {
-  background-color: red;
+  font-size: 16px;
+  background-color: #f7f7f7;
+  font-family: Roboto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.l__grid {
+  display: grid;
+  gap: rem(20);
+}
+.l__grid--g-l {
+  gap: rem(40);
+}
+.l__grid--g-m {
+  gap: rem(20);
+}
+.l__grid--g-s {
+  gap: rem(10);
+}
+.l__grid--8c {
+  grid-template-columns: repeat(8, 1fr);
+}
+.l__grid--7c {
+  grid-template-columns: repeat(7, 1fr);
+}
+.l__grid--6c {
+  grid-template-columns: repeat(6, 1fr);
+}
+.l__grid--5c {
+  grid-template-columns: repeat(5, 1fr);
+}
+.l__grid--4c {
+  grid-template-columns: repeat(4, 1fr);
+}
+.l__grid--3c {
+  grid-template-columns: repeat(3, 1fr);
+}
+.l__grid--2c {
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 1024px) {
+  .l__grid--8c, .l__grid--7c {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .l__grid--6c, .l__grid--5c {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .l__grid--4c, .l__grid--3c {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .l__grid--8c, .l__grid--7c {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .l__grid--6c, .l__grid--5c {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .l__grid--4c, .l__grid--3c {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.l__wrapper {
+  margin-left: auto;
+  margin-right: auto;
+}
+.l__wrapper--sw-l {
+  max-width: rem(1400);
+}
+.l__wrapper--sw-m {
+  max-width: rem(1200);
+}
+.l__wrapper--sw-s {
+  max-width: rem(800);
+}
+.l__wrapper--bw-l {
+  max-width: rem(600);
+}
+.l__wrapper--bw-m {
+  max-width: rem(400);
+}
+.l__wrapper--bw-s {
+  max-width: rem(200);
+}
+.l__cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.l__cover--n-l {
+  left: unset;
+}
+.l__cover--n-r {
+  right: unset;
+}
+.l__cover--n-t {
+  top: unset;
+}
+.l__cover--n-b {
+  bottom: unset;
+}
+.l--f {
+  display: flex;
+}
+.l--f-w-w {
+  flex-wrap: wrap;
+}
+.l--f-w-r {
+  flex-wrap: wrap-reverse;
+}
+.l--f-a-c {
+  align-items: center;
+}
+.l--f-a-fs {
+  align-items: flex-start;
+}
+.l--f-a-fe {
+  align-items: flex-end;
+}
+.l--f-a-s {
+  align-items: stretch;
+}
+.l--f-j-c {
+  justify-content: center;
+}
+.l--f-j-fs {
+  justify-content: flex-start;
+}
+.l--f-j-fe {
+  justify-content: flex-end;
+}
+.l--f-j-sb {
+  justify-content: space-between;
+}
+.l--f-j-sa {
+  justify-content: space-around;
+}
+.l--f-d-r {
+  flex-direction: row;
+}
+.l--f-d-r {
+  flex-direction: row-reverse;
+}
+.l--f-d-c {
+  flex-direction: column;
+}
+.l--f-d-cr {
+  flex-direction: column-reverse;
+}
+.l--sp-t {
+  padding-top: rem(100);
+}
+@media (max-width: 1024px) {
+  .l--sp-t {
+    padding-top: rem(80);
+  }
+}
+@media (max-width: 768px) {
+  .l--sp-t {
+    padding-top: rem(50);
+  }
+}
+@media (max-width: 467px) {
+  .l--sp-t {
+    padding-top: rem(50);
+  }
+}
+.l--sp-th {
+  padding-top: calc(rem(100) / 2);
+}
+@media (max-width: 1024px) {
+  .l--sp-th {
+    padding-top: calc(rem(80) / 2);
+  }
+}
+@media (max-width: 768px) {
+  .l--sp-th {
+    padding-top: calc(rem(50) / 2);
+  }
+}
+@media (max-width: 467px) {
+  .l--sp-th {
+    padding-top: calc(rem(50) / 2);
+  }
+}
+.l--sp-b {
+  padding-bottom: rem(100);
+}
+@media (max-width: 1024px) {
+  .l--sp-b {
+    padding-bottom: rem(80);
+  }
+}
+@media (max-width: 768px) {
+  .l--sp-b {
+    padding-bottom: rem(50);
+  }
+}
+@media (max-width: 467px) {
+  .l--sp-b {
+    padding-bottom: rem(50);
+  }
+}
+.l--sp-bh {
+  padding-bottom: calc(rem(100) / 2);
+}
+@media (max-width: 1024px) {
+  .l--sp-bh {
+    padding-bottom: calc(rem(80) / 2);
+  }
+}
+@media (max-width: 768px) {
+  .l--sp-bh {
+    padding-bottom: calc(rem(50) / 2);
+  }
+}
+@media (max-width: 467px) {
+  .l--sp-bh {
+    padding-bottom: calc(rem(50) / 2);
+  }
+}
+.l--sp-h {
+  padding-left: rem(40);
+  padding-right: rem(40);
+}
+@media (max-width: 1024px) {
+  .l--sp-h {
+    padding-left: rem(30);
+    padding-right: rem(30);
+  }
+}
+@media (max-width: 768px) {
+  .l--sp-h {
+    padding-left: rem(20);
+    padding-right: rem(20);
+  }
+}
+@media (max-width: 467px) {
+  .l--sp-h {
+    padding-left: rem(20);
+    padding-right: rem(20);
+  }
+}
+.l--bp {
+  padding: rem(40);
+}
+@media (max-width: 1024px) {
+  .l--bp {
+    padding: rem(30);
+  }
+}
+@media (max-width: 768px) {
+  .l--bp {
+    padding: rem(20);
+  }
+}
+@media (max-width: 467px) {
+  .l--bp {
+    padding: rem(10);
+  }
+}
+.l--bm-t-l {
+  margin-top: rem(40);
+}
+.l--bm-t-m {
+  margin-top: rem(20);
+}
+.l--bm-t-s {
+  margin-top: rem(10);
+}
+.l--bm-b-l {
+  margin-bottom: rem(40);
+}
+.l--bm-b-m {
+  margin-bottom: rem(20);
+}
+.l--bm-b-s {
+  margin-bottom: rem(10);
+}
+.l--bm-l-l {
+  margin-left: rem(40);
+}
+.l--bm-l-m {
+  margin-left: rem(20);
+}
+.l--bm-l-s {
+  margin-left: rem(10);
+}
+.l--bm-r-l {
+  margin-right: rem(40);
+}
+.l--bm-r-m {
+  margin-right: rem(20);
+}
+.l--bm-r-s {
+  margin-right: rem(10);
+}
+.l--p-a {
+  position: absolute;
+}
+.l--p-r {
+  position: relative;
+}
+.l--px-at {
+  z-index: 4;
+}
+.l--px-t {
+  z-index: 3;
+}
+.l--pz-a {
+  z-index: 2;
+}
+.l--pz-b {
+  z-index: 1;
+}
+.l--bg-site {
+  background-color: var(--site-bg);
+}
+.l--bg-err {
+  background-color: var(--error);
+}
+.l--bg-suc {
+  background-color: var(--success);
+}
+.l--bg-war {
+  background-color: var(--warning);
+}
+.l--bg-acc {
+  background-color: var(--accent);
+}
+
+.t__textarea h1 {
+  margin-bottom: rem(20);
+}
+.t__textarea h2 {
+  margin-bottom: rem(15);
+}
+.t__textarea h3,
+.t__textarea h4,
+.t__textarea h5,
+.t__textarea h6,
+.t__textarea p,
+.t__textarea a {
+  margin-bottom: rem(10);
+}
+.t--b {
+  font-weight: bold;
+}
+.t--c {
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(rem(20), 10vw, rem(46));
+}
+
+h2 {
+  font-size: clamp(rem(18), 10vw, rem(24));
+}
+
+h3 {
+  font-size: clamp(rem(16), 10vw, rem(20));
+}
+
+h4 {
+  font-size: clamp(rem(16), 10vw, rem(18));
+}
+
+h5 {
+  font-size: clamp(rem(16), 10vw, rem(16));
+}
+
+h6 {
+  font-size: clamp(rem(16), 10vw, rem(16));
+}
+
+p {
+  font-size: rem(16);
+}
+
+input__label,
+textarea__label,
+select__label {
+  font-size: rem(14);
+}
+input__wrapper,
+textarea__wrapper,
+select__wrapper {
+  position: relative;
+}
+input__style,
+textarea__style,
+select__style {
+  height: rem(40);
+  padding: 0 rem(10);
+  font-size: 16px;
+  font-family: Roboto;
+  margin: rem(5) 0 rem(10);
+  border-radius: rem(5);
+  border: rem(1) solid var(--border-c);
+}
+input__style--t,
+textarea__style--t,
+select__style--t {
+  height: rem(200);
+  resize: none;
+  padding: rem(10);
+}
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reapply the pointer cursor for anchor tags */
+a,
+button {
+  cursor: revert;
+}
+
+/* Remove list styles (bullets/numbers) */
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+/* For images to not be able to exceed their container */
+img {
+  max-width: 100%;
+}
+
+/* removes spacing between cells in tables */
+table {
+  border-collapse: collapse;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+  white-space: revert;
+}
+
+/* minimum style to allow to style meter element */
+meter {
+  appearance: revert;
+}
+
+/* reset default text opacity of input placeholder */
+::placeholder {
+  all: unset;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url(fonts/Roboto-Regular.woff) format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url(fonts/Roboto-SemiBold.woff) format("woff");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url(fonts/Roboto-Italic.woff) format("woff");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url(fonts/Roboto-Bold.woff) format("woff");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url(fonts/Roboto-BoldItalic.woff) format("woff");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,0 +1,32 @@
+
+$site_background: #f7f7f7;
+$border_colour: rgb(95, 95, 95);
+
+// ------------------------------------
+// Background colours
+// ------------------------------------
+$colours: (
+    _error: red,
+    _success: green,
+    _warning: orange,
+
+    _01_01: #40D2B9, // accent
+    _01_02: #3cbea9, // accent hover
+    _01_03: #FFFFFF, // accent colour
+
+);
+
+// Light mode
+:root {
+    --site-bg: #{$site_background};
+    --border-c: #{$border_colour};
+
+    --error: #{map-get($colours, _error)};
+    --success: #{map-get($colours, _success)};
+    --warning: #{map-get($colours, _warning)};
+
+    --accent: #{map-get($colours, _01_01)};
+    --accent-h: #{map-get($colours, _01_02)};
+    --accent-c: #{map-get($colours, _01_03)};
+
+}

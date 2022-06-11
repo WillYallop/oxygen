@@ -1,0 +1,62 @@
+@use '../settings/vars' as *;
+@use '../settings/colours' as *;
+
+// ------------------------------------
+// Typography Block
+// ------------------------------------
+.t {
+    // ------------------------------------
+    // Element
+    // ------------------------------------
+    &__textarea {
+        h1 {
+            margin-bottom: rem(20);
+        }
+        h2 {
+            margin-bottom: rem(15);
+        }
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        a {
+            margin-bottom: rem(10);
+        }
+        li {
+        }
+    }
+
+    // ------------------------------------
+    // Modifiers
+    // ------------------------------------
+    &--b {
+        font-weight: bold;
+    }
+    &--c {
+        text-align: center;
+    }
+}
+
+// Text element defaults
+h1 {
+    font-size: clamp(rem(20), 10vw, rem(46));
+}
+h2 {
+    font-size: clamp(rem(18), 10vw, rem(24));
+}
+h3 {
+    font-size: clamp(rem(16), 10vw, rem(20));
+}
+h4 {
+    font-size: clamp(rem(16), 10vw, rem(18));
+}
+h5 {
+    font-size: clamp(rem(16), 10vw, rem(16));
+}
+h6 {
+    font-size: clamp(rem(16), 10vw, rem(16));
+}
+p {
+    font-size: rem(16);
+}

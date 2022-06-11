@@ -1,0 +1,41 @@
+@use '../settings/vars' as *;
+@use '../settings/colours' as *;
+
+input,
+textarea,
+select {
+    // ------------------------------------
+    // Element
+    // ------------------------------------
+    &__label {
+        font-size: rem(14);
+    }
+    &__wrapper {
+        position: relative;
+    }
+    &__style {
+        height: rem(40);
+        padding: 0 rem(10);
+        font-size: $html-font-size;
+        font-family: $font_family;
+        margin: rem(5) 0 rem(10);
+        border-radius: $border_radius;
+        border: $border_style;
+        // Input
+        &--i {
+        }
+        // Textarea
+        &--t {
+            height: rem(200);
+            resize: none;
+            padding: rem(10);
+        }
+        // Select
+        &--s {
+        }
+    }
+
+    // ------------------------------------
+    // Modifiers
+    // ------------------------------------
+}

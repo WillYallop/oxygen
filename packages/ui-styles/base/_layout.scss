@@ -1,0 +1,347 @@
+@use '../settings/vars' as *;
+@use '../settings/colours' as *;
+@use '../mixins/breakpoints' as *;
+
+// ------------------------------------
+// Layout Block
+// ------------------------------------
+.l {
+    // ------------------------------------
+    // Element
+    // ------------------------------------
+    &__grid {
+        display: grid;
+        gap: map-get($grid_gap, _medium);
+        // gap
+        &--g-l {
+            gap: map-get($grid_gap, _large);
+        }
+        &--g-m {
+            gap: map-get($grid_gap, _medium);
+        }
+        &--g-s {
+            gap: map-get($grid_gap, _small);
+        }
+        // columns
+        &--8c {
+            grid-template-columns: repeat(8, 1fr);
+        }
+        &--7c {
+            grid-template-columns: repeat(7, 1fr);
+        }
+        &--6c {
+            grid-template-columns: repeat(6, 1fr);
+        }
+        &--5c {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        &--4c {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        &--3c {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        &--2c {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @include tablet {
+            &--8c,
+            &--7c {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            &--6c,
+            &--5c {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            &--4c,
+            &--3c {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @include mobile {
+            &--8c,
+            &--7c {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            &--6c,
+            &--5c {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            &--4c,
+            &--3c {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    }
+    &__wrapper {
+        margin-left: auto;
+        margin-right: auto;
+        // Section wrappers
+        &--sw-l {
+            max-width: map-get($section_wrapper, _large);
+        }
+        &--sw-m {
+            max-width: map-get($section_wrapper, _medium);
+        }
+        &--sw-s {
+            max-width: map-get($section_wrapper, _small);
+        }
+        // Block wrappers
+        &--bw-l {
+            max-width: map-get($block_wrapper, _large);
+        }
+        &--bw-m {
+            max-width: map-get($block_wrapper, _medium);
+        }
+        &--bw-s {
+            max-width: map-get($block_wrapper, _small);
+        }
+    }
+    &__cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        &--n-l {
+            left: unset;
+        }
+        &--n-r {
+            right: unset;
+        }
+        &--n-t {
+            top: unset;
+        }
+        &--n-b {
+            bottom: unset;
+        }
+    }
+
+    // ------------------------------------
+    // Modifiers
+    // ------------------------------------
+
+    // ------------------------------------------------
+    // Flex
+    &--f {
+        display: flex;
+    }
+    // flex-wrap
+    &--f-w-w {
+        flex-wrap: wrap;
+    }
+    &--f-w-r {
+        flex-wrap: wrap-reverse;
+    }
+    // align
+    &--f-a-c {
+        align-items: center;
+    }
+    &--f-a-fs {
+        align-items: flex-start;
+    }
+    &--f-a-fe {
+        align-items: flex-end;
+    }
+    &--f-a-s {
+        align-items: stretch;
+    }
+    // justify
+    &--f-j-c {
+        justify-content: center;
+    }
+    &--f-j-fs {
+        justify-content: flex-start;
+    }
+    &--f-j-fe {
+        justify-content: flex-end;
+    }
+    &--f-j-sb {
+        justify-content: space-between;
+    }
+    &--f-j-sa {
+        justify-content: space-around;
+    }
+    // direction
+    &--f-d-r {
+        flex-direction: row;
+    }
+    &--f-d-r {
+        flex-direction: row-reverse;
+    }
+    &--f-d-c {
+        flex-direction: column;
+    }
+    &--f-d-cr {
+        flex-direction: column-reverse;
+    }
+
+    // ------------------------------------------------
+    // Section Padding
+    // padding top
+    &--sp-t {
+        padding-top: map-get($section_padding, _desktop);
+        @include tablet {
+            padding-top: map-get($section_padding, _tablet);
+        }
+        @include mobile {
+            padding-top: map-get($section_padding, _mobile);
+        }
+        @include small_mobile {
+            padding-top: map-get($section_padding, _small_mobile);
+        }
+    }
+    // padding top half
+    &--sp-th {
+        padding-top: calc(map-get($section_padding, _desktop) / 2);
+        @include tablet {
+            padding-top: calc(map-get($section_padding, _tablet) / 2);
+        }
+        @include mobile {
+            padding-top: calc(map-get($section_padding, _mobile) / 2);
+        }
+        @include small_mobile {
+            padding-top: calc(map-get($section_padding, _small_mobile) / 2);
+        }
+    }
+    // padding bottom
+    &--sp-b {
+        padding-bottom: map-get($section_padding, _desktop);
+        @include tablet {
+            padding-bottom: map-get($section_padding, _tablet);
+        }
+        @include mobile {
+            padding-bottom: map-get($section_padding, _mobile);
+        }
+        @include small_mobile {
+            padding-bottom: map-get($section_padding, _small_mobile);
+        }
+    }
+    // padding bottom half
+    &--sp-bh {
+        padding-bottom: calc(map-get($section_padding, _desktop) / 2);
+        @include tablet {
+            padding-bottom: calc(map-get($section_padding, _tablet) / 2);
+        }
+        @include mobile {
+            padding-bottom: calc(map-get($section_padding, _mobile) / 2);
+        }
+        @include small_mobile {
+            padding-bottom: calc(map-get($section_padding, _small_mobile) / 2);
+        }
+    }
+    // padding horizontal
+    &--sp-h {
+        padding-left: map-get($section_padding_horizontal, _desktop);
+        padding-right: map-get($section_padding_horizontal, _desktop);
+        @include tablet {
+            padding-left: map-get($section_padding_horizontal, _tablet);
+            padding-right: map-get($section_padding_horizontal, _tablet);
+        }
+        @include mobile {
+            padding-left: map-get($section_padding_horizontal, _mobile);
+            padding-right: map-get($section_padding_horizontal, _mobile);
+        }
+        @include small_mobile {
+            padding-left: map-get($section_padding_horizontal, _small_mobile);
+            padding-right: map-get($section_padding_horizontal, _small_mobile);
+        }
+    }
+    // Block Padding
+    &--bp {
+        padding: map-get($block_padding, _desktop);
+        @include tablet {
+            padding: map-get($block_padding, _tablet);
+        }
+        @include mobile {
+            padding: map-get($block_padding, _mobile);
+        }
+        @include small_mobile {
+            padding: map-get($block_padding, _small_mobile);
+        }
+    }
+
+    // ------------------------------------------------
+    // Block Margin
+    // -- top
+    &--bm-t-l {
+        margin-top: map-get($block_margin, _large);
+    } // margin top large
+    &--bm-t-m {
+        margin-top: map-get($block_margin, _medium);
+    } // margin top medium
+    &--bm-t-s {
+        margin-top: map-get($block_margin, _small);
+    } // margin top small
+    // -- bot
+    &--bm-b-l {
+        margin-bottom: map-get($block_margin, _large);
+    } // margin bottom large
+    &--bm-b-m {
+        margin-bottom: map-get($block_margin, _medium);
+    } // margin bottom medium
+    &--bm-b-s {
+        margin-bottom: map-get($block_margin, _small);
+    } // margin bottom small
+    // -- left
+    &--bm-l-l {
+        margin-left: map-get($block_margin, _large);
+    } // margin left large
+    &--bm-l-m {
+        margin-left: map-get($block_margin, _medium);
+    } // margin left medium
+    &--bm-l-s {
+        margin-left: map-get($block_margin, _small);
+    } // margin left small
+    // -- right
+    &--bm-r-l {
+        margin-right: map-get($block_margin, _large);
+    } // margin right large
+    &--bm-r-m {
+        margin-right: map-get($block_margin, _medium);
+    } // margin right medium
+    &--bm-r-s {
+        margin-right: map-get($block_margin, _small);
+    } // margin right small
+
+    // ------------------------------------------------
+    // Position
+    &--p-a {
+        position: absolute;
+    }
+    &--p-r {
+        position: relative;
+    }
+    &--px-at {
+        z-index: 4;
+    } // zindex absolute top
+    &--px-t {
+        z-index: 3;
+    } // zindex top
+    // Use for scoped
+    &--pz-a {
+        z-index: 2;
+    } // zindex above
+    &--pz-b {
+        z-index: 1;
+    } // zindex above
+
+    // ------------------------------------------------
+    // Background Colours
+    &--bg-site {
+        background-color: var(--site-bg);
+    }
+    &--bg-err {
+        background-color: var(--error);
+    }
+    &--bg-suc {
+        background-color: var(--success);
+    }
+    &--bg-war {
+        background-color: var(--warning);
+    }
+
+    &--bg-acc {
+        background-color: var(--accent);
+    }
+}

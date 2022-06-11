@@ -4,9 +4,9 @@ import { v1 as uuidv1 } from 'uuid';
 import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
 import * as core from 'express-serve-static-core';
 import C from 'oxygen-constants';
-import niv, { Validator } from 'node-input-validator';
+import { Validator } from 'node-input-validator';
 import { LibraryVersion, Library } from '@prisma/client';
-import s3Clients from '../../../../../utils/s3-clients';
+import storeWithS3 from '../../../../../utils/store-with-s3';
 import {
     generateErrorString,
     parseErrorString,
@@ -93,15 +93,18 @@ const createSingle = async (
 
             // upload to S3
             const key = `package_${uuidv1()}`;
-            const params = {
-                Bucket: process.env.AWS_S3_MAIN_BUCKET_NAME as string,
-                Key: key,
-                Body: file,
-                ContentType: 'application/zip',
-                ACL: 'authenticated-read',
-            };
+            const store = await storeWithS3(file.data, key, 'application/zip');
 
-            s3Clients.main.upload(params).promise();
+            if (!store.success) {
+                throw new Error(
+                    generateErrorString({
+                        status: 500,
+                        source: '',
+                        title: 'Unexpected Error',
+                        detail: `An unexpected error occurred while uploading your version file!`,
+                    }),
+                );
+            }
 
             // if successfull create a new version instance
             const versionRes = await db.libraryVersion.create({

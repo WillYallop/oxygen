@@ -13,5 +13,6 @@ const router = express.Router();
 // ------------------------------------
 
 router.post('/:libraryId/:version', middleware.auth, version.createSingle);
+router.get('/active/:libraryId', middleware.auth, version.getActive);
 
 export default router;

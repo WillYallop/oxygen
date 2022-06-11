@@ -187,6 +187,7 @@ model LibraryVersion {
     created    DateTime @default(now())
     library    Library  @relation(fields: [library_id], references: [id], onDelete: Cascade)
     library_id String
+    active     Boolean  @default(false) // the active version is what the build system installs, if a user uploads a new version it wont be swapped to active until the update is validated by Oxygen
 }
 
 // Library library

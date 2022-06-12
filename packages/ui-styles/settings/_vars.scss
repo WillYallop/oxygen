@@ -1,6 +1,8 @@
+@use '../functions/rem' as *;
+
 // alt
 $html-font-size: 16px;
-$font_family: Roboto;
+$font_family: Inter;
 $border_radius: rem(5);
 $border_style: rem(1) solid var(--border-c);
 
@@ -22,8 +24,8 @@ $section_wrapper: (
 // Padding
 // ------------------------------------
 $block_padding: (
-    _desktop: rem(40),
-    _tablet: rem(30),
+    _desktop: rem(20),
+    _tablet: rem(15),
     _mobile: rem(20),
     _small_mobile: rem(10),
 );

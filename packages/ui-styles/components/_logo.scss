@@ -1,0 +1,29 @@
+@use './forward.scss' as *;
+
+.logo-root {
+    &--small {
+        svg {
+            height: rem(25);
+            width: rem(25);
+            margin-right: 5px;
+        }
+        font-size: rem(16);
+    }
+    &--medium {
+        svg {
+            height: rem(35);
+            width: rem(35);
+            margin-right: 8px;
+        }
+        font-size: rem(20);
+    }
+    &--large {
+        svg {
+            height: rem(50);
+            width: rem(50);
+            margin-right: 10px;
+        }
+        font-size: rem(24);
+    }
+    font-weight: 700;
+}

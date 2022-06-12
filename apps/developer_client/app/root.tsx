@@ -1,5 +1,6 @@
 import type { MetaFunction, LinksFunction } from '@remix-run/node';
 import styles from './styles/main.css';
+require('../public/fonts/Inter-Bold.woff');
 import {
     Links,
     LiveReload,

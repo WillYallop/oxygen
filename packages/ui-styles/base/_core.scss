@@ -1,9 +1,10 @@
 @use '../settings/vars' as *;
 @use '../settings/colours' as *;
+@use '../functions/rem' as *;
 
 body {
     font-size: $html-font-size;
-    background-color: $site_background;
+    background-color: var(--site-bg);
     font-family: $font_family;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

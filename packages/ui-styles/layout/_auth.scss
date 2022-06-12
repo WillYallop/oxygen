@@ -1,0 +1,41 @@
+@use '../settings/vars' as *;
+@use '../settings/colours' as *;
+@use '../mixins/breakpoints' as *;
+@use '../functions/rem' as *;
+
+.auth-layout {
+    margin-top: rem(60);
+    &__col {
+        height: calc(100vh);
+        &__header {
+            height: rem(60);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-bottom: rem(1) solid var(--border-c);
+            background-color: var(--section-m);
+        }
+        &__outlet {
+            min-width: rem(650);
+            height: calc(100vh - rem(60));
+        }
+        &__alt {
+            position: fixed;
+            top: rem(60);
+            max-width: calc(100% - rem(650));
+            right: 0;
+            bottom: 0;
+        }
+    }
+
+    @include tablet {
+        &__col {
+            width: 100%;
+            min-width: 100%;
+            &__alt {
+                display: none;
+            }
+        }
+    }
+}

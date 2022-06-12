@@ -73,6 +73,43 @@
             }
         }
     }
+    &__width {
+        &--10 {
+            width: 10%;
+        }
+        &--20 {
+            width: 20%;
+        }
+        &--30 {
+            width: 30%;
+        }
+        &--40 {
+            width: 40%;
+        }
+        &--50 {
+            width: 50%;
+        }
+        &--60 {
+            width: 60%;
+        }
+        &--70 {
+            width: 70%;
+        }
+        &--80 {
+            width: 80%;
+        }
+        &--90 {
+            width: 90%;
+        }
+        &--100 {
+            width: 100%;
+        }
+    }
+    &__height {
+        &--full {
+            height: 100vh;
+        }
+    }
     &__wrapper {
         margin-left: auto;
         margin-right: auto;
@@ -247,6 +284,7 @@
             padding-right: map-get($section_padding_horizontal, _small_mobile);
         }
     }
+
     // Block Padding
     &--bp {
         padding: map-get($block_padding, _desktop);
@@ -258,6 +296,23 @@
         }
         @include small_mobile {
             padding: map-get($block_padding, _small_mobile);
+        }
+    }
+    // Block Padding
+    &--bp-h {
+        padding-left: map-get($block_padding, _desktop);
+        padding-right: map-get($block_padding, _desktop);
+        @include tablet {
+            padding-left: map-get($block_padding, _tablet);
+            padding-right: map-get($block_padding, _tablet);
+        }
+        @include mobile {
+            padding-left: map-get($block_padding, _mobile);
+            padding-right: map-get($block_padding, _mobile);
+        }
+        @include small_mobile {
+            padding-left: map-get($block_padding, _small_mobile);
+            padding-right: map-get($block_padding, _small_mobile);
         }
     }
 
@@ -312,10 +367,10 @@
     &--p-r {
         position: relative;
     }
-    &--px-at {
+    &--pz-at {
         z-index: 4;
     } // zindex absolute top
-    &--px-t {
+    &--pz-t {
         z-index: 3;
     } // zindex top
     // Use for scoped

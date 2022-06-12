@@ -1,5 +1,6 @@
 @use '../settings/vars' as *;
 @use '../settings/colours' as *;
+@use '../functions/rem' as *;
 
 /* Preferred box-sizing value */
 *,
@@ -10,10 +11,14 @@
     padding: 0;
 }
 
-/* Reapply the pointer cursor for anchor tags */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 a,
 button {
-    cursor: revert;
+    cursor: pointer;
 }
 
 /* Remove list styles (bullets/numbers) */

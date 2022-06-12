@@ -1,19 +1,25 @@
-
-$site_background: #f7f7f7;
-$border_colour: rgb(95, 95, 95);
+$site_background: #ffffff;
+$border_colour: #e6e6e6;
 
 // ------------------------------------
 // Background colours
 // ------------------------------------
 $colours: (
-    _error: red,
-    _success: green,
-    _warning: orange,
+    _error: #ff5858,
+    _success: #6dc16a,
+    _warning: #efa33e,
 
-    _01_01: #40D2B9, // accent
-    _01_02: #3cbea9, // accent hover
-    _01_03: #FFFFFF, // accent colour
+    // accent
+    _01_01: #0055ff,
+    _01_02: #024ee7,
+    _01_03: #ffffff,
+    // main
+    _02_01: #141414,
+    _02_02: #1a1a1a,
+    _02_03: #ffffff,
 
+    // section
+    _010_01: #ffffff,
 );
 
 // Light mode
@@ -25,8 +31,13 @@ $colours: (
     --success: #{map-get($colours, _success)};
     --warning: #{map-get($colours, _warning)};
 
+    --section-m: #{map-get($map: $colours, $key: _010_01)};
+
     --accent: #{map-get($colours, _01_01)};
     --accent-h: #{map-get($colours, _01_02)};
     --accent-c: #{map-get($colours, _01_03)};
 
+    --main: #{map-get($colours, _02_01)};
+    --main-h: #{map-get($colours, _02_02)};
+    --main-c: #{map-get($colours, _02_03)};
 }

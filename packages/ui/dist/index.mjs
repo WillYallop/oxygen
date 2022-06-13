@@ -56,6 +56,7 @@ var Input = ({
     updateValue(newValue);
   };
   return /* @__PURE__ */ React3.createElement("input", {
+    className: "input__style input__style--i",
     id,
     name,
     type,
@@ -72,26 +73,27 @@ var Input = ({
   });
 };
 
-// src/form/FieldWrapper.tsx
+// src/form/InputWrapper.tsx
 import * as React4 from "react";
-var FieldWrapper = ({
+var InputWrapper = ({
   id,
   input,
   error,
   label
 }) => {
   return /* @__PURE__ */ React4.createElement("div", {
-    className: "field-wrapper",
-    id: `f-wrapper_${id}`
+    className: "input__wrapper",
+    id: `i-wrapper_${id}`
   }, label ? /* @__PURE__ */ React4.createElement("label", {
+    className: "input__label",
     htmlFor: id
   }, label) : null, input, /* @__PURE__ */ React4.createElement("div", {
-    className: "field-wrapper__error"
+    className: "input__error"
   }, /* @__PURE__ */ React4.createElement("p", null, error)));
 };
 export {
   Button,
-  FieldWrapper,
   Input,
+  InputWrapper,
   Logo
 };

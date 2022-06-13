@@ -17,15 +17,28 @@
             background-color: var(--section-m);
         }
         &__outlet {
-            min-width: rem(650);
+            min-width: rem(750);
             height: calc(100vh - rem(60));
         }
         &__alt {
             position: fixed;
             top: rem(60);
-            max-width: calc(100% - rem(650));
+            max-width: calc(100% - rem(750));
             right: 0;
             bottom: 0;
+        }
+    }
+    &__child {
+        width: 100%;
+        max-width: rem(550);
+        padding: rem(40);
+        &__header {
+            h1 {
+                font-size: clamp(rem(20), 10vw, rem(28));
+            }
+            p {
+                font-size: clamp(rem(16), 10vw, rem(18));
+            }
         }
     }
 

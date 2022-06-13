@@ -1,10 +1,12 @@
 :root {
   --site-bg: #ffffff;
-  --border-c: #e6e6e6;
-  --error: #ff5858;
+  --border-c: #d4d4d4;
+  --error: #dd1313;
   --success: #6dc16a;
   --warning: #efa33e;
   --section-m: #ffffff;
+  --title: #111111;
+  --body: #484848;
   --accent: #0055ff;
   --accent-h: #024ee7;
   --accent-c: #ffffff;

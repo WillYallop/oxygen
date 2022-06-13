@@ -1,12 +1,52 @@
 @use '../settings/vars' as *;
 @use '../settings/colours' as *;
 @use '../functions/rem' as *;
+@use '../mixins/general' as *;
+
+a {
+    @include animate;
+    transition-property: color;
+    text-decoration: none;
+    color: var(--body);
+    font-family: $font_family;
+}
+
+.link-style {
+    // ------------------------------------
+    // Element
+    // ------------------------------------
+    &__main {
+    }
+    &__inline {
+        &:hover {
+            text-decoration: underline;
+            color: var(--accent);
+        }
+    }
+
+    // ------------------------------------
+    // Modifiers
+    // ------------------------------------
+}
 
 .btn-style {
     // ------------------------------------
     // Element
     // ------------------------------------
     &__main {
+        @include animate;
+        transition-property: background-color;
+        background-color: var(--main);
+        color: var(--main-c);
+        font-size: rem(16);
+        border-radius: $border_radius;
+        height: rem(40);
+        padding: rem(10) rem(20);
+        border: none;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--main-h);
+        }
     }
 
     // ------------------------------------

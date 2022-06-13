@@ -23,8 +23,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   Button: () => Button,
-  FieldWrapper: () => FieldWrapper,
   Input: () => Input,
+  InputWrapper: () => InputWrapper,
   Logo: () => Logo
 });
 module.exports = __toCommonJS(src_exports);
@@ -87,6 +87,7 @@ var Input = ({
     updateValue(newValue);
   };
   return /* @__PURE__ */ React3.createElement("input", {
+    className: "input__style input__style--i",
     id,
     name,
     type,
@@ -103,27 +104,28 @@ var Input = ({
   });
 };
 
-// src/form/FieldWrapper.tsx
+// src/form/InputWrapper.tsx
 var React4 = __toESM(require("react"));
-var FieldWrapper = ({
+var InputWrapper = ({
   id,
   input,
   error,
   label
 }) => {
   return /* @__PURE__ */ React4.createElement("div", {
-    className: "field-wrapper",
-    id: `f-wrapper_${id}`
+    className: "input__wrapper",
+    id: `i-wrapper_${id}`
   }, label ? /* @__PURE__ */ React4.createElement("label", {
+    className: "input__label",
     htmlFor: id
   }, label) : null, input, /* @__PURE__ */ React4.createElement("div", {
-    className: "field-wrapper__error"
+    className: "input__error"
   }, /* @__PURE__ */ React4.createElement("p", null, error)));
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Button,
-  FieldWrapper,
   Input,
+  InputWrapper,
   Logo
 });

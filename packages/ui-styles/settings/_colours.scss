@@ -1,13 +1,16 @@
 $site_background: #ffffff;
-$border_colour: #e6e6e6;
+$border_colour: #d4d4d4;
 
 // ------------------------------------
 // Background colours
 // ------------------------------------
 $colours: (
-    _error: #ff5858,
+    _error: #dd1313,
     _success: #6dc16a,
     _warning: #efa33e,
+
+    _title: #111111,
+    _body: #484848,
 
     // accent
     _01_01: #0055ff,
@@ -32,6 +35,9 @@ $colours: (
     --warning: #{map-get($colours, _warning)};
 
     --section-m: #{map-get($map: $colours, $key: _010_01)};
+
+    --title: #{map-get($map: $colours, $key: _title)};
+    --body: #{map-get($map: $colours, $key: _body)};
 
     --accent: #{map-get($colours, _01_01)};
     --accent-h: #{map-get($colours, _01_02)};

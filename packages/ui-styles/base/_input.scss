@@ -2,26 +2,38 @@
 @use '../settings/colours' as *;
 @use '../functions/rem' as *;
 
-input,
-textarea,
-select {
+.input {
     // ------------------------------------
     // Element
     // ------------------------------------
     &__label {
         font-size: rem(14);
+        color: var(--body);
     }
     &__wrapper {
         position: relative;
+        margin-top: rem(15);
+        &--error {
+            .input__error {
+                display: block;
+            }
+        }
+        .input__style {
+            margin-top: rem(10);
+        }
     }
     &__style {
-        height: rem(40);
+        height: rem(50);
         padding: 0 rem(10);
-        font-size: $html-font-size;
+        font-size: rem(16);
         font-family: $font_family;
-        margin: rem(5) 0 rem(10);
         border-radius: $border_radius;
         border: $border_style;
+        background-color: var(--site-bg);
+        width: 100%;
+        position: relative;
+        color: var(--title);
+        font-family: $font_family;
         // Input
         &--i {
         }
@@ -33,6 +45,14 @@ select {
         }
         // Select
         &--s {
+        }
+    }
+    &__error {
+        display: none;
+        margin-top: rem(10);
+        p {
+            font-size: rem(14);
+            color: var(--error);
         }
     }
 

@@ -11,7 +11,7 @@
     // ------------------------------------
     &__textarea {
         h1 {
-            margin-bottom: rem(20);
+            margin-bottom: rem(10);
         }
         h2 {
             margin-bottom: rem(15);
@@ -41,23 +41,30 @@
 
 // Text element defaults
 h1 {
-    font-size: clamp(rem(20), 10vw, rem(46));
+    font-size: clamp(rem(18), 10vw, rem(24));
+    color: var(--title);
 }
 h2 {
     font-size: clamp(rem(18), 10vw, rem(24));
+    color: var(--title);
 }
 h3 {
     font-size: clamp(rem(16), 10vw, rem(20));
+    color: var(--title);
 }
 h4 {
     font-size: clamp(rem(16), 10vw, rem(18));
+    color: var(--title);
 }
 h5 {
     font-size: clamp(rem(16), 10vw, rem(16));
+    color: var(--title);
 }
 h6 {
     font-size: clamp(rem(16), 10vw, rem(16));
+    color: var(--title);
 }
 p {
     font-size: rem(16);
+    color: var(--body);
 }

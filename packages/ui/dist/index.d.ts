@@ -24,12 +24,12 @@ interface InputProps {
 }
 declare const Input: React.FC<InputProps>;
 
-interface FieldWrapperProps {
+interface InputWrapperProps {
     id: string;
     input: React.ReactElement;
     error: string;
     label?: string;
 }
-declare const FieldWrapper: React.FC<FieldWrapperProps>;
+declare const InputWrapper: React.FC<InputWrapperProps>;
 
-export { Button, FieldWrapper, Input, InputProps, Logo };
+export { Button, Input, InputProps, InputWrapper, Logo };

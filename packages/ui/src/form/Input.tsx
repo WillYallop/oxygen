@@ -38,6 +38,7 @@ export const Input: React.FC<InputProps> = ({
 
     return (
         <input
+            className="input__style input__style--i"
             id={id}
             name={name}
             type={type}

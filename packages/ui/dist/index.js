@@ -23,6 +23,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   Button: () => Button,
+  FormError: () => FormError,
   Input: () => Input,
   InputWrapper: () => InputWrapper,
   Logo: () => Logo
@@ -125,9 +126,18 @@ var InputWrapper = ({
     className: "input__error"
   }, /* @__PURE__ */ React4.createElement("p", null, error)));
 };
+
+// src/form/FormError.tsx
+var React5 = __toESM(require("react"));
+var FormError = ({ error }) => {
+  return /* @__PURE__ */ React5.createElement("div", {
+    className: "form__error"
+  }, /* @__PURE__ */ React5.createElement("p", null, error.message));
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Button,
+  FormError,
   Input,
   InputWrapper,
   Logo

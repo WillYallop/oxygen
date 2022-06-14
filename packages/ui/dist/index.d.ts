@@ -32,4 +32,9 @@ interface InputWrapperProps {
 }
 declare const InputWrapper: React.FC<InputWrapperProps>;
 
-export { Button, Input, InputProps, InputWrapper, Logo };
+interface FormErrorProps {
+    error: Error;
+}
+declare const FormError: React.FC<FormErrorProps>;
+
+export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo };

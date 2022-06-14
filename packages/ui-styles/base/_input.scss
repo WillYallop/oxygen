@@ -2,6 +2,11 @@
 @use '../settings/colours' as *;
 @use '../functions/rem' as *;
 
+.form {
+    &__error {
+    }
+}
+
 .input {
     // ------------------------------------
     // Element

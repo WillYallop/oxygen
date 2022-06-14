@@ -30,8 +30,9 @@
     }
     &__child {
         width: 100%;
-        max-width: rem(550);
+        max-width: rem(600);
         padding: rem(40);
+        margin: auto;
         &__header {
             h1 {
                 font-size: clamp(rem(20), 10vw, rem(28));
@@ -49,6 +50,11 @@
             &__alt {
                 display: none;
             }
+        }
+    }
+    @include mobile {
+        &__child {
+            padding: rem(40) rem(20);
         }
     }
 }

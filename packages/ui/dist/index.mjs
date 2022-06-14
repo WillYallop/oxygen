@@ -94,8 +94,17 @@ var InputWrapper = ({
     className: "input__error"
   }, /* @__PURE__ */ React4.createElement("p", null, error)));
 };
+
+// src/form/FormError.tsx
+import * as React5 from "react";
+var FormError = ({ error }) => {
+  return /* @__PURE__ */ React5.createElement("div", {
+    className: "form__error"
+  }, /* @__PURE__ */ React5.createElement("p", null, error.message));
+};
 export {
   Button,
+  FormError,
   Input,
   InputWrapper,
   Logo

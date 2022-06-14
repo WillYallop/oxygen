@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useActionData } from '@remix-run/react';
+import { Link, Form } from '@remix-run/react';
 import { Input, InputWrapper } from 'ui';
 import { ActionFunction } from '@remix-run/node';
-import validateForm from '../../util/validate-form';
+import validateForm, { CustomValidation } from '../../util/validate-form';
 
 export const action: ActionFunction = async ({ request }) => {
     const data = Object.fromEntries(await request.formData());
@@ -12,18 +12,32 @@ export const action: ActionFunction = async ({ request }) => {
 
 const Register = () => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('hello@williamyallop.com');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
 
-    const validate = (e: React.FormEvent) => {
-        validateForm({
-            e: e,
-            onValidatePass: fields => {
-                console.log(fields);
+    const customValidation: CustomValidation = [
+        {
+            fieldName: 'password',
+            validator: value => {
+                const regex = new RegExp(
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_-])[A-Za-z\d@$!%*#?&_-]{8,}$/,
+                );
+                if (regex.test(value)) return '';
+                else return 'Error';
             },
-        });
-    };
+        },
+        {
+            fieldName: 'passwordRepeat',
+            validator: value => {
+                const passwordInpEle = document.getElementById(
+                    'passwordInp',
+                ) as HTMLInputElement;
+                if (value === passwordInpEle.value) return '';
+                else return 'Your passwords do not match.';
+            },
+        },
+    ];
 
     // Inputs
     const usernameInp = (
@@ -76,7 +90,13 @@ const Register = () => {
                 </p>
             </header>
 
-            <form className="l--bm-t-l" onSubmit={validate} noValidate={true}>
+            <Form
+                className="l--bm-t-l"
+                replace
+                onChange={e => validateForm(e, customValidation)}
+                method="post"
+                noValidate={true}
+            >
                 <InputWrapper
                     id={usernameInp.props.id}
                     label="Username *"
@@ -107,7 +127,7 @@ const Register = () => {
                     type="submit"
                     value="Continue"
                 />
-            </form>
+            </Form>
             <footer className="l--bm-t-l">
                 <Link
                     prefetch="intent"

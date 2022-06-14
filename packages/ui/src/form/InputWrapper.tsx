@@ -21,9 +21,9 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
                 </label>
             ) : null}
             {input}
-            <div className="input__error">
+            <a href={`#${id}`} id={`${id}_error`} className="input__error">
                 <p>{error}</p>
-            </div>
+            </a>
         </div>
     );
 };

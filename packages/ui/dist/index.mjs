@@ -69,7 +69,8 @@ var Input = ({
     maxLength,
     minLength,
     pattern,
-    autoComplete
+    autoComplete,
+    "aria-describedby": `${id}_error`
   });
 };
 
@@ -87,7 +88,9 @@ var InputWrapper = ({
   }, label ? /* @__PURE__ */ React4.createElement("label", {
     className: "input__label",
     htmlFor: id
-  }, label) : null, input, /* @__PURE__ */ React4.createElement("div", {
+  }, label) : null, input, /* @__PURE__ */ React4.createElement("a", {
+    href: `#${id}`,
+    id: `${id}_error`,
     className: "input__error"
   }, /* @__PURE__ */ React4.createElement("p", null, error)));
 };

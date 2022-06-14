@@ -1,59 +1,53 @@
-interface FormValidationHandlerProps {
-    e: React.FormEvent;
-    customValidation?: CustomValidation;
-    onValidatePass: (res: FormSuccessRes) => any;
-    onValidateFail?: () => any;
-}
 export type CustomValidation = Array<{
-    field_name: string;
+    fieldName: string;
     validator: (value: string) => string;
 }>;
-export interface FormSuccessRes {
-    [key: string]: string;
-}
 
-const validateForm = (prop: FormValidationHandlerProps) => {
-    prop.e.preventDefault();
+let timeout: ReturnType<typeof setTimeout>;
 
-    const form = prop.e.target as HTMLFormElement;
-    const field = Array.from(form.elements) as Array<HTMLFormElement>;
+const validateForm = (
+    e: React.FormEvent,
+    customValidation?: CustomValidation,
+) => {
+    e.preventDefault();
+
+    const input = e.target as HTMLFormElement;
 
     // Reset fields
-    field.forEach(i => {
-        i.setCustomValidity('');
-        document
-            .getElementById(`i-wrapper_${i.id}`)
-            ?.classList.remove('input__wrapper--error');
-    });
+    input.setCustomValidity('');
+    document
+        .getElementById(`i-wrapper_${input.id}`)
+        ?.classList.remove('input__wrapper--error');
 
     // Add custom validators
-    if (prop.customValidation) {
-        prop.customValidation.forEach(conf => {
-            if (form[conf.field_name]) {
-                let err = conf.validator(form[conf.field_name].value);
-                form[conf.field_name].setCustomValidity(err);
+    if (customValidation) {
+        customValidation.forEach(conf => {
+            if (input.name === conf.fieldName) {
+                let err = conf.validator(input.value);
+                input.setCustomValidity(err);
             }
         });
     }
 
-    if (!form.checkValidity()) {
-        //Check fields for fail
-        field.forEach(i => {
-            if (!i.checkValidity())
-                document
-                    .getElementById(`i-wrapper_${i.id}`)
-                    ?.classList.add('input__wrapper--error');
-        });
-        if (prop.onValidateFail) prop.onValidateFail();
-    } else {
-        let successRes: FormSuccessRes = {};
-        field.forEach(ele => {
-            if (ele.name) {
-                successRes[ele.name] = ele.value;
-            }
-        });
-        prop.onValidatePass(successRes);
+    if (!input.checkValidity()) {
+        let wrapperEle = document.getElementById(`i-wrapper_${input.id}`);
+        const errorEle = input.nextSibling as HTMLElement;
+        if (wrapperEle && errorEle) {
+            wrapperEle.classList.add('input__wrapper--error');
+            let p = errorEle.querySelector('p') as HTMLElement;
+            p.innerText = input.validationMessage;
+        }
     }
 };
 
-export default validateForm;
+const validateFormHandler = (
+    e: React.FormEvent,
+    customValidation?: CustomValidation,
+) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        validateForm(e, customValidation);
+    }, 400);
+};
+
+export default validateFormHandler;

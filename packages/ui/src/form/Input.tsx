@@ -52,6 +52,7 @@ export const Input: React.FC<InputProps> = ({
             minLength={minLength}
             pattern={pattern}
             autoComplete={autoComplete}
+            aria-describedby={`${id}_error`}
         ></input>
     );
 };

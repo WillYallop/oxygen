@@ -4,6 +4,33 @@
 
 .form {
     &__error {
+        background-color: var(--section-m-h);
+        border-radius: $border_radius;
+        padding: rem(15);
+        &__title {
+            color: var(--title);
+            font-size: rem(16);
+            font-weight: 700;
+        }
+        &__body {
+            li {
+                display: flex;
+                left: rem(15);
+                position: relative;
+                margin-top: rem(4);
+                &::before {
+                    content: '';
+                    display: block;
+                    width: rem(6);
+                    height: rem(6);
+                    border-radius: $border_radius;
+                    background-color: black;
+                    position: absolute;
+                    top: rem(7);
+                    left: rem(-15);
+                }
+            }
+        }
     }
 }
 

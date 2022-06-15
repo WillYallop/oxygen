@@ -1,35 +1,39 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Link, Form } from '@remix-run/react';
+import { AxiosResponse } from 'axios';
 import { Input, InputWrapper, FormError } from 'ui';
-import { ActionFunction, ErrorBoundaryComponent, json } from '@remix-run/node';
+import { ActionFunction, ErrorBoundaryComponent } from '@remix-run/node';
 import validateForm, { CustomValidation } from '../../util/validate-form';
+import axiosWrapper from '../../util/axios-wrapper';
 
 export const action: ActionFunction = async ({ request }) => {
     try {
         const data = Object.fromEntries(await request.formData());
-        const res = await axios.post(
-            `${process.env.API_DOMAIN}/v1/core/authentication/register`,
-            {
-                username: data.username,
-                firstName: 'William',
-                lastName: 'Yallop',
-                email: data.email,
-                password: data.password,
-                passwordRepeat: data.passwordRepeat,
-            },
-        );
+
+        const postData = {
+            username: data.username,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            passwordRepeat: data.passwordRepeat,
+        };
+
+        const res: AxiosResponse = await axiosWrapper({
+            path: '/v1/core/authentication/register',
+            method: 'post',
+            body: postData,
+        });
+
+        console.log(res);
+
         return { data };
     } catch (error) {
-        // @ts-ignore
-        throw new Error(JSON.stringify(error.response.data.errors));
+        throw error;
     }
 };
 
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-    return renderForm(error);
-};
-
+// render method
 const renderForm = (error?: Error) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -192,7 +196,7 @@ const renderForm = (error?: Error) => {
                     />
                 </div>
 
-                <div className="form__error">{errorComp}</div>
+                {errorComp}
 
                 <input
                     className="btn-style__main l--bm-t-l"
@@ -200,7 +204,7 @@ const renderForm = (error?: Error) => {
                     value="Continue"
                 />
             </Form>
-            <footer className="l--bm-t-l">
+            <footer className="l--bm-t-m">
                 <Link
                     prefetch="intent"
                     to={'/signin'}
@@ -213,6 +217,12 @@ const renderForm = (error?: Error) => {
     );
 };
 
+// error boundary
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+    return renderForm(error);
+};
+
+// standard
 const Register = ({}) => {
     return renderForm();
 };

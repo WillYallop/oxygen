@@ -37,6 +37,9 @@
     &--c {
         text-align: center;
     }
+    &--text-error {
+        color: var(--error);
+    }
 }
 
 // Text element defaults

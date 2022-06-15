@@ -23,6 +23,7 @@ $colours: (
 
     // section
     _010_01: #ffffff,
+    _010_02: #f3f3f3,
 );
 
 // Light mode
@@ -35,6 +36,7 @@ $colours: (
     --warning: #{map-get($colours, _warning)};
 
     --section-m: #{map-get($map: $colours, $key: _010_01)};
+    --section-m-h: #{map-get($map: $colours, $key: _010_02)};
 
     --title: #{map-get($map: $colours, $key: _title)};
     --body: #{map-get($map: $colours, $key: _body)};

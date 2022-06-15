@@ -28,7 +28,7 @@ export interface Res_Error {
     detail: string;
 }
 
-interface Res_ExpressErrorObj {
+export interface Res_ExpressErrorObj {
     errors: Array<Res_Error>;
 }
 

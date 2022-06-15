@@ -1,4 +1,5 @@
 import * as React from 'react';
+import React__default from 'react';
 
 declare const Button: () => JSX.Element;
 
@@ -35,6 +36,6 @@ declare const InputWrapper: React.FC<InputWrapperProps>;
 interface FormErrorProps {
     error: Error;
 }
-declare const FormError: React.FC<FormErrorProps>;
+declare const FormError: React__default.FC<FormErrorProps>;
 
 export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo };

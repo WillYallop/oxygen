@@ -128,11 +128,40 @@ var InputWrapper = ({
 };
 
 // src/form/FormError.tsx
-var React5 = __toESM(require("react"));
+var import_react = __toESM(require("react"));
 var FormError = ({ error }) => {
-  return /* @__PURE__ */ React5.createElement("div", {
-    className: "form__error"
-  }, /* @__PURE__ */ React5.createElement("p", null, error.message));
+  const [errors, setErrors] = (0, import_react.useState)([]);
+  const buildErrors = () => {
+    if (error.message.includes("type-custom=")) {
+      const msgs = error.message.split("type-custom=")[1];
+      const json = JSON.parse(msgs);
+      let errors2 = [];
+      for (let i = 0; i < json.length; i++) {
+        errors2.push(json[i].detail);
+      }
+      setErrors(errors2);
+    } else if (error.message.includes("type-standard=")) {
+      const msg = error.message.split("type-standard=")[1];
+      setErrors([msg]);
+    }
+  };
+  (0, import_react.useEffect)(() => {
+    buildErrors();
+    return () => {
+      setErrors([]);
+    };
+  }, [error]);
+  return /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "form__error l--bm-t-l"
+  }, /* @__PURE__ */ import_react.default.createElement("p", {
+    className: "form__error__title t--text-white"
+  }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ import_react.default.createElement("ul", {
+    className: "form__error__body l--bm-t-s"
+  }, errors.map((error2, index) => {
+    return /* @__PURE__ */ import_react.default.createElement("li", {
+      key: index
+    }, error2);
+  })));
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

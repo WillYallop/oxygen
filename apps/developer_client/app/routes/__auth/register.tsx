@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Form } from '@remix-run/react';
 import { AxiosResponse } from 'axios';
 import { Input, InputWrapper, FormError } from 'ui';
@@ -35,6 +35,8 @@ export const action: ActionFunction = async ({ request }) => {
 
 // render method
 const renderForm = (error?: Error) => {
+    const [disableForm, setDisableForm] = useState(true);
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -46,34 +48,6 @@ const renderForm = (error?: Error) => {
     if (error) {
         errorComp = <FormError error={error} />;
     }
-
-    const customValidation: CustomValidation = [
-        {
-            fieldName: 'password',
-            validator: value => {
-                if (value.length < 6) {
-                    return 'Your password must be 6 or more characters.';
-                } else {
-                    const regex = new RegExp(
-                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_-])[A-Za-z\d@$!%*#?&_-]{6,}$/,
-                    );
-                    if (regex.test(value)) return '';
-                    else
-                        return 'Your password must contain letters, one number and one special character: @$!%*#?&_-';
-                }
-            },
-        },
-        {
-            fieldName: 'passwordRepeat',
-            validator: value => {
-                const passwordInpEle = document.getElementById(
-                    'passwordInp',
-                ) as HTMLInputElement;
-                if (value === passwordInpEle.value) return '';
-                else return 'Your passwords do not match.';
-            },
-        },
-    ];
 
     // Inputs
     const firstNameInp = (
@@ -137,6 +111,38 @@ const renderForm = (error?: Error) => {
         />
     );
 
+    const onChange = (event: React.FormEvent) => {
+        // validate form, if valid undisable the form submit button.
+        const customValidation: CustomValidation = [
+            {
+                fieldName: 'password',
+                validator: value => {
+                    if (value.length < 6) {
+                        return 'Your password must be 6 or more characters.';
+                    } else {
+                        const regex = new RegExp(
+                            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_-])[A-Za-z\d@$!%*#?&_-]{6,}$/,
+                        );
+                        if (regex.test(value)) return '';
+                        else
+                            return 'Your password must contain letters, one number and one special character: @$!%*#?&_-';
+                    }
+                },
+            },
+            {
+                fieldName: 'passwordRepeat',
+                validator: value => {
+                    const passwordInpEle = document.getElementById(
+                        'passwordInp',
+                    ) as HTMLInputElement;
+                    if (value === passwordInpEle.value) return '';
+                    else return 'Your passwords do not match.';
+                },
+            },
+        ];
+        setDisableForm(validateForm(event, customValidation));
+    };
+
     return (
         <section className="auth-layout__child">
             <header className="auth-layout__child__header">
@@ -149,7 +155,7 @@ const renderForm = (error?: Error) => {
             <Form
                 className="l--bm-t-l"
                 replace
-                onChange={e => validateForm(e, customValidation)}
+                onChange={onChange}
                 method="post"
                 noValidate={true}
             >
@@ -202,6 +208,7 @@ const renderForm = (error?: Error) => {
                     className="btn-style__main l--bm-t-l"
                     type="submit"
                     value="Continue"
+                    disabled={disableForm}
                 />
             </Form>
             <footer className="l--bm-t-m">

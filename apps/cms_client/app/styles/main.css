@@ -109,6 +109,9 @@ a {
 .btn-style__main:hover {
   background-color: var(--main-h);
 }
+.btn-style__main:disabled {
+  text-decoration: line-through;
+}
 
 .l__grid {
   display: grid;

@@ -47,6 +47,9 @@ a {
         &:hover {
             background-color: var(--main-h);
         }
+        &:disabled {
+            text-decoration: line-through;
+        }
     }
 
     // ------------------------------------

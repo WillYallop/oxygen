@@ -35,7 +35,7 @@ interface InputWrapperProps {
 declare const InputWrapper: React.FC<InputWrapperProps>;
 
 interface FormErrorProps {
-    errors: AxiosWrapperRes['errors'];
+    errors: AxiosWrapperRes<any>['errors'];
 }
 declare const FormError: React__default.FC<FormErrorProps>;
 

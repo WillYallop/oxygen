@@ -2,7 +2,7 @@ import React from 'react';
 import { AxiosWrapperRes } from 'oxygen-types';
 
 export interface FormErrorProps {
-    errors: AxiosWrapperRes['errors'];
+    errors: AxiosWrapperRes<any>['errors'];
 }
 
 export const FormError: React.FC<FormErrorProps> = ({ errors }) => {

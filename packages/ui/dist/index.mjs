@@ -96,40 +96,22 @@ var InputWrapper = ({
 };
 
 // src/form/FormError.tsx
-import React5, { useEffect, useState } from "react";
-var FormError = ({ error }) => {
-  const [errors, setErrors] = useState([]);
-  const buildErrors = () => {
-    if (error.message.includes("type-custom=")) {
-      const msgs = error.message.split("type-custom=")[1];
-      const json = JSON.parse(msgs);
-      let errors2 = [];
-      for (let i = 0; i < json.length; i++) {
-        errors2.push(json[i].detail);
-      }
-      setErrors(errors2);
-    } else if (error.message.includes("type-standard=")) {
-      const msg = error.message.split("type-standard=")[1];
-      setErrors([msg]);
-    }
-  };
-  useEffect(() => {
-    buildErrors();
-    return () => {
-      setErrors([]);
-    };
-  }, [error]);
-  return /* @__PURE__ */ React5.createElement("div", {
-    className: "form__error l--bm-t-l"
-  }, /* @__PURE__ */ React5.createElement("p", {
-    className: "form__error__title t--text-white"
-  }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React5.createElement("ul", {
-    className: "form__error__body l--bm-t-s"
-  }, errors.map((error2, index) => {
-    return /* @__PURE__ */ React5.createElement("li", {
-      key: index
-    }, error2);
-  })));
+import React5 from "react";
+var FormError = ({ errors }) => {
+  if (errors) {
+    return /* @__PURE__ */ React5.createElement("div", {
+      className: "form__error l--bm-t-l"
+    }, /* @__PURE__ */ React5.createElement("p", {
+      className: "form__error__title t--text-white"
+    }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React5.createElement("ul", {
+      className: "form__error__body l--bm-t-s"
+    }, errors.map((error, index) => {
+      return /* @__PURE__ */ React5.createElement("li", {
+        key: index
+      }, error.detail);
+    })));
+  } else
+    return null;
 };
 export {
   Button,

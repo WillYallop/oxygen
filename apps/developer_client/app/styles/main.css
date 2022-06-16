@@ -96,7 +96,7 @@ a {
 
 .btn-style__main {
   transition: 0.2s ease-out;
-  transition-property: background-color;
+  transition-property: background-color, opacity;
   background-color: var(--main);
   color: var(--main-c);
   font-size: 1rem;
@@ -111,6 +111,10 @@ a {
 }
 .btn-style__main:disabled {
   text-decoration: line-through;
+  opacity: 0.8;
+}
+.btn-style__main:disabled:hover {
+  opacity: 0.9;
 }
 
 .l__grid {

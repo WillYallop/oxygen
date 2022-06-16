@@ -1,5 +1,6 @@
 import * as React from 'react';
 import React__default from 'react';
+import { AxiosWrapperRes } from 'oxygen-types';
 
 declare const Button: () => JSX.Element;
 
@@ -34,7 +35,7 @@ interface InputWrapperProps {
 declare const InputWrapper: React.FC<InputWrapperProps>;
 
 interface FormErrorProps {
-    error: Error;
+    errors: AxiosWrapperRes['errors'];
 }
 declare const FormError: React__default.FC<FormErrorProps>;
 

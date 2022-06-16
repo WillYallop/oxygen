@@ -1,15 +1,2 @@
-import {
-    Res_JSONBody,
-    Res_Error,
-    Res_ExpressError,
-    Res_JSONBodyData,
-    Res_ExpressErrorObj,
-} from './api/responses';
-
-export {
-    Res_JSONBody,
-    Res_Error,
-    Res_ExpressError,
-    Res_JSONBodyData,
-    Res_ExpressErrorObj,
-};
+export * from './api/responses';
+export * from './client/axios-wrapper';

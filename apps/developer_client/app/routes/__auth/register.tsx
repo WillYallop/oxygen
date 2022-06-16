@@ -1,41 +1,46 @@
-import { useEffect, useState } from 'react';
-import { Link, Form } from '@remix-run/react';
-import { AxiosResponse } from 'axios';
-import { Input, InputWrapper, FormError } from 'ui';
-import { ActionFunction, ErrorBoundaryComponent } from '@remix-run/node';
-import validateForm, { CustomValidation } from '../../util/validate-form';
+import { useState } from 'react';
+import { Link, useActionData } from '@remix-run/react';
+import {
+    ActionFunction,
+    ErrorBoundaryComponent,
+    redirect,
+} from '@remix-run/node';
+import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
+import { AxiosWrapperRes } from 'oxygen-types';
+// Components
+import { Input, InputWrapper } from 'ui';
+import FormWrapper from '~/components/Form/FormWrapper';
 
 export const action: ActionFunction = async ({ request }) => {
-    try {
-        const data = Object.fromEntries(await request.formData());
+    const data = Object.fromEntries(await request.formData());
 
-        const postData = {
-            username: data.username,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password,
-            passwordRepeat: data.passwordRepeat,
-        };
+    const postData = {
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        passwordRepeat: data.passwordRepeat,
+    };
 
-        const res: AxiosResponse = await axiosWrapper({
-            path: '/v1/core/authentication/register',
-            method: 'post',
-            body: postData,
-        });
+    const res = await axiosWrapper({
+        path: '/v1/core/authentication/register',
+        method: 'post',
+        body: postData,
+        formData: data,
+    });
 
-        console.log(res);
-
-        return { data };
-    } catch (error) {
-        throw error;
+    if (res.success) {
+        redirect('/');
     }
+
+    return res;
 };
 
 // render method
 const renderForm = (error?: Error) => {
-    const [disableForm, setDisableForm] = useState(true);
+    const actionData = useActionData<AxiosWrapperRes>();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -43,11 +48,6 @@ const renderForm = (error?: Error) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
-
-    let errorComp: React.ReactElement = <></>;
-    if (error) {
-        errorComp = <FormError error={error} />;
-    }
 
     // Inputs
     const firstNameInp = (
@@ -110,38 +110,81 @@ const renderForm = (error?: Error) => {
             required={true}
         />
     );
+    // Form body
+    const FormBody = (
+        <>
+            <div className="l__grid l__grid--2c">
+                <InputWrapper
+                    id={firstNameInp.props.id}
+                    label="First Name *"
+                    error="There is an issue with this first name!"
+                    input={firstNameInp}
+                />
+                <InputWrapper
+                    id={lastNameInp.props.id}
+                    label="Last Name *"
+                    error="There is an issue with this last name!"
+                    input={lastNameInp}
+                />
+            </div>
 
-    const onChange = (event: React.FormEvent) => {
-        // validate form, if valid undisable the form submit button.
-        const customValidation: CustomValidation = [
-            {
-                fieldName: 'password',
-                validator: value => {
-                    if (value.length < 6) {
-                        return 'Your password must be 6 or more characters.';
-                    } else {
-                        const regex = new RegExp(
-                            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_-])[A-Za-z\d@$!%*#?&_-]{6,}$/,
-                        );
-                        if (regex.test(value)) return '';
-                        else
-                            return 'Your password must contain letters, one number and one special character: @$!%*#?&_-';
-                    }
-                },
+            <InputWrapper
+                id={usernameInp.props.id}
+                label="Username *"
+                error="There is an issue with this username!"
+                input={usernameInp}
+            />
+            <InputWrapper
+                id={emailInp.props.id}
+                label="Email Address *"
+                error="Please enter a valid email address!"
+                input={emailInp}
+            />
+
+            <div className="l--bm-t-l">
+                <InputWrapper
+                    id={passwordInp.props.id}
+                    label="Password *"
+                    error="Please enter a valid password!"
+                    input={passwordInp}
+                />
+                <InputWrapper
+                    id={passwordRepeatInp.props.id}
+                    label="Password Repeat *"
+                    error="Make sure this matches your password field!"
+                    input={passwordRepeatInp}
+                />
+            </div>
+        </>
+    );
+
+    const customValidation: CustomValidation = [
+        {
+            fieldName: 'password',
+            validator: value => {
+                if (value.length < 6) {
+                    return 'Your password must be 6 or more characters.';
+                } else {
+                    const regex = new RegExp(
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_-])[A-Za-z\d@$!%*#?&_-]{6,}$/,
+                    );
+                    if (regex.test(value)) return '';
+                    else
+                        return 'Your password must contain letters, one number and one special character: @$!%*#?&_-';
+                }
             },
-            {
-                fieldName: 'passwordRepeat',
-                validator: value => {
-                    const passwordInpEle = document.getElementById(
-                        'passwordInp',
-                    ) as HTMLInputElement;
-                    if (value === passwordInpEle.value) return '';
-                    else return 'Your passwords do not match.';
-                },
+        },
+        {
+            fieldName: 'passwordRepeat',
+            validator: value => {
+                const passwordInpEle = document.getElementById(
+                    'passwordInp',
+                ) as HTMLInputElement;
+                if (value === passwordInpEle.value) return '';
+                else return 'Your passwords do not match.';
             },
-        ];
-        setDisableForm(validateForm(event, customValidation));
-    };
+        },
+    ];
 
     return (
         <section className="auth-layout__child">
@@ -152,65 +195,15 @@ const renderForm = (error?: Error) => {
                 </p>
             </header>
 
-            <Form
-                className="l--bm-t-l"
-                replace
-                onChange={onChange}
-                method="post"
-                noValidate={true}
-            >
-                <div className="l__grid l__grid--2c">
-                    <InputWrapper
-                        id={firstNameInp.props.id}
-                        label="First Name *"
-                        error="There is an issue with this first name!"
-                        input={firstNameInp}
-                    />
-                    <InputWrapper
-                        id={lastNameInp.props.id}
-                        label="Last Name *"
-                        error="There is an issue with this last name!"
-                        input={lastNameInp}
-                    />
-                </div>
+            <FormWrapper
+                inner={FormBody}
+                action={''}
+                method={'post'}
+                submitText={'Register'}
+                errors={actionData?.errors}
+                customValidation={customValidation}
+            />
 
-                <InputWrapper
-                    id={usernameInp.props.id}
-                    label="Username *"
-                    error="There is an issue with this username!"
-                    input={usernameInp}
-                />
-                <InputWrapper
-                    id={emailInp.props.id}
-                    label="Email Address *"
-                    error="Please enter a valid email address!"
-                    input={emailInp}
-                />
-
-                <div className="l--bm-t-l">
-                    <InputWrapper
-                        id={passwordInp.props.id}
-                        label="Password *"
-                        error="Please enter a valid password!"
-                        input={passwordInp}
-                    />
-                    <InputWrapper
-                        id={passwordRepeatInp.props.id}
-                        label="Password Repeat *"
-                        error="Make sure this matches your password field!"
-                        input={passwordRepeatInp}
-                    />
-                </div>
-
-                {errorComp}
-
-                <input
-                    className="btn-style__main l--bm-t-l"
-                    type="submit"
-                    value="Continue"
-                    disabled={disableForm}
-                />
-            </Form>
             <footer className="l--bm-t-m">
                 <Link
                     prefetch="intent"

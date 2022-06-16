@@ -11,7 +11,6 @@ CREATE TABLE "User" (
     "postal_code" TEXT NOT NULL,
     "street_address" TEXT NOT NULL,
     "premise" TEXT NOT NULL,
-    "profile_picture" TEXT NOT NULL,
     "account_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -129,7 +128,7 @@ CREATE TABLE "Site" (
 );
 
 -- CreateTable
-CREATE TABLE "ComponentMedia" (
+CREATE TABLE "LibraryMedia" (
     "id" TEXT NOT NULL,
     "alt" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -139,27 +138,28 @@ CREATE TABLE "ComponentMedia" (
     "height" INTEGER NOT NULL,
     "uploaded" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "modified" TIMESTAMP(3) NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tag" TEXT NOT NULL,
     "library_id" TEXT NOT NULL,
 
-    CONSTRAINT "ComponentMedia_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "LibraryMedia_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "ComponentVersion" (
+CREATE TABLE "LibraryVersion" (
     "id" TEXT NOT NULL,
     "key" TEXT NOT NULL,
     "version" TEXT NOT NULL,
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "library_id" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "ComponentVersion_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "LibraryVersion_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "ComponentLibrary" (
+CREATE TABLE "Library" (
     "id" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
     "deactivated" BOOLEAN NOT NULL DEFAULT false,
     "verified" BOOLEAN NOT NULL DEFAULT false,
     "developer_id" TEXT NOT NULL,
@@ -173,99 +173,7 @@ CREATE TABLE "ComponentLibrary" (
     "price" INTEGER NOT NULL,
     "currency_code" TEXT NOT NULL,
 
-    CONSTRAINT "ComponentLibrary_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PluginMedia" (
-    "id" TEXT NOT NULL,
-    "alt" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "key" TEXT NOT NULL,
-    "extensions" TEXT[],
-    "width" INTEGER NOT NULL,
-    "height" INTEGER NOT NULL,
-    "uploaded" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "modified" TIMESTAMP(3) NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "tag" TEXT NOT NULL,
-    "library_id" TEXT NOT NULL,
-
-    CONSTRAINT "PluginMedia_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PluginVersion" (
-    "id" TEXT NOT NULL,
-    "key" TEXT NOT NULL,
-    "version" TEXT NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "library_id" TEXT NOT NULL,
-
-    CONSTRAINT "PluginVersion_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PluginLibrary" (
-    "id" TEXT NOT NULL,
-    "deactivated" BOOLEAN NOT NULL DEFAULT false,
-    "verified" BOOLEAN NOT NULL DEFAULT false,
-    "developer_id" TEXT NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "modified" TIMESTAMP(3) NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "tags" TEXT[],
-    "public" BOOLEAN NOT NULL DEFAULT true,
-    "free" BOOLEAN NOT NULL DEFAULT true,
-    "subscription" BOOLEAN NOT NULL DEFAULT false,
-    "price" INTEGER NOT NULL,
-    "currency_code" TEXT NOT NULL,
-    "banner_url" TEXT NOT NULL,
-    "preview_url" TEXT NOT NULL,
-    "icon_url" TEXT NOT NULL,
-
-    CONSTRAINT "PluginLibrary_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "KitMedia" (
-    "id" TEXT NOT NULL,
-    "alt" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "key" TEXT NOT NULL,
-    "extensions" TEXT[],
-    "width" INTEGER NOT NULL,
-    "height" INTEGER NOT NULL,
-    "uploaded" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "modified" TIMESTAMP(3) NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "tag" TEXT NOT NULL,
-    "library_id" TEXT NOT NULL,
-
-    CONSTRAINT "KitMedia_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "KitLibrary" (
-    "id" TEXT NOT NULL,
-    "deactivated" BOOLEAN NOT NULL DEFAULT false,
-    "verified" BOOLEAN NOT NULL DEFAULT false,
-    "developer_id" TEXT NOT NULL,
-    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "modified" TIMESTAMP(3) NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "tags" TEXT[],
-    "public" BOOLEAN NOT NULL DEFAULT true,
-    "free" BOOLEAN NOT NULL DEFAULT true,
-    "price" INTEGER NOT NULL,
-    "currency_code" TEXT NOT NULL,
-    "banner_url" TEXT NOT NULL,
-    "preview_url" TEXT NOT NULL,
-    "icon_url" TEXT NOT NULL,
-
-    CONSTRAINT "KitLibrary_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Library_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -286,11 +194,14 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "Permission_level_key" ON "Permission"("level");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "LibraryMedia_key_key" ON "LibraryMedia"("key");
+
 -- AddForeignKey
 ALTER TABLE "PurchasedComponent" ADD CONSTRAINT "PurchasedComponent_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "Invoice"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PurchasedComponent" ADD CONSTRAINT "PurchasedComponent_component_id_fkey" FOREIGN KEY ("component_id") REFERENCES "ComponentLibrary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PurchasedComponent" ADD CONSTRAINT "PurchasedComponent_component_id_fkey" FOREIGN KEY ("component_id") REFERENCES "Library"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PurchasedPlugin" ADD CONSTRAINT "PurchasedPlugin_plugin_subscription_id_fkey" FOREIGN KEY ("plugin_subscription_id") REFERENCES "PluginSubscription"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -299,16 +210,16 @@ ALTER TABLE "PurchasedPlugin" ADD CONSTRAINT "PurchasedPlugin_plugin_subscriptio
 ALTER TABLE "PurchasedPlugin" ADD CONSTRAINT "PurchasedPlugin_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "Invoice"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PurchasedPlugin" ADD CONSTRAINT "PurchasedPlugin_plugin_id_fkey" FOREIGN KEY ("plugin_id") REFERENCES "PluginLibrary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PurchasedPlugin" ADD CONSTRAINT "PurchasedPlugin_plugin_id_fkey" FOREIGN KEY ("plugin_id") REFERENCES "Library"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PluginSubscription" ADD CONSTRAINT "PluginSubscription_plugin_id_fkey" FOREIGN KEY ("plugin_id") REFERENCES "PluginLibrary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PluginSubscription" ADD CONSTRAINT "PluginSubscription_plugin_id_fkey" FOREIGN KEY ("plugin_id") REFERENCES "Library"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PurchasedKit" ADD CONSTRAINT "PurchasedKit_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "Invoice"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PurchasedKit" ADD CONSTRAINT "PurchasedKit_kit_id_fkey" FOREIGN KEY ("kit_id") REFERENCES "KitLibrary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PurchasedKit" ADD CONSTRAINT "PurchasedKit_kit_id_fkey" FOREIGN KEY ("kit_id") REFERENCES "Library"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Invoice" ADD CONSTRAINT "Invoice_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -329,31 +240,16 @@ ALTER TABLE "SiteAccess" ADD CONSTRAINT "SiteAccess_permission_level_fkey" FOREI
 ALTER TABLE "SiteAccess" ADD CONSTRAINT "SiteAccess_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ComponentMedia" ADD CONSTRAINT "ComponentMedia_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "ComponentLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "LibraryMedia" ADD CONSTRAINT "LibraryMedia_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "Library"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ComponentVersion" ADD CONSTRAINT "ComponentVersion_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "ComponentLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "LibraryVersion" ADD CONSTRAINT "LibraryVersion_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "Library"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ComponentLibrary" ADD CONSTRAINT "ComponentLibrary_developer_id_fkey" FOREIGN KEY ("developer_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Library" ADD CONSTRAINT "Library_developer_id_fkey" FOREIGN KEY ("developer_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PluginMedia" ADD CONSTRAINT "PluginMedia_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "PluginLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "KitComponent" ADD CONSTRAINT "KitComponent_kit_id_fkey" FOREIGN KEY ("kit_id") REFERENCES "Library"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PluginVersion" ADD CONSTRAINT "PluginVersion_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "PluginLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PluginLibrary" ADD CONSTRAINT "PluginLibrary_developer_id_fkey" FOREIGN KEY ("developer_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "KitMedia" ADD CONSTRAINT "KitMedia_library_id_fkey" FOREIGN KEY ("library_id") REFERENCES "KitLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "KitLibrary" ADD CONSTRAINT "KitLibrary_developer_id_fkey" FOREIGN KEY ("developer_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "KitComponent" ADD CONSTRAINT "KitComponent_component_id_fkey" FOREIGN KEY ("component_id") REFERENCES "ComponentLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "KitComponent" ADD CONSTRAINT "KitComponent_kit_id_fkey" FOREIGN KEY ("kit_id") REFERENCES "KitLibrary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "KitComponent" ADD CONSTRAINT "KitComponent_component_id_fkey" FOREIGN KEY ("component_id") REFERENCES "Library"("id") ON DELETE CASCADE ON UPDATE CASCADE;

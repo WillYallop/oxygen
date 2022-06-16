@@ -1,9 +1,13 @@
 import { Button } from 'ui';
-import authOnly from '../util/auth-only';
+import { json, LoaderFunction, redirect } from '@remix-run/node';
+import checkAuth from '../util/check-auth';
 
-export const loader = () => {
-    authOnly();
-    return null;
+export const loader: LoaderFunction = ({ request }) => {
+    const cookieHeader = request.headers.get('Cookie');
+    const hasAuth = checkAuth(cookieHeader);
+    if (!hasAuth) return redirect('/signin');
+
+    return json({});
 };
 
 const HomePage = () => {

@@ -14,7 +14,6 @@ interface C_Auth_RegisterUserBodyData extends Res_JSONBodyData {
         postalCode: User['postal_code'];
         streetAddress: User['street_address'];
         premise: User['premise'];
-        profilePicture: User['profile_picture'];
         accountCreated: User['account_created'];
     };
 }

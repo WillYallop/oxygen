@@ -32,10 +32,19 @@ export const action: ActionFunction = async ({ request }) => {
     });
 
     if (res.success) {
-        redirect('/');
+        const setCookies = res.response?.headers['set-cookie'];
+        const headers = new Headers();
+        if (setCookies) {
+            for (let i = 0; i < setCookies.length; i++) {
+                headers.append('Set-Cookie', setCookies[i]);
+            }
+        }
+        return redirect('/', {
+            headers,
+        });
     }
 
-    return res;
+    return { res };
 };
 
 // render method

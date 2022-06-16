@@ -20,7 +20,7 @@ const axiosWrapper = async <ResponseData>(
         });
         return {
             success: true,
-            response: res.data,
+            response: res,
             formData: props.formData,
         };
     } catch (error) {

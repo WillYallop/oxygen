@@ -119,7 +119,6 @@ const registerUser = async (
                         postal_code: '',
                         street_address: '',
                         premise: '',
-                        profile_picture: '',
                     },
                 });
                 // add use to response
@@ -136,7 +135,6 @@ const registerUser = async (
                         postalCode: newUser.postal_code,
                         streetAddress: newUser.street_address,
                         premise: newUser.premise,
-                        profilePicture: newUser.profile_picture,
                         accountCreated: newUser.account_created,
                     },
                 });

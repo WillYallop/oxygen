@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FormError } from 'ui';
-import { Form, useActionData } from '@remix-run/react';
+import { Form, useActionData, useTransition } from '@remix-run/react';
 import formIsValid, { CustomValidation } from '../../util/form-valid';
 import { AxiosWrapperRes } from 'oxygen-types';
 
@@ -19,6 +19,7 @@ const FormWrapper: React.FC<FormWrapperProps> = ({
     submitText,
     customValidation,
 }) => {
+    const transition = useTransition();
     const actionData = useActionData<AxiosWrapperRes>();
     const [disableForm, setDisableForm] = useState(true);
 
@@ -41,12 +42,15 @@ const FormWrapper: React.FC<FormWrapperProps> = ({
         >
             {inner}
             {errorComp}
-            <input
-                className="btn-style__main l--bm-t-l"
+
+            <button
+                className={`btn-style__main l--bm-t-l`}
                 type="submit"
                 value={submitText}
                 disabled={disableForm}
-            />
+            >
+                {transition.state === 'submitting' ? 'Submitting' : submitText}
+            </button>
         </Form>
     );
 };

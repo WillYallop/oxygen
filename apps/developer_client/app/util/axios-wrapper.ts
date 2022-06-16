@@ -8,9 +8,9 @@ interface AxiosWrapperProps {
     formData: any;
 }
 
-const axiosWrapper = async (
+const axiosWrapper = async <ResponseData>(
     props: AxiosWrapperProps,
-): Promise<AxiosWrapperRes> => {
+): Promise<AxiosWrapperRes<ResponseData>> => {
     try {
         const res = await axios({
             url: props.path,

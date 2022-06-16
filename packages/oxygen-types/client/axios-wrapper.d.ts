@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { Res_Error } from '../';
 
-export interface AxiosWrapperRes {
+export interface AxiosWrapperRes<ResponseData> {
     success: boolean;
     formData: any;
-    response?: AxiosResponse; // response data
+    response?: AxiosResponse<ResponseData>; // response data
     errors?: Array<Res_Error>;
 }

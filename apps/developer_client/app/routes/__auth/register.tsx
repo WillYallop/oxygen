@@ -7,7 +7,7 @@ import {
 } from '@remix-run/node';
 import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
-import { AxiosWrapperRes } from 'oxygen-types';
+import { C_Auth_RegisterUserRes } from 'oxygen-types';
 // Components
 import { Input, InputWrapper } from 'ui';
 import FormWrapper from '~/components/Form/FormWrapper';
@@ -24,7 +24,7 @@ export const action: ActionFunction = async ({ request }) => {
         passwordRepeat: data.passwordRepeat,
     };
 
-    const res = await axiosWrapper({
+    const res = await axiosWrapper<C_Auth_RegisterUserRes>({
         path: '/v1/core/authentication/register',
         method: 'post',
         body: postData,

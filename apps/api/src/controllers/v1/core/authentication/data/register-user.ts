@@ -2,7 +2,11 @@ import C from 'oxygen-constants';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import {
+    Res_JSONBody,
+    Res_ExpressError,
+    C_Auth_RegisterUserRes,
+} from 'oxygen-types';
 import niv, { Validator } from 'node-input-validator';
 import {
     generateErrorString,
@@ -52,7 +56,7 @@ const registerUser = async (
         // check if passed or failed
         if (passed) {
             // response
-            const response: Res_JSONBody = {
+            const response: C_Auth_RegisterUserRes = {
                 links: {
                     self: `${C.API_DOMAIN}/v1/core/authentication/register`,
                 },

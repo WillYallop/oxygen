@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useActionData } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 import {
     ActionFunction,
     ErrorBoundaryComponent,
@@ -40,8 +40,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 // render method
 const renderForm = (error?: Error) => {
-    const actionData = useActionData<AxiosWrapperRes>();
-
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -200,7 +198,6 @@ const renderForm = (error?: Error) => {
                 action={''}
                 method={'post'}
                 submitText={'Register'}
-                errors={actionData?.errors}
                 customValidation={customValidation}
             />
 

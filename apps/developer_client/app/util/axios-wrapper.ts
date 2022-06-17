@@ -1,15 +1,15 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Res_ExpressErrorObj, AxiosWrapperRes } from 'oxygen-types';
 
-interface AxiosWrapperProps {
+interface AxiosWrapperProps<BodyData> {
     path: string;
     method: 'get' | 'post' | 'patch' | 'delete';
-    body?: any;
+    body?: BodyData;
     formData: any;
 }
 
-const axiosWrapper = async <ResponseData>(
-    props: AxiosWrapperProps,
+const axiosWrapper = async <ResponseData, BodyData>(
+    props: AxiosWrapperProps<BodyData>,
 ): Promise<AxiosWrapperRes<ResponseData>> => {
     try {
         const res = await axios({

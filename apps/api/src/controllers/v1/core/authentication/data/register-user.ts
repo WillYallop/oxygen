@@ -2,7 +2,11 @@ import C from 'oxygen-constants';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { Res_ExpressError, C_Auth_RegisterUserRes } from 'oxygen-types';
+import {
+    Res_ExpressError,
+    C_Auth_RegisterUserRes,
+    C_Auth_RegisterUserBody,
+} from 'oxygen-types';
 import niv, { Validator } from 'node-input-validator';
 import {
     generateErrorString,
@@ -19,17 +23,8 @@ import generateTokenRes from './helper/generate-token';
     So if you create an account for one you can use it for the other.
 */
 
-export interface Body {
-    username: User['username'];
-    firstName: User['first_name'];
-    lastName: User['last_name'];
-    email: User['email'];
-    password: User['password'];
-    passwordRepeat: User['password'];
-}
-
 const registerUser = async (
-    req: Request<Body>,
+    req: Request<C_Auth_RegisterUserBody>,
     res: Response<Res_ExpressError>,
 ) => {
     try {

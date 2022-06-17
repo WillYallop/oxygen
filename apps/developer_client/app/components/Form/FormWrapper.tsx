@@ -20,7 +20,10 @@ const FormWrapper: React.FC<FormWrapperProps> = ({
     customValidation,
 }) => {
     const transition = useTransition();
-    const actionData = useActionData<AxiosWrapperRes>();
+    const actionData = useActionData<AxiosWrapperRes<any>>();
+
+    console.log(actionData);
+
     const [disableForm, setDisableForm] = useState(true);
 
     let errorComp: React.ReactElement = <></>;

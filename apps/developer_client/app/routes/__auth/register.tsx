@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 import { ActionFunction, redirect } from '@remix-run/node';
 import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
-import { C_Auth_RegisterUserRes } from 'oxygen-types';
+import { C_Auth_RegisterUserRes, C_Auth_RegisterUserBody } from 'oxygen-types';
 // Components
 import { Input, InputWrapper } from 'ui';
 import FormWrapper from '~/components/Form/FormWrapper';
@@ -11,16 +11,19 @@ import FormWrapper from '~/components/Form/FormWrapper';
 export const action: ActionFunction = async ({ request }) => {
     const data = Object.fromEntries(await request.formData());
 
-    const postData = {
-        username: data.username,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password,
-        passwordRepeat: data.passwordRepeat,
+    const postData: C_Auth_RegisterUserBody = {
+        username: data.username as string,
+        firstName: data.firstName as string,
+        lastName: data.lastName as string,
+        email: data.email as string,
+        password: data.password as string,
+        passwordRepeat: data.passwordRepeat as string,
     };
 
-    const res = await axiosWrapper<C_Auth_RegisterUserRes>({
+    const res = await axiosWrapper<
+        C_Auth_RegisterUserRes,
+        C_Auth_RegisterUserBody
+    >({
         path: '/v1/core/authentication/register',
         method: 'post',
         body: postData,
@@ -40,7 +43,7 @@ export const action: ActionFunction = async ({ request }) => {
         });
     }
 
-    return { res };
+    return res;
 };
 
 // standard

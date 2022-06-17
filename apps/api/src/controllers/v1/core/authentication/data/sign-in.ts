@@ -2,7 +2,11 @@ import C from 'oxygen-constants';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { Res_ExpressError, C_Auth_SignInRes } from 'oxygen-types';
+import {
+    Res_ExpressError,
+    C_Auth_SignInRes,
+    C_Auth_SignInBody,
+} from 'oxygen-types';
 import { Validator } from 'node-input-validator';
 import {
     generateErrorString,
@@ -17,12 +21,10 @@ import generateTokenRes from './helper/generate-token';
     Sign in both developer users and standard users - frontend is responsible for redirect location on status 200
 */
 
-export interface Body {
-    usernameOrEmail: User['username'] | User['email'];
-    password: User['password'];
-}
-
-const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
+const signIn = async (
+    req: Request<C_Auth_SignInBody>,
+    res: Response<Res_ExpressError>,
+) => {
     try {
         // validate body config
         const v = new Validator(req.body, {
@@ -114,7 +116,7 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
                         status: 404,
                         source: 'authentication',
                         title: 'Cannot Find User',
-                        detail: `We cannot find a user with these credentials. Make sure the email/username are correct!`,
+                        detail: `We cannot find a user with these credentials. Make sure the email/username is correct!`,
                     }),
                 );
             }

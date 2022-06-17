@@ -3,23 +3,54 @@ import { Link } from '@remix-run/react';
 import { ActionFunction, redirect } from '@remix-run/node';
 import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
-import { C_Auth_RegisterUserRes } from 'oxygen-types';
+import { C_Auth_SignInRes, C_Auth_SignInBody } from 'oxygen-types';
 // Components
 import { Input, InputWrapper } from 'ui';
 import FormWrapper from '~/components/Form/FormWrapper';
 
+export const action: ActionFunction = async ({ request }) => {
+    const data = Object.fromEntries(await request.formData());
+
+    const postData: C_Auth_SignInBody = {
+        usernameOrEmail: data.usernameOrEmail as string,
+        password: data.password as string,
+    };
+
+    const res = await axiosWrapper<C_Auth_SignInRes, C_Auth_SignInBody>({
+        path: '/v1/core/authentication/signin',
+        method: 'post',
+        body: postData,
+        formData: data,
+    });
+
+    if (res.success) {
+        const setCookies = res.response?.headers['set-cookie'];
+        const headers = new Headers();
+        if (setCookies) {
+            for (let i = 0; i < setCookies.length; i++) {
+                headers.append('Set-Cookie', setCookies[i]);
+            }
+        }
+        return redirect('/', {
+            headers,
+        });
+    }
+
+    return res;
+};
+
 const SignIn = () => {
-    const [username, setUsername] = useState('');
+    const [usernameEmail, setUsernameEmail] = useState('');
     const [password, setPassword] = useState('');
 
     // Inputs
-    const usernameInp = (
+    const usernameEmailInp = (
         <Input
-            id={'usernameInp'}
-            name={'username'}
+            id={'usernameEmailInp'}
+            name={'usernameOrEmail'}
             type={'text'}
-            value={username}
-            updateValue={val => setUsername(val)}
+            value={usernameEmail}
+            updateValue={val => setUsernameEmail(val)}
             required={true}
         />
     );
@@ -38,10 +69,10 @@ const SignIn = () => {
     const FormBody = (
         <>
             <InputWrapper
-                id={usernameInp.props.id}
+                id={usernameEmailInp.props.id}
                 label="Username / Email"
                 error="There is an issue with this username!"
-                input={usernameInp}
+                input={usernameEmailInp}
             />
             <InputWrapper
                 id={passwordInp.props.id}

@@ -2,8 +2,21 @@
 import { Res_JSONBodyData, Res_JSONBody } from '../../responses';
 import { User } from '@prisma/client';
 
-// Auth user res
-interface C_Auth_RegisterUserBodyData extends Res_JSONBodyData {
+// -------------------------------
+// REGISTER USER
+// -------------------------------
+
+// body
+export interface C_Auth_RegisterUserBody {
+    username: User['username'];
+    firstName: User['first_name'];
+    lastName: User['last_name'];
+    email: User['email'];
+    password: User['password'];
+    passwordRepeat: User['password'];
+}
+// res
+interface C_Auth_RegisterUserResBodyData extends Res_JSONBodyData {
     attributes: {
         firstName: User['first_name'];
         lastName: User['last_name'];
@@ -18,10 +31,19 @@ interface C_Auth_RegisterUserBodyData extends Res_JSONBodyData {
     };
 }
 export interface C_Auth_RegisterUserRes extends Res_JSONBody {
-    data: Array<C_Auth_RegisterUserBodyData>;
+    data: Array<C_Auth_RegisterUserResBodyData>;
 }
 
-// Auth sign in res
+// -------------------------------
+// SIGN USER IN
+// -------------------------------
+
+// body
+export interface C_Auth_SignInBody {
+    usernameOrEmail: User['email'] | User['username'];
+    password: User['password'];
+}
+// res
 export interface C_Auth_SignInRes extends Res_JSONBody {
     data: Array<>;
 }

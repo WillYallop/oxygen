@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Link } from '@remix-run/react';
-import {
-    ActionFunction,
-    ErrorBoundaryComponent,
-    redirect,
-} from '@remix-run/node';
+import { ActionFunction, redirect } from '@remix-run/node';
 import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
 import { C_Auth_RegisterUserRes } from 'oxygen-types';
@@ -47,8 +43,8 @@ export const action: ActionFunction = async ({ request }) => {
     return { res };
 };
 
-// render method
-const renderForm = (error?: Error) => {
+// standard
+const Register = ({}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -221,16 +217,6 @@ const renderForm = (error?: Error) => {
             </footer>
         </section>
     );
-};
-
-// error boundary
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-    return renderForm(error);
-};
-
-// standard
-const Register = ({}) => {
-    return renderForm();
 };
 
 export default Register;

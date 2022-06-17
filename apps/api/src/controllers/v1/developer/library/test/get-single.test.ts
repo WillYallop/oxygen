@@ -41,7 +41,7 @@ describe('Test developer component library get single route', () => {
             .post('/v1/core/authentication/signin')
             .set('Accept', 'application/json')
             .send({
-                email: userRegisterBody.email,
+                usernameOrEmail: userRegisterBody.email,
                 password: userRegisterBody.password,
             })
             .expect('Content-Type', /json/);

@@ -47,7 +47,7 @@ describe('Test sign in authentication route', () => {
             .post('/v1/core/authentication/signin')
             .set('Accept', 'application/json')
             .send({
-                email: userRegisterBody.email,
+                usernameOrEmail: userRegisterBody.email,
                 password: userRegisterBody.password,
             })
             .expect('Content-Type', /json/);
@@ -70,7 +70,7 @@ describe('Test sign in authentication route', () => {
             .post('/v1/core/authentication/signin')
             .set('Accept', 'application/json')
             .send({
-                username: userRegisterBody.username,
+                usernameOrEmail: userRegisterBody.username,
                 password: userRegisterBody.password,
             })
             .expect('Content-Type', /json/);
@@ -101,8 +101,7 @@ describe('Test sign in authentication route', () => {
         // check errors
         expect(response.body.errors).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ source: 'username' }),
-                expect.objectContaining({ source: 'email' }),
+                expect.objectContaining({ source: 'usernameOrEmail' }),
             ]),
         );
     });
@@ -113,7 +112,7 @@ describe('Test sign in authentication route', () => {
             .post('/v1/core/authentication/signin')
             .set('Accept', 'application/json')
             .send({
-                email: userRegisterBody.email,
+                usernameOrEmail: userRegisterBody.email,
                 password: '123',
             })
             .expect('Content-Type', /json/);
@@ -133,7 +132,7 @@ describe('Test sign in authentication route', () => {
             .post('/v1/core/authentication/signin')
             .set('Accept', 'application/json')
             .send({
-                email: 'idontexist@gmail.com',
+                usernameOrEmail: 'idontexist@gmail.com',
                 password: '123',
             })
             .expect('Content-Type', /json/);

@@ -18,8 +18,7 @@ import generateTokenRes from './helper/generate-token';
 */
 
 export interface Body {
-    username?: User['username'];
-    email?: User['email'];
+    usernameOrEmail: User['username'] | User['email'];
     password: User['password'];
 }
 
@@ -27,8 +26,7 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
     try {
         // validate body config
         const v = new Validator(req.body, {
-            username: 'requiredWithout:email',
-            email: 'requiredWithout:username',
+            usernameOrEmail: 'required',
             password: 'required',
         });
 
@@ -44,16 +42,18 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
                 data: [],
             };
 
-            const where: {
-                email?: User['email'];
-                username?: User['username'];
-            } = {};
-            if (req.body.email) where.email = req.body.email;
-            if (req.body.username) where.username = req.body.username;
+            let userRes: {
+                id: User['id'];
+                email: User['email'];
+                username: User['username'];
+                password: User['password'];
+            } | null = null;
 
-            // find user either via the email or password
-            const user = await db.user.findUnique({
-                where,
+            //
+            const userWithEmail = await db.user.findUnique({
+                where: {
+                    email: req.body.usernameOrEmail,
+                },
                 select: {
                     id: true,
                     email: true,
@@ -61,20 +61,36 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
                     password: true,
                 },
             });
-            if (user) {
+            if (userWithEmail) userRes = userWithEmail;
+
+            // find user either via the email or password
+            const userWithUsername = await db.user.findUnique({
+                where: {
+                    username: req.body.usernameOrEmail,
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    username: true,
+                    password: true,
+                },
+            });
+            if (userWithUsername) userRes = userWithUsername;
+
+            if (userRes) {
                 // check provided password against password in db
                 const comparePass = await bcrypt.compare(
                     req.body.password,
-                    user.password,
+                    userRes.password,
                 );
                 if (comparePass) {
                     // if check passes
                     // set cookie, then return
                     generateTokenRes(
                         {
-                            id: user.id,
-                            email: user.email,
-                            username: user.username,
+                            id: userRes.id,
+                            email: userRes.email,
+                            username: userRes.username,
                         },
                         res,
                     );

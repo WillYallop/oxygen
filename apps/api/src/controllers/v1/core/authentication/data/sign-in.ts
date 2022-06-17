@@ -2,7 +2,7 @@ import C from 'oxygen-constants';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import { Res_ExpressError, C_Auth_SignInRes } from 'oxygen-types';
 import { Validator } from 'node-input-validator';
 import {
     generateErrorString,
@@ -35,7 +35,7 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
 
         if (passed) {
             // response
-            const response: Res_JSONBody = {
+            const response: C_Auth_SignInRes = {
                 links: {
                     self: `${C.API_DOMAIN}/v1/core/authentication/signin`,
                 },
@@ -63,19 +63,21 @@ const signIn = async (req: Request<Body>, res: Response<Res_ExpressError>) => {
             });
             if (userWithEmail) userRes = userWithEmail;
 
-            // find user either via the email or password
-            const userWithUsername = await db.user.findUnique({
-                where: {
-                    username: req.body.usernameOrEmail,
-                },
-                select: {
-                    id: true,
-                    email: true,
-                    username: true,
-                    password: true,
-                },
-            });
-            if (userWithUsername) userRes = userWithUsername;
+            if (!userWithEmail) {
+                // find user either via the email or password
+                const userWithUsername = await db.user.findUnique({
+                    where: {
+                        username: req.body.usernameOrEmail,
+                    },
+                    select: {
+                        id: true,
+                        email: true,
+                        username: true,
+                        password: true,
+                    },
+                });
+                if (userWithUsername) userRes = userWithUsername;
+            }
 
             if (userRes) {
                 // check provided password against password in db

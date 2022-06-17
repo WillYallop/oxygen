@@ -20,3 +20,8 @@ interface C_Auth_RegisterUserBodyData extends Res_JSONBodyData {
 export interface C_Auth_RegisterUserRes extends Res_JSONBody {
     data: Array<C_Auth_RegisterUserBodyData>;
 }
+
+// Auth sign in res
+export interface C_Auth_SignInRes extends Res_JSONBody {
+    data: Array<>;
+}

@@ -71,7 +71,11 @@
 }
 
 .main-layout main {
+  transition: 0.2s ease-out;
   padding-left: 18.75rem;
+}
+.main-layout--nav-shrunk main {
+  padding-left: 3.75rem;
 }
 
 body {
@@ -84,6 +88,10 @@ body {
 
 *:focus {
   outline: 0.0625rem solid var(--accent);
+}
+
+.disable-animations * {
+  transition-duration: 0ms !important;
 }
 
 a {
@@ -736,6 +744,7 @@ meter {
 }
 
 .navigation-root {
+  transition: 0.2s ease-out;
   position: fixed;
   left: 0;
   top: 0;
@@ -754,23 +763,52 @@ meter {
   height: 3.75rem;
   width: 100%;
   border-bottom: 0.0625rem solid var(--border-c);
-  padding: 0 1.25rem;
+  padding: 0 1.25rem 0 0;
+  position: relative;
+}
+.navigation-root__nav__header__minimise-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 3.75rem;
+  width: 3.75rem;
+  background-color: transparent;
+  border: none;
+  border-right: 0.0625rem solid var(--border-c);
+  color: var(--main);
+}
+.navigation-root__nav__header__minimise-btn svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.navigation-root__nav__header a {
+  margin-left: 5rem;
 }
 .navigation-root__nav ul {
   width: 100%;
   padding: 0.625rem 0rem;
 }
 .navigation-root__link {
+  transition: 0.2s ease-out;
   margin-top: 0.625rem;
   padding: 0 1.25rem;
   position: relative;
 }
 .navigation-root__link a {
+  transition: 0.2s ease-out;
+  opacity: 1;
   display: flex;
   align-items: center;
   font-size: 16;
   font-weight: 700;
   color: var(--greyed-out);
+}
+.navigation-root__link a:hover, .navigation-root__link a:focus {
+  color: var(--title);
+}
+.navigation-root__link a:hover .icon, .navigation-root__link a:focus .icon {
+  background-color: var(--main);
+  color: var(--main-c);
 }
 .navigation-root__link a::before {
   transition: 0.2s ease-out;
@@ -798,6 +836,10 @@ meter {
   color: var(--greyed-out);
   margin-right: 0.625rem;
 }
+.navigation-root__link a .icon svg {
+  height: 1.25rem;
+  width: 1.25rem;
+}
 .navigation-root__link a.active {
   color: var(--title);
 }
@@ -807,6 +849,25 @@ meter {
 }
 .navigation-root__link a.active::before {
   opacity: 1;
+}
+.navigation-root--shrink {
+  width: 3.75rem;
+}
+.navigation-root--shrink .navigation-root__nav__header {
+  padding: 0;
+}
+.navigation-root--shrink .navigation-root__nav__header a {
+  transition-delay: 0.3s;
+  opacity: 0;
+}
+.navigation-root--shrink .navigation-root__nav ul {
+  padding: 0.625rem 0rem;
+}
+.navigation-root--shrink .navigation-root__link {
+  padding: 0 0.78125rem;
+}
+.navigation-root--shrink .navigation-root__link .text {
+  opacity: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

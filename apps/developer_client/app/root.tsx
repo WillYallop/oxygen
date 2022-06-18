@@ -9,6 +9,7 @@ import {
     Scripts,
     ScrollRestoration,
 } from '@remix-run/react';
+import { useEffect } from 'react';
 
 export const meta: MetaFunction = () => ({
     charset: 'utf-8',
@@ -21,13 +22,19 @@ export const links: LinksFunction = () => {
 };
 
 const App = () => {
+    useEffect(() => {
+        setTimeout(() => {
+            document.body.classList.remove('disable-animations');
+        }, 300);
+    }, []);
+
     return (
         <html lang="en">
             <head>
                 <Meta />
                 <Links />
             </head>
-            <body>
+            <body className="disable-animations">
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />

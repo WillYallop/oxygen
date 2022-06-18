@@ -13,3 +13,9 @@ body {
 *:focus {
     outline: rem(1) solid var(--accent);
 }
+
+.disable-animations {
+    * {
+        transition-duration: 0ms !important;
+    }
+}

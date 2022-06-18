@@ -2,9 +2,16 @@
 @use '../settings/colours' as *;
 @use '../mixins/breakpoints' as *;
 @use '../functions/rem' as *;
+@use '../mixins/general' as *;
 
 .main-layout {
     main {
+        @include animate;
         padding-left: rem(300);
+    }
+    &--nav-shrunk {
+        main {
+            padding-left: rem(60);
+        }
     }
 }

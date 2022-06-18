@@ -1,12 +1,17 @@
 import { NavLink } from '@remix-run/react';
+import {
+    FontAwesomeIcon,
+    FontAwesomeIconProps,
+} from '@fortawesome/react-fontawesome';
 
 interface NavItemProps {
     title: string;
     to: string;
+    icon: FontAwesomeIconProps['icon'];
     prefetch: 'none' | 'intent' | 'render';
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, prefetch, title }) => {
+const NavItem: React.FC<NavItemProps> = ({ to, prefetch, title, icon }) => {
     return (
         <li className="navigation-root__link">
             <NavLink
@@ -16,8 +21,10 @@ const NavItem: React.FC<NavItemProps> = ({ to, prefetch, title }) => {
                     `${isActive ? 'active' : undefined} `
                 }
             >
-                <span className="icon">I</span>
-                {title}
+                <span className="icon">
+                    <FontAwesomeIcon icon={icon} />
+                </span>
+                <span className="text">{title}</span>
             </NavLink>
         </li>
     );

@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
 import { json, LoaderFunction, redirect } from '@remix-run/node';
 import checkAuth from '../util/check-auth';
 import { Outlet } from '@remix-run/react';
+
 // Components
 import Navigation from '~/components/Layout/Navigation';
-import NavItem from '~/components/Partials/NavItem';
 
 export const loader: LoaderFunction = ({ request }) => {
     const cookieHeader = request.headers.get('Cookie');
@@ -13,22 +14,25 @@ export const loader: LoaderFunction = ({ request }) => {
 };
 
 const MainLayout = () => {
-    const navItems = (
-        <>
-            <NavItem to="/" prefetch="intent" title="Dashboard" />
-            <NavItem to="/components" prefetch="intent" title="Components" />
-            <NavItem to="/kits" prefetch="intent" title="Kits" />
-            <NavItem to="/plugins" prefetch="intent" title="Plugins" />
-            <NavItem to="/orders" prefetch="intent" title="Orders" />
-            <NavItem to="/settings" prefetch="intent" title="Settings" />
-        </>
-    );
+    const [isShrink, setIsShrink] = useState(false);
+
+    useEffect(() => {
+        const isShrinkLocalS = localStorage.getItem('navIsShrink');
+        setIsShrink(isShrinkLocalS === '1' ? true : false);
+    }, []);
 
     return (
-        <div className="main-layout">
+        <div
+            className={`main-layout ${
+                isShrink ? 'main-layout--nav-shrunk' : ''
+            }`}
+        >
             <Navigation
-                navChild={navItems}
-                footerChild={<>I AM THE FOOTER</>}
+                isShrink={isShrink}
+                setIsShrink={val => {
+                    setIsShrink(val);
+                    localStorage.setItem('navIsShrink', val ? '1' : '0');
+                }}
             />
             <main>
                 <Outlet />

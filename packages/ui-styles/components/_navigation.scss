@@ -1,6 +1,7 @@
 @use './forward.scss' as *;
 
 .navigation-root {
+    @include animate;
     position: fixed;
     left: 0;
     top: 0;
@@ -13,15 +14,30 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        &--top {
-        }
-        &--bot {
-        }
         &__header {
             height: rem(60);
             width: 100%;
             border-bottom: rem(1) solid var(--border-c);
-            padding: 0 rem(20);
+            padding: 0 rem(20) 0 0;
+            position: relative;
+            &__minimise-btn {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: rem(60);
+                width: rem(60);
+                background-color: transparent;
+                border: none;
+                border-right: rem(1) solid var(--border-c);
+                color: var(--main);
+                svg {
+                    height: rem(24);
+                    width: rem(24);
+                }
+            }
+            a {
+                margin-left: rem(80);
+            }
         }
         ul {
             width: 100%;
@@ -29,15 +45,26 @@
         }
     }
     &__link {
+        @include animate;
         margin-top: rem(10);
         padding: 0 rem(20);
         position: relative;
         a {
+            @include animate;
+            opacity: 1;
             display: flex;
             align-items: center;
             font-size: 16;
             font-weight: 700;
             color: var(--greyed-out);
+            &:hover,
+            &:focus {
+                color: var(--title);
+                .icon {
+                    background-color: var(--main);
+                    color: var(--main-c);
+                }
+            }
             &::before {
                 @include animate;
                 content: '';
@@ -63,6 +90,10 @@
                 align-items: center;
                 color: var(--greyed-out);
                 margin-right: rem(10);
+                svg {
+                    height: rem(20);
+                    width: rem(20);
+                }
             }
             &.active {
                 color: var(--title);
@@ -73,6 +104,29 @@
                 &::before {
                     opacity: 1;
                 }
+            }
+        }
+    }
+    // shrink
+    &--shrink {
+        width: rem(60);
+        .navigation-root__nav {
+            &__header {
+                padding: 0;
+                a {
+                    transition-delay: 0.3s;
+                    opacity: 0;
+                }
+            }
+            ul {
+                padding: rem(10) rem(0);
+            }
+        }
+
+        .navigation-root__link {
+            padding: 0 rem(12.5);
+            .text {
+                opacity: 0;
             }
         }
     }

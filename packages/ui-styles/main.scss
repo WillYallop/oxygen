@@ -2,6 +2,7 @@
 // Layout
 // ------------------------------------
 @use './layout/auth';
+@use './layout/main';
 
 // ------------------------------------
 // Base
@@ -19,3 +20,4 @@
 // Components
 // ------------------------------------
 @use './components/logo';
+@use './components/navigation';

@@ -1,0 +1,10 @@
+@use '../settings/vars' as *;
+@use '../settings/colours' as *;
+@use '../mixins/breakpoints' as *;
+@use '../functions/rem' as *;
+
+.main-layout {
+    main {
+        padding-left: rem(300);
+    }
+}

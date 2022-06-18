@@ -9,12 +9,12 @@ const AuthLayout = () => {
                     <Logo size={'medium'} />
                 </Link>
             </header>
-            <div className="auth-layout l--f">
+            <main className="auth-layout l--f">
                 <div className="auth-layout__col auth-layout__col__outlet l__width--40 l--f l--f-j-c l--f-a-c">
                     <Outlet />
                 </div>
                 <div className="auth-layout__col auth-layout__col__alt l__width--60 l--bg-acc"></div>
-            </div>
+            </main>
         </>
     );
 };

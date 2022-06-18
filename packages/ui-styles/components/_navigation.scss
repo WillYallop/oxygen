@@ -1,0 +1,79 @@
+@use './forward.scss' as *;
+
+.navigation-root {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: rem(300);
+    border-right: rem(1) solid var(--border-c);
+    overflow-y: auto;
+    &__nav {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        &--top {
+        }
+        &--bot {
+        }
+        &__header {
+            height: rem(60);
+            width: 100%;
+            border-bottom: rem(1) solid var(--border-c);
+            padding: 0 rem(20);
+        }
+        ul {
+            width: 100%;
+            padding: rem(10) rem(0);
+        }
+    }
+    &__link {
+        margin-top: rem(10);
+        padding: 0 rem(20);
+        position: relative;
+        a {
+            display: flex;
+            align-items: center;
+            font-size: 16;
+            font-weight: 700;
+            color: var(--greyed-out);
+            &::before {
+                @include animate;
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 20%;
+                bottom: 20%;
+                width: rem(5);
+                background-color: var(--accent);
+                border-radius: 0 rem(5) rem(5) 0;
+                opacity: 0;
+            }
+            .icon {
+                @include animate;
+                background-color: var(--section-m);
+                width: rem(35);
+                min-width: rem(35);
+                height: rem(35);
+                display: block;
+                border-radius: rem(5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--greyed-out);
+                margin-right: rem(10);
+            }
+            &.active {
+                color: var(--title);
+                .icon {
+                    color: var(--main-c);
+                    background-color: var(--main);
+                }
+                &::before {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

@@ -1,10 +1,10 @@
-// src/shared/Button.tsx
+// src/partials/Button.tsx
 import * as React from "react";
 var Button = () => {
   return /* @__PURE__ */ React.createElement("button", null, "Boop");
 };
 
-// src/shared/Logo.tsx
+// src/partials/Logo.tsx
 import * as React2 from "react";
 var Logo = ({ size }) => {
   return /* @__PURE__ */ React2.createElement("span", {

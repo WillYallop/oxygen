@@ -11,6 +11,7 @@ $colours: (
 
     _title: #111111,
     _body: #484848,
+    _greyed-out: #adadb2,
 
     // accent
     _01_01: #0055ff,
@@ -40,6 +41,7 @@ $colours: (
 
     --title: #{map-get($map: $colours, $key: _title)};
     --body: #{map-get($map: $colours, $key: _body)};
+    --greyed-out: #{map-get($map: $colours, $key: _greyed-out)};
 
     --accent: #{map-get($colours, _01_01)};
     --accent-h: #{map-get($colours, _01_02)};

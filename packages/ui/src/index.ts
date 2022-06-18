@@ -1,4 +1,4 @@
 import * as React from 'react';
 
-export * from './shared';
+export * from './partials';
 export * from './form';

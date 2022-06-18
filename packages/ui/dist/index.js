@@ -30,13 +30,13 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/shared/Button.tsx
+// src/partials/Button.tsx
 var React = __toESM(require("react"));
 var Button = () => {
   return /* @__PURE__ */ React.createElement("button", null, "Boop");
 };
 
-// src/shared/Logo.tsx
+// src/partials/Logo.tsx
 var React2 = __toESM(require("react"));
 var Logo = ({ size }) => {
   return /* @__PURE__ */ React2.createElement("span", {

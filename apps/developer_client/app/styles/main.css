@@ -870,4 +870,23 @@ meter {
   opacity: 0;
 }
 
+.header-root {
+  height: 3.75rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.25rem;
+  border-bottom: 0.0625rem solid var(--border-c);
+}
+.header-root__profile {
+  background-color: var(--main);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--main-c);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
 /*# sourceMappingURL=main.css.map */

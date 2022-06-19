@@ -1,7 +1,7 @@
 const DashboardPage: React.FC = () => {
     return (
         <>
-            <h2>DASHBOARD PAGE</h2>
+            <h2>Dashboard Page</h2>
         </>
     );
 };

@@ -9,9 +9,16 @@ interface NavItemProps {
     to: string;
     icon: FontAwesomeIconProps['icon'];
     prefetch: 'none' | 'intent' | 'render';
+    toggleNav: () => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, prefetch, title, icon }) => {
+const NavItem: React.FC<NavItemProps> = ({
+    to,
+    prefetch,
+    title,
+    icon,
+    toggleNav,
+}) => {
     return (
         <li className="navigation-root__link">
             <NavLink
@@ -20,6 +27,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, prefetch, title, icon }) => {
                 className={({ isActive }) =>
                     `${isActive ? 'active' : undefined} `
                 }
+                onClick={toggleNav}
             >
                 <span className="icon">
                     <FontAwesomeIcon icon={icon} />

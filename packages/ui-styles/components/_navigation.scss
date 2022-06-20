@@ -3,12 +3,14 @@
 .navigation-root {
     @include animate;
     position: fixed;
+    background-color: white;
     left: 0;
     top: 0;
     bottom: 0;
     width: rem(300);
     border-right: rem(1) solid var(--border-c);
     overflow-y: auto;
+    z-index: 10;
     &__nav {
         min-height: 100%;
         display: flex;
@@ -18,26 +20,8 @@
             height: rem(60);
             width: 100%;
             border-bottom: rem(1) solid var(--border-c);
-            padding: 0 rem(20) 0 0;
+            padding: 0 rem(20);
             position: relative;
-            &__minimise-btn {
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: rem(60);
-                width: rem(60);
-                background-color: transparent;
-                border: none;
-                border-right: rem(1) solid var(--border-c);
-                color: var(--main);
-                svg {
-                    height: rem(24);
-                    width: rem(24);
-                }
-            }
-            a {
-                margin-left: rem(80);
-            }
         }
         ul {
             width: 100%;
@@ -107,26 +91,60 @@
             }
         }
     }
-    // shrink
-    &--shrink {
-        width: rem(60);
-        .navigation-root__nav {
-            &__header {
-                padding: 0;
-                a {
-                    transition-delay: 0.3s;
-                    opacity: 0;
-                }
-            }
-            ul {
-                padding: rem(10) rem(0);
+    &__toggle {
+        @include animate;
+        transition-property: left;
+        position: fixed;
+        bottom: rem(20);
+        left: rem(20);
+        height: rem(40);
+        width: rem(40);
+        display: none;
+        z-index: 9;
+        background-color: var(--main);
+        border-radius: rem(5);
+        border: none;
+        color: white;
+        svg {
+            height: rem(20);
+            width: rem(20);
+            z-index: 2;
+            position: relative;
+        }
+        &__overlay {
+            @include animate;
+            display: block;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba($color: #000000, $alpha: 0.4);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        &--open {
+            left: calc(100vw - rem(60));
+            .navigation-root__toggle__overlay {
+                pointer-events: all;
+                opacity: 1;
             }
         }
+    }
 
-        .navigation-root__link {
-            padding: 0 rem(12.5);
-            .text {
-                opacity: 0;
+    @include tablet {
+        left: -100%;
+        width: calc(100vw - rem(80));
+        &--open {
+            left: 0;
+        }
+        &__toggle {
+            display: block;
+        }
+        &__nav {
+            &__header {
+                display: none;
             }
         }
     }

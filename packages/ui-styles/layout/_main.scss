@@ -6,12 +6,12 @@
 
 .main-layout {
     main {
-        @include animate;
         padding-left: rem(300);
     }
-    &--nav-shrunk {
+
+    @include tablet {
         main {
-            padding-left: rem(60);
+            padding-left: 0;
         }
     }
 }

@@ -1,6 +1,8 @@
+import { useState } from 'react';
+
 import {
-    faBackwardStep,
-    faForwardStep,
+    faBars,
+    faXmark,
     faGauge,
     faCube,
     faPlugCirclePlus,
@@ -8,89 +10,96 @@ import {
     faGear,
 } from '@fortawesome/free-solid-svg-icons';
 import { faUikit } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Components
 import { Logo } from 'ui';
 import { NavLink } from '@remix-run/react';
 import NavItem from '~/components/Partials/NavItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface NavigationSidebarProps {
-    isShrink: boolean;
-    setIsShrink: (state: boolean) => void;
-}
+interface NavigationSidebarProps {}
 
-const Navigation: React.FC<NavigationSidebarProps> = ({
-    isShrink,
-    setIsShrink,
-}) => {
+const Navigation: React.FC<NavigationSidebarProps> = ({}) => {
+    const [navOpen, setNavOpen] = useState(false);
+
     return (
-        <div
-            className={`navigation-root ${
-                isShrink ? 'navigation-root--shrink' : ''
-            }`}
-        >
-            <nav className="navigation-root__nav">
-                <div className="navigation-root__nav--top">
-                    <div className="navigation-root__nav__header l--f l--f-a-c">
-                        <button
-                            className="navigation-root__nav__header__minimise-btn"
-                            onClick={() => setIsShrink(!isShrink)}
-                        >
-                            <FontAwesomeIcon
-                                icon={
-                                    !isShrink ? faBackwardStep : faForwardStep
-                                }
+        <>
+            <button
+                id="navigation-toggle"
+                className={`navigation-root__toggle ${
+                    navOpen ? 'navigation-root__toggle--open' : ''
+                }`}
+                onClick={() => setNavOpen(!navOpen)}
+                aria-expanded={navOpen}
+                aria-controls="navigation-slider"
+            >
+                {navOpen ? (
+                    <FontAwesomeIcon icon={faXmark} />
+                ) : (
+                    <FontAwesomeIcon icon={faBars} />
+                )}
+                <span className="navigation-root__toggle__overlay"></span>
+            </button>
+            <div
+                id="navigation-slider"
+                className={`navigation-root ${
+                    navOpen ? 'navigation-root--open' : ''
+                }`}
+            >
+                <nav className="navigation-root__nav" role={'navigation'}>
+                    <div className="navigation-root__nav--top">
+                        <div className="navigation-root__nav__header l--f l--f-a-c">
+                            <NavLink to={'/'} prefetch={'intent'}>
+                                <Logo size="medium" />
+                            </NavLink>
+                        </div>
+                        <ul>
+                            <NavItem
+                                to="/"
+                                prefetch="intent"
+                                title="Dashboard"
+                                icon={faGauge}
+                                toggleNav={() => setNavOpen(!navOpen)}
                             />
-                        </button>
-                        <NavLink
-                            to={'/'}
-                            prefetch={'intent'}
-                            tabIndex={isShrink ? -1 : 0}
-                        >
-                            <Logo size="medium" />
-                        </NavLink>
+                            <NavItem
+                                to="/components"
+                                prefetch="intent"
+                                title="Components"
+                                icon={faCube}
+                                toggleNav={() => setNavOpen(!navOpen)}
+                            />
+                            <NavItem
+                                to="/plugins"
+                                prefetch="intent"
+                                title="Plugins"
+                                icon={faPlugCirclePlus}
+                                toggleNav={() => setNavOpen(!navOpen)}
+                            />
+                            <NavItem
+                                to="/kits"
+                                prefetch="intent"
+                                title="Kits"
+                                icon={faUikit}
+                                toggleNav={() => setNavOpen(!navOpen)}
+                            />
+                            <NavItem
+                                to="/orders"
+                                prefetch="intent"
+                                title="Orders"
+                                icon={faBasketShopping}
+                                toggleNav={() => setNavOpen(!navOpen)}
+                            />
+                            <NavItem
+                                to="/settings"
+                                prefetch="intent"
+                                title="Settings"
+                                icon={faGear}
+                                toggleNav={() => setNavOpen(!navOpen)}
+                            />
+                        </ul>
                     </div>
-                    <ul>
-                        <NavItem
-                            to="/"
-                            prefetch="intent"
-                            title="Dashboard"
-                            icon={faGauge}
-                        />
-                        <NavItem
-                            to="/components"
-                            prefetch="intent"
-                            title="Components"
-                            icon={faCube}
-                        />
-                        <NavItem
-                            to="/plugins"
-                            prefetch="intent"
-                            title="Plugins"
-                            icon={faPlugCirclePlus}
-                        />
-                        <NavItem
-                            to="/kits"
-                            prefetch="intent"
-                            title="Kits"
-                            icon={faUikit}
-                        />
-                        <NavItem
-                            to="/orders"
-                            prefetch="intent"
-                            title="Orders"
-                            icon={faBasketShopping}
-                        />
-                        <NavItem
-                            to="/settings"
-                            prefetch="intent"
-                            title="Settings"
-                            icon={faGear}
-                        />
-                    </ul>
-                </div>
-            </nav>
-        </div>
+                </nav>
+            </div>
+        </>
     );
 };
 

@@ -44,6 +44,7 @@ a {
         padding: rem(10) rem(20);
         border: none;
         cursor: pointer;
+        display: block;
         &:hover {
             background-color: var(--main-h);
         }

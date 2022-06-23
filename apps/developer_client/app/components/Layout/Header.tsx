@@ -12,9 +12,9 @@ const Header: React.FC<HeaderProps> = ({ hasSearch, searchAction }) => {
             {hasSearch && searchAction ? (
                 <SearchBar action={searchAction} />
             ) : null}
-            <div className="header-root__profile l--f l--f-j-c l--f-a-c">
+            {/* <div className="header-root__profile l--f l--f-j-c l--f-a-c">
                 WY
-            </div>
+            </div> */}
         </header>
     );
 };

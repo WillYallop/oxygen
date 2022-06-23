@@ -3,9 +3,10 @@ import { Res_ExpressErrorObj, AxiosWrapperRes } from 'oxygen-types';
 
 interface AxiosWrapperProps<BodyData> {
     path: string;
+    Cookie?: any;
     method: 'get' | 'post' | 'patch' | 'delete';
     body?: BodyData;
-    formData: any;
+    formData?: any;
 }
 
 const axiosWrapper = async <ResponseData, BodyData>(
@@ -15,8 +16,12 @@ const axiosWrapper = async <ResponseData, BodyData>(
         const res = await axios({
             url: props.path,
             data: props.body,
+            headers: {
+                Cookie: props.Cookie,
+            },
             method: props.method,
             baseURL: process.env.API_DOMAIN,
+            withCredentials: true,
         });
         return {
             success: true,

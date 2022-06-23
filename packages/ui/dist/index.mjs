@@ -34,8 +34,19 @@ var Logo = ({ size }) => {
   })), "Oxygen");
 };
 
-// src/form/Input.tsx
+// src/partials/Textarea.tsx
 import * as React3 from "react";
+var Textarea = ({
+  children,
+  className
+}) => {
+  return /* @__PURE__ */ React3.createElement("div", {
+    className: `t__textarea ${className ? className : ""}`
+  }, children);
+};
+
+// src/form/Input.tsx
+import * as React4 from "react";
 var Input = ({
   id,
   name,
@@ -55,7 +66,7 @@ var Input = ({
     const newValue = e.target.value;
     updateValue(newValue);
   };
-  return /* @__PURE__ */ React3.createElement("input", {
+  return /* @__PURE__ */ React4.createElement("input", {
     className: "input__style input__style--i",
     id,
     name,
@@ -75,38 +86,38 @@ var Input = ({
 };
 
 // src/form/InputWrapper.tsx
-import * as React4 from "react";
+import * as React5 from "react";
 var InputWrapper = ({
   id,
   input,
   error,
   label
 }) => {
-  return /* @__PURE__ */ React4.createElement("div", {
+  return /* @__PURE__ */ React5.createElement("div", {
     className: "input__wrapper",
     id: `i-wrapper_${id}`
-  }, label ? /* @__PURE__ */ React4.createElement("label", {
+  }, label ? /* @__PURE__ */ React5.createElement("label", {
     className: "input__label",
     htmlFor: id
-  }, label) : null, input, /* @__PURE__ */ React4.createElement("a", {
+  }, label) : null, input, /* @__PURE__ */ React5.createElement("a", {
     href: `#${id}`,
     id: `${id}_error`,
     className: "input__error"
-  }, /* @__PURE__ */ React4.createElement("p", null, error)));
+  }, /* @__PURE__ */ React5.createElement("p", null, error)));
 };
 
 // src/form/FormError.tsx
-import React5 from "react";
+import React6 from "react";
 var FormError = ({ errors }) => {
   if (errors) {
-    return /* @__PURE__ */ React5.createElement("div", {
+    return /* @__PURE__ */ React6.createElement("div", {
       className: "form__error l--bm-t-l"
-    }, /* @__PURE__ */ React5.createElement("p", {
+    }, /* @__PURE__ */ React6.createElement("p", {
       className: "form__error__title t--text-white"
-    }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React5.createElement("ul", {
+    }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React6.createElement("ul", {
       className: "form__error__body l--bm-t-s"
     }, errors.map((error, index) => {
-      return /* @__PURE__ */ React5.createElement("li", {
+      return /* @__PURE__ */ React6.createElement("li", {
         key: index
       }, error.detail);
     })));
@@ -118,5 +129,6 @@ export {
   FormError,
   Input,
   InputWrapper,
-  Logo
+  Logo,
+  Textarea
 };

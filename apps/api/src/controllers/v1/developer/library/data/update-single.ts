@@ -23,6 +23,7 @@ export interface Body {
     public?: Library['public'];
     free?: Library['free'];
     price?: Library['price'];
+    content?: Library['content'];
 }
 
 export interface Params extends core.ParamsDictionary {
@@ -46,6 +47,7 @@ const updateSingle = async (
                 public: 'boolean',
                 free: 'boolean',
                 price: 'integer|requiredWith:free',
+                content: 'string',
             },
         );
 
@@ -92,6 +94,8 @@ const updateSingle = async (
                 updateData.public = req.body.public;
             if (req.body.free !== undefined) updateData.free = req.body.free;
             if (req.body.price !== undefined) updateData.price = req.body.price;
+            if (req.body.content !== undefined)
+                updateData.content = req.body.content;
 
             const updateRes = await db.library.update({
                 where: {
@@ -119,6 +123,7 @@ const updateSingle = async (
                     free: updateRes.free,
                     price: updateRes.price,
                     currencyCode: updateRes.currency_code,
+                    content: updateRes.content,
                 },
             });
 

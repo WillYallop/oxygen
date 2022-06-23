@@ -26,7 +26,8 @@ __export(src_exports, {
   FormError: () => FormError,
   Input: () => Input,
   InputWrapper: () => InputWrapper,
-  Logo: () => Logo
+  Logo: () => Logo,
+  Textarea: () => Textarea
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -66,8 +67,19 @@ var Logo = ({ size }) => {
   })), "Oxygen");
 };
 
-// src/form/Input.tsx
+// src/partials/Textarea.tsx
 var React3 = __toESM(require("react"));
+var Textarea = ({
+  children,
+  className
+}) => {
+  return /* @__PURE__ */ React3.createElement("div", {
+    className: `t__textarea ${className ? className : ""}`
+  }, children);
+};
+
+// src/form/Input.tsx
+var React4 = __toESM(require("react"));
 var Input = ({
   id,
   name,
@@ -87,7 +99,7 @@ var Input = ({
     const newValue = e.target.value;
     updateValue(newValue);
   };
-  return /* @__PURE__ */ React3.createElement("input", {
+  return /* @__PURE__ */ React4.createElement("input", {
     className: "input__style input__style--i",
     id,
     name,
@@ -107,24 +119,24 @@ var Input = ({
 };
 
 // src/form/InputWrapper.tsx
-var React4 = __toESM(require("react"));
+var React5 = __toESM(require("react"));
 var InputWrapper = ({
   id,
   input,
   error,
   label
 }) => {
-  return /* @__PURE__ */ React4.createElement("div", {
+  return /* @__PURE__ */ React5.createElement("div", {
     className: "input__wrapper",
     id: `i-wrapper_${id}`
-  }, label ? /* @__PURE__ */ React4.createElement("label", {
+  }, label ? /* @__PURE__ */ React5.createElement("label", {
     className: "input__label",
     htmlFor: id
-  }, label) : null, input, /* @__PURE__ */ React4.createElement("a", {
+  }, label) : null, input, /* @__PURE__ */ React5.createElement("a", {
     href: `#${id}`,
     id: `${id}_error`,
     className: "input__error"
-  }, /* @__PURE__ */ React4.createElement("p", null, error)));
+  }, /* @__PURE__ */ React5.createElement("p", null, error)));
 };
 
 // src/form/FormError.tsx
@@ -151,5 +163,6 @@ var FormError = ({ errors }) => {
   FormError,
   Input,
   InputWrapper,
-  Logo
+  Logo,
+  Textarea
 });

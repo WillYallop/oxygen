@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import {
+    D_Library_CreateLibraryBody,
+    D_Library_CreateLibraryRes,
+    Res_ExpressError,
+} from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import niv, { Validator } from 'node-input-validator';
@@ -20,21 +24,12 @@ export interface Params extends core.ParamsDictionary {
     type: 'component' | 'plugin' | 'kit';
 }
 
-export interface Body {
-    name: Library['name'];
-    description: Library['description'];
-    tags: Library['tags'];
-    public: Library['public'];
-    free: Library['free'];
-    price: Library['price'];
-    currencyCode: Library['currency_code']; // currency code (iso 4217)
-}
-
 const createSingle = async (
-    req: Request<Params, any, Body>,
+    req: Request<Params, any, D_Library_CreateLibraryBody>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
+        console.log(req.body);
         // extend niv validator
         niv.extend('type_check', libraryTypeCb);
 
@@ -43,14 +38,14 @@ const createSingle = async (
             { ...req.body, ...req.params },
             {
                 type: 'required|type_check',
-                name: 'required|string',
-                description: 'required|string',
-                tags: 'required|array',
+                name: 'string',
+                description: 'string',
+                tags: 'array',
                 'tags.**': 'string',
                 public: 'required|boolean',
                 free: 'required|boolean',
                 price: 'required|integer',
-                currencyCode: 'required|string',
+                content: 'string',
             },
         );
 
@@ -59,7 +54,7 @@ const createSingle = async (
 
         if (passed) {
             // response
-            const response: Res_JSONBody = {
+            const response: D_Library_CreateLibraryRes = {
                 links: {
                     self: `${C.API_DOMAIN}/v1/dev/library/${req.params.type}`,
                 },
@@ -78,7 +73,7 @@ const createSingle = async (
                         public: req.body.public,
                         free: req.body.free,
                         price: req.body.price,
-                        currency_code: req.body.currencyCode,
+                        content: req.body.content,
                     },
                 });
 
@@ -101,6 +96,7 @@ const createSingle = async (
                         free: libraryRes.free,
                         price: libraryRes.price,
                         currencyCode: libraryRes.currency_code,
+                        content: libraryRes.content,
                     },
                 });
 

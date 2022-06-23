@@ -9,6 +9,12 @@ interface LogoProps {
 }
 declare const Logo: React.FC<LogoProps>;
 
+interface TextBannerProps {
+    children: React.ReactElement;
+    className?: string;
+}
+declare const Textarea: React.FC<TextBannerProps>;
+
 interface InputProps {
     id: string;
     name: string;
@@ -39,4 +45,4 @@ interface FormErrorProps {
 }
 declare const FormError: React__default.FC<FormErrorProps>;
 
-export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo };
+export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo, Textarea };

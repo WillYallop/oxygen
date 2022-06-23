@@ -1,6 +1,5 @@
 import C from 'oxygen-constants';
 import bcrypt from 'bcrypt';
-import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import {
     Res_ExpressError,

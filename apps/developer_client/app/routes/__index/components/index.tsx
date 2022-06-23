@@ -1,63 +1,62 @@
+import axiosWrapper from '../../../util/axios-wrapper';
+import {
+    D_Library_CreateLibraryBody,
+    D_Library_CreateLibraryRes,
+} from 'oxygen-types';
 // Components
 import Header from '~/components/Layout/Header';
+import { Textarea } from 'ui';
+import { Form } from '@remix-run/react';
+import { ActionFunction, redirect } from '@remix-run/node';
+
+export const action: ActionFunction = async ({ request }) => {
+    const cookieHeader = request.headers.get('Cookie');
+    const res = await axiosWrapper<
+        D_Library_CreateLibraryRes,
+        D_Library_CreateLibraryBody
+    >({
+        path: `v1/dev/library/${'component'}`,
+        method: 'post',
+        Cookie: cookieHeader,
+        body: {
+            name: '',
+            description: '',
+            tags: [],
+            public: true,
+            content: '',
+            free: true,
+            price: 0,
+        },
+    });
+    if (res.success) {
+        return redirect(`/components/edit/${res.response?.data?.data[0].id}`);
+    }
+    return {};
+};
 
 const ComponentPage: React.FC = () => {
+    const registerComponent = async (e: React.FormEvent) => {
+        e.preventDefault();
+    };
+
     return (
         <>
             <Header hasSearch={false} />
-            <h2>Components Page</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Praesent ut convallis leo. Nullam elementum risus sit amet quam
-                vestibulum, vitae vehicula turpis sollicitudin. Donec et
-                ullamcorper lacus. Vestibulum tincidunt tellus eget eleifend
-                aliquet. Etiam accumsan lacus sit amet pulvinar pretium.
-                Vestibulum ex enim, congue in faucibus at, sodales gravida dui.
-                Vivamus ac dolor egestas, tempor sapien et, tempus ex. Sed
-                tempus lectus vitae elementum feugiat. Donec sed venenatis
-                ligula. Etiam vitae ex tortor. Morbi maximus purus sed
-                condimentum efficitur. Cras mollis interdum venenatis. Curabitur
-                lobortis semper dolor, non consequat quam consequat in.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Praesent ut convallis leo. Nullam elementum risus sit amet quam
-                vestibulum, vitae vehicula turpis sollicitudin. Donec et
-                ullamcorper lacus. Vestibulum tincidunt tellus eget eleifend
-                aliquet. Etiam accumsan lacus sit amet pulvinar pretium.
-                Vestibulum ex enim, congue in faucibus at, sodales gravida dui.
-                Vivamus ac dolor egestas, tempor sapien et, tempus ex. Sed
-                tempus lectus vitae elementum feugiat. Donec sed venenatis
-                ligula. Etiam vitae ex tortor. Morbi maximus purus sed
-                condimentum efficitur. Cras mollis interdum venenatis. Curabitur
-                lobortis semper dolor, non consequat quam consequat in.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Praesent ut convallis leo. Nullam elementum risus sit amet quam
-                vestibulum, vitae vehicula turpis sollicitudin. Donec et
-                ullamcorper lacus. Vestibulum tincidunt tellus eget eleifend
-                aliquet. Etiam accumsan lacus sit amet pulvinar pretium.
-                Vestibulum ex enim, congue in faucibus at, sodales gravida dui.
-                Vivamus ac dolor egestas, tempor sapien et, tempus ex. Sed
-                tempus lectus vitae elementum feugiat. Donec sed venenatis
-                ligula. Etiam vitae ex tortor. Morbi maximus purus sed
-                condimentum efficitur. Cras mollis interdum venenatis. Curabitur
-                lobortis semper dolor, non consequat quam consequat in.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Praesent ut convallis leo. Nullam elementum risus sit amet quam
-                vestibulum, vitae vehicula turpis sollicitudin. Donec et
-                ullamcorper lacus. Vestibulum tincidunt tellus eget eleifend
-                aliquet. Etiam accumsan lacus sit amet pulvinar pretium.
-                Vestibulum ex enim, congue in faucibus at, sodales gravida dui.
-                Vivamus ac dolor egestas, tempor sapien et, tempus ex. Sed
-                tempus lectus vitae elementum feugiat. Donec sed venenatis
-                ligula. Etiam vitae ex tortor. Morbi maximus purus sed
-                condimentum efficitur. Cras mollis interdum venenatis. Curabitur
-                lobortis semper dolor, non consequat quam consequat in.
-            </p>
+            <div className="l--bp">
+                <Textarea>
+                    <h1>My Components</h1>
+                </Textarea>
+                <div className="l--f l--f-j-sb  l--bm-t-l">
+                    <div></div>
+                    <div>
+                        <Form action="/components?index" method="post">
+                            <button className={`btn-style__main`} type="submit">
+                                Register Component
+                            </button>
+                        </Form>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

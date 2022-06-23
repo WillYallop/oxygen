@@ -201,11 +201,12 @@ model Library {
     modified           DateTime             @updatedAt
     name               String
     description        String
+    content            String
     tags               String[]
     public             Boolean              @default(true)
     free               Boolean              @default(true)
     price              Int
-    currency_code      String // currency code (iso 4217)
+    currency_code      String               @default("") // currency code (iso 4217)
     PurchasedComponent PurchasedComponent[]
     PurchasedPlugin    PurchasedPlugin[]
     PluginSubscription PluginSubscription[]

@@ -81,6 +81,7 @@ const getSingle = async (
                     free: libraryRes.free,
                     price: libraryRes.price,
                     currencyCode: libraryRes.currency_code,
+                    content: libraryRes.content,
                     images: await getImages(libraryRes.id, 'single'),
                 },
             });

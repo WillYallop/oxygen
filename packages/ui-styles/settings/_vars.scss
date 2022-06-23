@@ -25,15 +25,15 @@ $section_wrapper: (
 // ------------------------------------
 $block_padding: (
     _desktop: rem(20),
-    _tablet: rem(15),
+    _tablet: rem(20),
     _mobile: rem(20),
-    _small_mobile: rem(10),
+    _small_mobile: rem(20),
 );
 $section_padding: (
-    _desktop: rem(100),
-    _tablet: rem(80),
-    _mobile: rem(50),
-    _small_mobile: rem(50),
+    _desktop: rem(30),
+    _tablet: rem(30),
+    _mobile: rem(20),
+    _small_mobile: rem(20),
 );
 $section_padding_horizontal: (
     _desktop: rem(40),

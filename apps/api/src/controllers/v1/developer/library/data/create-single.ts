@@ -29,7 +29,6 @@ const createSingle = async (
     res: Response<Res_ExpressError>,
 ) => {
     try {
-        console.log(req.body);
         // extend niv validator
         niv.extend('type_check', libraryTypeCb);
 

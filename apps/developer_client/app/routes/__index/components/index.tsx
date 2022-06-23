@@ -11,34 +11,37 @@ import { ActionFunction, redirect } from '@remix-run/node';
 
 export const action: ActionFunction = async ({ request }) => {
     const cookieHeader = request.headers.get('Cookie');
-    const res = await axiosWrapper<
-        D_Library_CreateLibraryRes,
-        D_Library_CreateLibraryBody
-    >({
-        path: `v1/dev/library/${'component'}`,
-        method: 'post',
-        Cookie: cookieHeader,
-        body: {
-            name: '',
-            description: '',
-            tags: [],
-            public: true,
-            content: '',
-            free: true,
-            price: 0,
-        },
-    });
-    if (res.success) {
-        return redirect(`/components/edit/${res.response?.data?.data[0].id}`);
+
+    const formData = await request.formData();
+    const intent = formData.get('intent');
+
+    if (intent === 'registerForm') {
+        const res = await axiosWrapper<
+            D_Library_CreateLibraryRes,
+            D_Library_CreateLibraryBody
+        >({
+            path: `v1/dev/library/${'component'}`,
+            method: 'post',
+            Cookie: cookieHeader,
+            body: {
+                name: '',
+                description: '',
+                tags: [],
+                public: true,
+                content: '',
+                free: true,
+                price: 0,
+            },
+        });
+        if (res.success) {
+            return redirect(
+                `/components/edit/${res.response?.data?.data[0].id}`,
+            );
+        }
     }
-    return {};
 };
 
 const ComponentPage: React.FC = () => {
-    const registerComponent = async (e: React.FormEvent) => {
-        e.preventDefault();
-    };
-
     return (
         <>
             <Header hasSearch={false} />
@@ -50,7 +53,12 @@ const ComponentPage: React.FC = () => {
                     <div></div>
                     <div>
                         <Form action="/components?index" method="post">
-                            <button className={`btn-style__main`} type="submit">
+                            <button
+                                className={`btn-style__main`}
+                                type="submit"
+                                name="intent"
+                                value="registerForm"
+                            >
                                 Register Component
                             </button>
                         </Form>

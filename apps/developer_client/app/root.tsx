@@ -1,4 +1,6 @@
 import type { MetaFunction, LinksFunction } from '@remix-run/node';
+// styles
+import markdownStyles from 'react-markdown-editor-lite/lib/index.css';
 import styles from './styles/main.css';
 require('../public/fonts/Inter-Bold.woff');
 import {
@@ -18,7 +20,10 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => {
-    return [{ rel: 'stylesheet', href: styles }];
+    return [
+        { rel: 'stylesheet', href: styles },
+        { rel: 'stylesheet', href: markdownStyles },
+    ];
 };
 
 const App = () => {

@@ -1,0 +1,22 @@
+@use './forward.scss' as *;
+
+.back-bar-root {
+    @include animate;
+    width: 100%;
+    height: rem(40);
+    border-bottom: rem(1) solid var(--border-c);
+    cursor: pointer;
+    &:hover {
+        background-color: var(--section-m-h);
+    }
+    svg {
+        height: rem(15);
+        margin-right: rem(10);
+        path {
+            fill: var(--main);
+        }
+    }
+    a {
+        color: var(--main);
+    }
+}

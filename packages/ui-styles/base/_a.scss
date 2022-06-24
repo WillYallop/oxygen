@@ -45,8 +45,14 @@ a {
         border: none;
         cursor: pointer;
         display: block;
+        &--inverse {
+            background-color: var(--site-bg);
+            color: var(--title);
+            border: rem(1) solid var(--main);
+        }
         &:hover {
             background-color: var(--main-h);
+            color: var(--main-c);
         }
         &:disabled {
             text-decoration: line-through;

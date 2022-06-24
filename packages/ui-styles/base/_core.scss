@@ -2,12 +2,17 @@
 @use '../settings/colours' as *;
 @use '../functions/rem' as *;
 
+html {
+    height: 100%;
+}
+
 body {
     font-size: $html-font-size;
     background-color: var(--site-bg);
     font-family: $font_family;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
 }
 
 *:focus {

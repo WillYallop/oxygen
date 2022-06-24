@@ -5,13 +5,15 @@
 @use '../mixins/general' as *;
 
 .main-layout {
+    height: 100%;
     main {
-        padding-left: rem(300);
+        margin-left: rem(300);
+        min-height: 100%;
     }
 
     @include tablet {
         main {
-            padding-left: 0;
+            margin-left: 0;
         }
     }
 }

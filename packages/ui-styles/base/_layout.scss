@@ -367,6 +367,21 @@
     &--p-r {
         position: relative;
     }
+    &--p-f {
+        position: fixed;
+    }
+    &--pt {
+        top: 0;
+    }
+    &--pb {
+        bottom: 0;
+    }
+    &--pl {
+        left: 0;
+    }
+    &--pt {
+        right: 0;
+    }
     &--pz-at {
         z-index: 4;
     } // zindex absolute top

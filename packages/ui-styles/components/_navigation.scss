@@ -95,8 +95,8 @@
         @include animate;
         transition-property: left;
         position: fixed;
-        bottom: rem(20);
-        left: rem(20);
+        top: rem(10);
+        right: rem(20);
         height: rem(40);
         width: rem(40);
         display: none;

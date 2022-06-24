@@ -3,6 +3,8 @@
 @use '../functions/rem' as *;
 
 .form {
+    // modifiers
+    // blocks
     &__error {
         background-color: var(--section-m-h);
         border-radius: $border_radius;
@@ -31,6 +33,10 @@
                 }
             }
         }
+    }
+    &__bottom-bar {
+        width: 100%;
+        border-top: rem(1) solid var(--border-c);
     }
 }
 

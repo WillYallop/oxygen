@@ -1,9 +1,18 @@
 // Components
 import Header from '~/components/Layout/Header';
 import { Textarea } from 'ui';
-import { Outlet } from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
+import { json, LoaderFunction } from '@remix-run/node';
+
+export const loader: LoaderFunction = ({ params }) => {
+    const id = params.id;
+
+    return json({});
+};
 
 const RegisterComponentPage: React.FC = () => {
+    const data = useLoaderData();
+    console.log(data);
     return (
         <>
             <Header hasSearch={false} />

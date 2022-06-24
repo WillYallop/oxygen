@@ -16,7 +16,7 @@ const MainLayout = () => {
     return (
         <div className={`main-layout`}>
             <Navigation />
-            <main>
+            <main className="l--p-r">
                 <Outlet />
             </main>
         </div>

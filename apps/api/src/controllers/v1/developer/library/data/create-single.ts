@@ -37,14 +37,14 @@ const createSingle = async (
             { ...req.body, ...req.params },
             {
                 type: 'required|type_check',
-                name: 'string',
-                description: 'string',
-                tags: 'array',
+                name: 'required|string',
+                description: 'required|string',
+                tags: 'required|array',
                 'tags.**': 'string',
                 public: 'required|boolean',
                 free: 'required|boolean',
                 price: 'required|integer',
-                content: 'string',
+                content: 'required|string',
             },
         );
 

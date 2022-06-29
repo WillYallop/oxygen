@@ -26,6 +26,7 @@ const LibraryPageContent: React.FC<LibraryPageContentProps> = ({
                 value={value}
                 renderHTML={text => mdParser.render(text)}
                 onChange={d => setValue(d.text)}
+                name={'content'}
             />
         </InputSection>
     );

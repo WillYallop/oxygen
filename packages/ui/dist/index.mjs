@@ -34,9 +34,9 @@ var Logo = ({ size }) => {
   })), "Oxygen");
 };
 
-// src/partials/Textarea.tsx
+// src/partials/TextBlock.tsx
 import * as React3 from "react";
-var Textarea = ({
+var TextBlock = ({
   children,
   className
 }) => {
@@ -81,43 +81,86 @@ var Input = ({
     minLength,
     pattern,
     autoComplete,
-    "aria-describedby": `${id}_error`
+    "aria-errormessage": `${id}_error`,
+    "aria-describedby": `i-describe_${id}`
+  });
+};
+
+// src/form/Textarea.tsx
+import * as React5 from "react";
+var Textarea = ({
+  id,
+  name,
+  value,
+  disabled,
+  placeholder,
+  minLength,
+  maxLength,
+  readOnly,
+  required,
+  updateValue,
+  autoComplete
+}) => {
+  const onChange = (e) => {
+    const newValue = e.target.value;
+    updateValue(newValue);
+  };
+  return /* @__PURE__ */ React5.createElement("textarea", {
+    className: "input__style input__style--t",
+    id,
+    name,
+    value,
+    disabled,
+    placeholder,
+    required,
+    onChange,
+    readOnly,
+    maxLength,
+    minLength,
+    autoComplete,
+    "aria-errormessage": `${id}_error`,
+    "aria-describedby": `i-describe_${id}`
   });
 };
 
 // src/form/InputWrapper.tsx
-import * as React5 from "react";
+import * as React6 from "react";
 var InputWrapper = ({
   id,
   input,
   error,
-  label
+  label,
+  describedBy,
+  className
 }) => {
-  return /* @__PURE__ */ React5.createElement("div", {
-    className: "input__wrapper",
+  return /* @__PURE__ */ React6.createElement("div", {
+    className: `input__wrapper ${className}`,
     id: `i-wrapper_${id}`
-  }, label ? /* @__PURE__ */ React5.createElement("label", {
+  }, label ? /* @__PURE__ */ React6.createElement("label", {
     className: "input__label",
     htmlFor: id
-  }, label) : null, input, /* @__PURE__ */ React5.createElement("a", {
+  }, label) : null, input, /* @__PURE__ */ React6.createElement("a", {
     href: `#${id}`,
-    id: `${id}_error`,
+    id: `${id ? id + "_error" : ""}`,
     className: "input__error"
-  }, /* @__PURE__ */ React5.createElement("p", null, error)));
+  }, /* @__PURE__ */ React6.createElement("p", null, error)), describedBy ? /* @__PURE__ */ React6.createElement("p", {
+    className: "input__describedby",
+    id: `${id ? "i-describe_" + id : ""}`
+  }, describedBy) : null);
 };
 
 // src/form/FormError.tsx
-import React6 from "react";
+import React7 from "react";
 var FormError = ({ errors }) => {
   if (errors) {
-    return /* @__PURE__ */ React6.createElement("div", {
+    return /* @__PURE__ */ React7.createElement("div", {
       className: "form__error l--bm-t-l"
-    }, /* @__PURE__ */ React6.createElement("p", {
+    }, /* @__PURE__ */ React7.createElement("p", {
       className: "form__error__title t--text-white"
-    }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React6.createElement("ul", {
+    }, errors.length > 1 ? "Oops, you have some errors." : `Oops, there's an error.`), /* @__PURE__ */ React7.createElement("ul", {
       className: "form__error__body l--bm-t-s"
     }, errors.map((error, index) => {
-      return /* @__PURE__ */ React6.createElement("li", {
+      return /* @__PURE__ */ React7.createElement("li", {
         key: index
       }, error.detail);
     })));
@@ -130,5 +173,6 @@ export {
   Input,
   InputWrapper,
   Logo,
+  TextBlock,
   Textarea
 };

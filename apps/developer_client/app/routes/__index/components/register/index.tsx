@@ -8,7 +8,8 @@ import { ActionFunction, redirect } from '@remix-run/node';
 // Components
 import Header from '~/components/Layout/Header';
 import BackBar from '~/components/Layout/BackBar';
-import { Textarea } from 'ui';
+import FormWrapper from '~/components/Form/FormWrapper';
+import { TextBlock } from 'ui';
 import { Form } from '@remix-run/react';
 import LibraryPageContent from '~/components/Library/Inputs/Content';
 import LibraryMeta from '~/components/Library/Inputs/Meta';
@@ -16,24 +17,29 @@ import LibraryMeta from '~/components/Library/Inputs/Meta';
 export const action: ActionFunction = async ({ request }) => {
     const cookieHeader = request.headers.get('Cookie');
     const formData = await request.formData();
+    // intent
     const intent = formData.get('intent');
+    // if register form intent
+    let res;
     if (intent === 'registerForm') {
-        const res = await axiosWrapper<
+        // @ts-ignore
+        const postData: D_Library_CreateLibraryBody = {
+            name: formData.get('name') as string,
+            description: formData.get('description') as string,
+            tags: JSON.parse((formData.get('tags') as string) || '[]'),
+            public: true,
+            content: formData.get('content') as string,
+            free: true,
+            price: 0,
+        };
+        res = await axiosWrapper<
             D_Library_CreateLibraryRes,
             D_Library_CreateLibraryBody
         >({
             path: `v1/dev/library/${'component'}`,
             method: 'post',
             Cookie: cookieHeader,
-            body: {
-                name: '',
-                description: '',
-                tags: [],
-                public: true,
-                content: '',
-                free: true,
-                price: 0,
-            },
+            body: postData,
         });
         if (res.success) {
             return redirect(
@@ -41,17 +47,41 @@ export const action: ActionFunction = async ({ request }) => {
             );
         }
     }
+
+    return res;
 };
 
 const RegisterComponent: React.FC = () => {
     const [content, setContent] = useState('');
+
+    const FormInner = (
+        <div className="">
+            {/* Meta */}
+            <LibraryMeta
+                title="Meta Information"
+                body="Tell us about your component."
+                values={{
+                    name: '',
+                    description: '',
+                    tags: [],
+                }}
+            />
+            {/* Page Content */}
+            <LibraryPageContent
+                title="Page Content"
+                body="In markdown, describe, document and sell your component."
+                value={content}
+                setValue={setContent}
+            />
+        </div>
+    );
 
     return (
         <>
             <Header hasSearch={false} />
             <BackBar text={'Back'} link={'/components'} />
             <div className="l--sp-t l--sp-h">
-                <Textarea className="t__wrapper--m">
+                <TextBlock className="t__wrapper--m">
                     <>
                         <h1>Register a new component</h1>
                         <p>
@@ -60,33 +90,15 @@ const RegisterComponent: React.FC = () => {
                             entering the core information about your component.
                         </p>
                     </>
-                </Textarea>
-                <Form className="form--with-bottom-bar">
-                    {/* Meta */}
-                    <LibraryMeta
-                        title="Meta Information"
-                        body="Tell us about your component."
-                    />
-                    {/* Page Content */}
-                    <LibraryPageContent
-                        title="Page Content"
-                        body="In markdown, describe, document and sell your component."
-                        value={content}
-                        setValue={setContent}
-                    />
-
-                    {/* Submit bar */}
-                    <div className="form__bottom-bar l--sp-th l--bm-t-m">
-                        <button
-                            className="btn-style__main"
-                            type="submit"
-                            name="intent"
-                            value={'registerForm'}
-                        >
-                            Register
-                        </button>
-                    </div>
-                </Form>
+                </TextBlock>
+                <FormWrapper
+                    inner={FormInner}
+                    action={'/components/register?index'}
+                    method={'post'}
+                    submitType={'bottom-bar'}
+                    submitText={'Register'}
+                    formIntent={'registerForm'}
+                />
             </div>
         </>
     );

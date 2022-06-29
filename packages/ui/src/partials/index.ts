@@ -1,3 +1,3 @@
 export * from './Button';
 export * from './Logo';
-export * from './Textarea';
+export * from './TextBlock';

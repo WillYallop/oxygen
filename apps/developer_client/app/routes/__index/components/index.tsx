@@ -1,6 +1,6 @@
 // Components
 import Header from '~/components/Layout/Header';
-import { Textarea } from 'ui';
+import { TextBlock } from 'ui';
 import { Link } from '@remix-run/react';
 
 const ComponentPage: React.FC = () => {
@@ -8,9 +8,9 @@ const ComponentPage: React.FC = () => {
         <>
             <Header hasSearch={false} />
             <div className="l--bp">
-                <Textarea>
+                <TextBlock>
                     <h1>My Components</h1>
-                </Textarea>
+                </TextBlock>
                 <div className="l--f l--f-j-sb  l--bm-t-l">
                     <div></div>
                     <Link

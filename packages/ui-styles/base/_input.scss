@@ -50,7 +50,10 @@
     }
     &__wrapper {
         position: relative;
-        margin-top: rem(15);
+        margin-bottom: rem(15);
+        &:last-child {
+            margin-bottom: 0;
+        }
         &--error {
             .input__error {
                 display: block;
@@ -58,6 +61,34 @@
         }
         .input__style {
             margin-top: rem(10);
+        }
+        .rti--container {
+            margin-top: rem(5);
+            .rti--tag {
+                padding: rem(5);
+                background-color: var(--main);
+                color: var(--main-c);
+                margin-right: rem(5);
+                border-radius: rem(5);
+                margin-top: rem(5);
+                button {
+                    color: var(--main-c);
+                }
+            }
+            input {
+                margin-top: rem(10);
+                height: rem(50);
+                padding: 0 rem(10);
+                font-size: rem(16);
+                font-family: $font_family;
+                border-radius: $border_radius;
+                border: $border_style;
+                background-color: var(--site-bg);
+                width: 100%;
+                position: relative;
+                color: var(--title);
+                font-family: $font_family;
+            }
         }
     }
     &__style {
@@ -92,6 +123,10 @@
             font-size: rem(14);
             color: var(--error);
         }
+    }
+    &__describedby {
+        margin-top: rem(10);
+        font-size: rem(14);
     }
 
     // ------------------------------------

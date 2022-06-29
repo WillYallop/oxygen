@@ -1,47 +1,42 @@
 import * as React from 'react';
 
-export interface InputProps {
+export interface TextareaProps {
     id: string;
     name: string;
-    type: 'text' | 'email' | 'password' | 'url' | 'tel';
     value: string;
-    updateValue: (value: string) => void;
+    updateValue: (e: string) => void;
     disabled?: boolean;
     placeholder?: string;
     minLength?: number;
     maxLength?: number;
-    pattern?: string;
     readOnly?: boolean;
     required?: boolean;
     autoComplete?: string;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Textarea: React.FC<TextareaProps> = ({
     id,
     name,
-    type,
     value,
     disabled,
     placeholder,
     minLength,
     maxLength,
-    pattern,
     readOnly,
     required,
     updateValue,
     autoComplete,
 }) => {
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = e.target.value;
         updateValue(newValue);
     };
 
     return (
-        <input
-            className="input__style input__style--i"
+        <textarea
+            className="input__style input__style--t"
             id={id}
             name={name}
-            type={type}
             value={value}
             disabled={disabled}
             placeholder={placeholder}
@@ -50,10 +45,9 @@ export const Input: React.FC<InputProps> = ({
             readOnly={readOnly}
             maxLength={maxLength}
             minLength={minLength}
-            pattern={pattern}
             autoComplete={autoComplete}
             aria-errormessage={`${id}_error`}
             aria-describedby={`i-describe_${id}`}
-        ></input>
+        ></textarea>
     );
 };

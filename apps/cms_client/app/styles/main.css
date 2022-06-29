@@ -644,13 +644,44 @@ p {
 }
 .input__wrapper {
   position: relative;
-  margin-top: 0.9375rem;
+  margin-bottom: 0.9375rem;
+}
+.input__wrapper:last-child {
+  margin-bottom: 0;
 }
 .input__wrapper--error .input__error {
   display: block;
 }
 .input__wrapper .input__style {
   margin-top: 0.625rem;
+}
+.input__wrapper .rti--container {
+  margin-top: 0.3125rem;
+}
+.input__wrapper .rti--container .rti--tag {
+  padding: 0.3125rem;
+  background-color: var(--main);
+  color: var(--main-c);
+  margin-right: 0.3125rem;
+  border-radius: 0.3125rem;
+  margin-top: 0.3125rem;
+}
+.input__wrapper .rti--container .rti--tag button {
+  color: var(--main-c);
+}
+.input__wrapper .rti--container input {
+  margin-top: 0.625rem;
+  height: 3.125rem;
+  padding: 0 0.625rem;
+  font-size: 1rem;
+  font-family: Inter;
+  border-radius: 0.3125rem;
+  border: 0.0625rem solid var(--border-c);
+  background-color: var(--site-bg);
+  width: 100%;
+  position: relative;
+  color: var(--title);
+  font-family: Inter;
 }
 .input__style {
   height: 3.125rem;
@@ -677,6 +708,10 @@ p {
 .input__error p {
   font-size: 0.875rem;
   color: var(--error);
+}
+.input__describedby {
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
 }
 
 /* Preferred box-sizing value */

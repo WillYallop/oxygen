@@ -5,7 +5,7 @@ interface TextBannerProps {
     className?: string;
 }
 
-export const Textarea: React.FC<TextBannerProps> = ({
+export const TextBlock: React.FC<TextBannerProps> = ({
     children,
     className,
 }) => {

@@ -1,6 +1,6 @@
 // Components
 import Header from '~/components/Layout/Header';
-import { Textarea } from 'ui';
+import { TextBlock } from 'ui';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { json, LoaderFunction } from '@remix-run/node';
 
@@ -17,7 +17,7 @@ const RegisterComponentPage: React.FC = () => {
         <>
             <Header hasSearch={false} />
             <div className="l--bp">
-                <Textarea className="t__wrapper--m">
+                <TextBlock className="t__wrapper--m">
                     <>
                         <h1>Edit Component</h1>
                         <p>
@@ -29,7 +29,7 @@ const RegisterComponentPage: React.FC = () => {
                             ins and outs.
                         </p>
                     </>
-                </Textarea>
+                </TextBlock>
             </div>
             <Outlet />
         </>

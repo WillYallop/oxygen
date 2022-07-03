@@ -9,6 +9,7 @@ import axiosWrapper from '~/util/axios-wrapper';
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'ui';
 import LibraryComponentRow from '~/components/Library/ComponentRow';
+import FilterDropdown from '~/components/Partials/FilterDropdown';
 
 export const loader: LoaderFunction = async ({ request }) => {
     const cookieHeader = request.headers.get('Cookie');
@@ -47,7 +48,10 @@ const ComponentPage: React.FC = () => {
                 </TextBlock>
                 {/* top row */}
                 <div className="l--f l--f-j-sb  l--bm-t-l">
-                    <div></div>
+                    <FilterDropdown
+                        filters={{ order: true }}
+                        callback={() => alert(1)}
+                    />
                     <Link
                         to={'/components/register'}
                         className={`btn-style__main`}

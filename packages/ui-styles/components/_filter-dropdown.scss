@@ -1,0 +1,40 @@
+@use './forward.scss' as *;
+
+.filter-dropdown-root {
+    &__btn {
+        color: var(--title);
+        padding: 0 rem(10);
+        svg {
+            height: rem(16);
+            margin-right: rem(10);
+            color: var(--main);
+        }
+        &--open {
+            border-radius: rem(5) rem(5) 0 0;
+        }
+    }
+    &__dropdown {
+        position: absolute;
+        z-index: 2;
+        top: calc(100% - rem(1));
+        left: 0;
+        width: rem(300);
+        background-color: var(--section-m);
+        border-radius: 0 rem(5) rem(5) rem(5);
+        border: rem(1) solid var(--main);
+        padding: rem(10);
+        &__order {
+            button {
+                width: calc(50% - rem(5));
+            }
+        }
+        &__filter {
+            border-top: rem(1) solid var(--border-c);
+            padding-top: rem(10);
+            margin-top: rem(10);
+            button {
+                width: 100%;
+            }
+        }
+    }
+}

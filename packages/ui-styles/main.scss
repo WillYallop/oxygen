@@ -17,6 +17,11 @@
 @use './base/fonts';
 
 // ------------------------------------
+// Libs
+// ------------------------------------
+@use './libs/react-slidedown';
+
+// ------------------------------------
 // Components
 // ------------------------------------
 @use './components/logo';
@@ -26,3 +31,4 @@
 @use './components/library-input-section';
 @use './components/library-row';
 @use './components/picture';
+@use './components/filter-dropdown';

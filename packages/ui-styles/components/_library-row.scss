@@ -12,6 +12,7 @@
     &__image {
         position: relative;
         width: rem(280);
+        background-color: var(--section-m-h);
         &::before {
             content: '';
             display: block;
@@ -24,6 +25,24 @@
             left: 0;
             right: 0;
             bottom: 0;
+            &__blank {
+                width: 100%;
+                height: 100%;
+                background-color: var(--section-m-h);
+                border-radius: rem(5);
+                display: grid;
+                grid-template-columns: repeat(8, 1fr);
+                span {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    svg {
+                        color: var(--greyed-out);
+                        opacity: 0.4;
+                        height: rem(20);
+                    }
+                }
+            }
         }
     }
     &__textarea {

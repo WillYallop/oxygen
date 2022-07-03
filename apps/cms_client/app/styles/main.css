@@ -119,7 +119,7 @@ a {
 
 .btn-style__main {
   transition: 0.2s ease-out;
-  transition-property: background-color, opacity;
+  transition-property: all;
   background-color: var(--main);
   color: var(--main-c);
   font-size: 1rem;
@@ -139,12 +139,18 @@ a {
   background-color: var(--main-h);
   color: var(--main-c);
 }
+.btn-style__main:hover svg {
+  color: var(--section-m);
+}
 .btn-style__main:disabled {
   text-decoration: line-through;
   opacity: 0.8;
 }
 .btn-style__main:disabled:hover {
   opacity: 0.9;
+}
+.btn-style__main svg {
+  transition: 0.2s ease-out;
 }
 
 .l__grid {
@@ -797,6 +803,21 @@ meter {
   font-weight: 700;
   font-display: swap;
 }
+.react-slidedown {
+  height: 0;
+  transition-property: none;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+}
+
+.react-slidedown.transitioning {
+  overflow-y: hidden;
+}
+
+.react-slidedown.closed {
+  display: none;
+}
+
 .logo-root {
   font-weight: 700;
   color: var(--title);
@@ -1048,6 +1069,7 @@ meter {
 .library-row__image {
   position: relative;
   width: 17.5rem;
+  background-color: var(--section-m-h);
 }
 .library-row__image::before {
   content: "";
@@ -1061,6 +1083,24 @@ meter {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.library-row__image__inner__blank {
+  width: 100%;
+  height: 100%;
+  background-color: var(--section-m-h);
+  border-radius: 0.3125rem;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+.library-row__image__inner__blank span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.library-row__image__inner__blank span svg {
+  color: var(--greyed-out);
+  opacity: 0.4;
+  height: 1.25rem;
 }
 .library-row__textarea {
   padding: 0.625rem 0.625rem 0.625rem 0.9375rem;
@@ -1115,6 +1155,41 @@ meter {
   object-fit: cover;
   border-radius: 0.3125rem;
   display: block;
+}
+
+.filter-dropdown-root__btn {
+  color: var(--title);
+  padding: 0 0.625rem;
+}
+.filter-dropdown-root__btn svg {
+  height: 1rem;
+  margin-right: 0.625rem;
+  color: var(--main);
+}
+.filter-dropdown-root__btn--open {
+  border-radius: 0.3125rem 0.3125rem 0 0;
+}
+.filter-dropdown-root__dropdown {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% - 0.0625rem);
+  left: 0;
+  width: 18.75rem;
+  background-color: var(--section-m);
+  border-radius: 0 0.3125rem 0.3125rem 0.3125rem;
+  border: 0.0625rem solid var(--main);
+  padding: 0.625rem;
+}
+.filter-dropdown-root__dropdown__order button {
+  width: calc(50% - 0.3125rem);
+}
+.filter-dropdown-root__dropdown__filter {
+  border-top: 0.0625rem solid var(--border-c);
+  padding-top: 0.625rem;
+  margin-top: 0.625rem;
+}
+.filter-dropdown-root__dropdown__filter button {
+  width: 100%;
 }
 
 /*# sourceMappingURL=main.css.map */

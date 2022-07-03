@@ -35,7 +35,7 @@ a {
     // ------------------------------------
     &__main {
         @include animate;
-        transition-property: background-color, opacity;
+        transition-property: all;
         background-color: var(--main);
         color: var(--main-c);
         font-size: rem(16);
@@ -53,6 +53,9 @@ a {
         &:hover {
             background-color: var(--main-h);
             color: var(--main-c);
+            svg {
+                color: var(--section-m);
+            }
         }
         &:disabled {
             text-decoration: line-through;
@@ -60,6 +63,9 @@ a {
             &:hover {
                 opacity: 0.9;
             }
+        }
+        svg {
+            @include animate;
         }
     }
 

@@ -5,6 +5,7 @@ export interface Res_JSONBody {
     links?: {
         self?: string;
         next?: string;
+        previous?: string;
         last?: string;
     };
     data: Array<Res_JSONBodyData>;

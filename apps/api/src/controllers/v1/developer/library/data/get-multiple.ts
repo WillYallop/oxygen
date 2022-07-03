@@ -51,6 +51,7 @@ const getMultiple = async (
             const response: D_Library_GetMultipleLibraryRes = {
                 links: {
                     self: `${C.API_DOMAIN}/v1/dev/library/${req.params.type}/${req.params.cursor}/${req.params.take}/${req.params.order}`,
+                    next: undefined,
                 },
                 data: [],
             };
@@ -60,8 +61,9 @@ const getMultiple = async (
             };
 
             // get multiple
+            const take = parseInt(req.params.take, 10) + 1;
             const libResults = await db.library.findMany({
-                take: parseInt(req.params.take, 10),
+                take: take, // get one greater so we can determine if their is a next
                 cursor:
                     req.params.cursor === 'start' ? undefined : cursorQueryObj,
                 where: {
@@ -95,10 +97,25 @@ const getMultiple = async (
                 },
             });
 
-            for (let i = 0; i < libResults.length; i += 1) {
+            for (
+                let i = 0;
+                i <
+                (libResults.length === take
+                    ? libResults.length - 1
+                    : libResults.length);
+                i += 1
+            ) {
                 buildLibResArr.push(buildLibRes(libResults[i]));
             }
             response.data.push(...(await Promise.all(buildLibResArr)));
+
+            if (libResults.length > take && response.links) {
+                response.links.next = `${C.API_DOMAIN}/v1/dev/library/${
+                    req.params.type
+                }/${libResults[libResults.length - 1].id}/${req.params.take}/${
+                    req.params.order
+                }`;
+            }
 
             // success response
             res.status(200).json(response);

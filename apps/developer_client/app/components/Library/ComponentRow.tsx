@@ -5,6 +5,7 @@ import {
     faFloppyDisk,
     faEye,
     faEyeSlash,
+    faBox,
 } from '@fortawesome/free-solid-svg-icons';
 // components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +23,134 @@ const LibraryComponentRow: React.FC<LibraryComponentRowProps> = ({
             {/* image */}
             <div className="library-row__image">
                 <div className="library-row__image__inner">
-                    <Picture data={component.attributes.images.preview[0]} />
+                    {component.attributes.images.preview[0] ? (
+                        <Picture
+                            data={component.attributes.images.preview[0]}
+                        />
+                    ) : (
+                        <div className="library-row__image__inner__blank">
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                            <span>
+                                <FontAwesomeIcon icon={faBox} />
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
             {/* textarea */}

@@ -21,7 +21,6 @@ describe('Test developer component library update single route', () => {
         public: true,
         free: true,
         price: 0,
-        currencyCode: 'gb',
     };
     // cookies
     let cookies: Array<string>;
@@ -125,7 +124,6 @@ describe('Test developer component library update single route', () => {
                 public: compLibData.public,
                 free: compLibData.free,
                 price: compLibData.price,
-                currencyCode: compLibData.currencyCode,
             },
         });
     });

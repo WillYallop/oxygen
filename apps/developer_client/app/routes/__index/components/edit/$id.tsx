@@ -1,8 +1,9 @@
+import { Outlet, useLoaderData } from '@remix-run/react';
+import { json, LoaderFunction } from '@remix-run/node';
 // Components
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'ui';
-import { Outlet, useLoaderData } from '@remix-run/react';
-import { json, LoaderFunction } from '@remix-run/node';
+import BackBar from '~/components/Layout/BackBar';
 
 export const loader: LoaderFunction = ({ params }) => {
     const id = params.id;
@@ -16,6 +17,7 @@ const RegisterComponentPage: React.FC = () => {
     return (
         <>
             <Header hasSearch={false} />
+            <BackBar text={'Back'} link={'/components'} />
             <div className="l--bp">
                 <TextBlock className="t__wrapper--m">
                     <>

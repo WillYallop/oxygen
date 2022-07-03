@@ -32,6 +32,15 @@
             max-width: rem(900);
         }
     }
+    &__title {
+        color: var(--title);
+        font-size: rem(16);
+        font-weight: 600;
+    }
+    &__body {
+        color: var(--body);
+        font-size: rem(14);
+    }
 
     // ------------------------------------
     // Modifiers

@@ -12,13 +12,17 @@ interface AxiosWrapperProps<BodyData> {
 const axiosWrapper = async <ResponseData, BodyData>(
     props: AxiosWrapperProps<BodyData>,
 ): Promise<AxiosWrapperRes<ResponseData>> => {
+    let headers;
+    if (props.Cookie !== undefined) {
+        headers = {
+            Cookie: props.Cookie,
+        };
+    }
     try {
         const res = await axios({
             url: props.path,
             data: props.body,
-            headers: {
-                Cookie: props.Cookie,
-            },
+            headers: headers,
             method: props.method,
             baseURL: process.env.API_DOMAIN,
             withCredentials: true,

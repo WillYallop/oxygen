@@ -1,36 +1,18 @@
 import { LibraryMedia } from '@prisma/client';
 import db from '../../../../../../utils/prisma-client';
-import buildURLs, {
-    BuildURLsRes,
-} from '../../../../core/cdn/data/util/build-image-url';
+import { Util_GetImagesResponse } from 'oxygen-types';
+import buildURLs from '../../../../core/cdn/data/util/build-image-url';
 
 // * Description
 /*  
     Get all images for library and organise depending on their tag 
 */
 
-interface ImageObject {
-    alt: LibraryMedia['alt'];
-    title: LibraryMedia['title'];
-    width: LibraryMedia['width'];
-    height: LibraryMedia['height'];
-    src: Array<BuildURLsRes>;
-}
-
-interface GetImagesResponse {
-    icon: Array<ImageObject>;
-    banner: Array<ImageObject>;
-    preview: Array<ImageObject>;
-    desktop: Array<ImageObject>;
-    tablet: Array<ImageObject>;
-    mobile: Array<ImageObject>;
-}
-
 const getImages = async (
     id: LibraryMedia['library_id'],
     mode: 'multiple' | 'single',
-): Promise<GetImagesResponse> => {
-    const response: GetImagesResponse = {
+): Promise<Util_GetImagesResponse> => {
+    const response: Util_GetImagesResponse = {
         icon: [],
         banner: [],
         preview: [],

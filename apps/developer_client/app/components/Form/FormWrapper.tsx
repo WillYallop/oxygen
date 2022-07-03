@@ -26,8 +26,6 @@ const FormWrapper: React.FC<FormWrapperProps> = ({
     const transition = useTransition();
     const actionData = useActionData<AxiosWrapperRes<any>>();
 
-    console.log(actionData);
-
     const [disableForm, setDisableForm] = useState(true);
 
     let errorComp: React.ReactElement = <></>;

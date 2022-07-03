@@ -1,6 +1,6 @@
 import * as React from 'react';
 import React__default from 'react';
-import { AxiosWrapperRes } from 'oxygen-types';
+import { Util_ImageObject, AxiosWrapperRes } from 'oxygen-types';
 
 declare const Button: () => JSX.Element;
 
@@ -14,6 +14,11 @@ interface TextBannerProps {
     className?: string;
 }
 declare const TextBlock: React.FC<TextBannerProps>;
+
+interface PictureProps {
+    data: Util_ImageObject;
+}
+declare const Picture: React.FC<PictureProps>;
 
 interface InputProps {
     id: string;
@@ -62,4 +67,4 @@ interface FormErrorProps {
 }
 declare const FormError: React__default.FC<FormErrorProps>;
 
-export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo, TextBlock, Textarea, TextareaProps };
+export { Button, FormError, FormErrorProps, Input, InputProps, InputWrapper, Logo, Picture, TextBlock, Textarea, TextareaProps };

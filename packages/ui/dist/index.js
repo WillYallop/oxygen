@@ -27,6 +27,7 @@ __export(src_exports, {
   Input: () => Input,
   InputWrapper: () => InputWrapper,
   Logo: () => Logo,
+  Picture: () => Picture,
   TextBlock: () => TextBlock,
   Textarea: () => Textarea
 });
@@ -79,8 +80,30 @@ var TextBlock = ({
   }, children);
 };
 
-// src/form/Input.tsx
+// src/partials/Picture.tsx
 var React4 = __toESM(require("react"));
+var Picture = ({ data }) => {
+  const getSource = (ext, mime) => {
+    const index = data.src.findIndex((x) => x.extension === ext);
+    if (index !== -1) {
+      return /* @__PURE__ */ React4.createElement("source", {
+        key: index,
+        srcSet: data.src[index].src,
+        type: mime
+      });
+    } else
+      return null;
+  };
+  return /* @__PURE__ */ React4.createElement("picture", {
+    className: "picture"
+  }, getSource(".webp", "image/webp"), getSource(".jpeg", "image/jpeg"), getSource(".png", "image/png"), /* @__PURE__ */ React4.createElement("img", {
+    src: data.src[0].src,
+    alt: data.alt
+  }));
+};
+
+// src/form/Input.tsx
+var React5 = __toESM(require("react"));
 var Input = ({
   id,
   name,
@@ -100,7 +123,7 @@ var Input = ({
     const newValue = e.target.value;
     updateValue(newValue);
   };
-  return /* @__PURE__ */ React4.createElement("input", {
+  return /* @__PURE__ */ React5.createElement("input", {
     className: "input__style input__style--i",
     id,
     name,
@@ -121,7 +144,7 @@ var Input = ({
 };
 
 // src/form/Textarea.tsx
-var React5 = __toESM(require("react"));
+var React6 = __toESM(require("react"));
 var Textarea = ({
   id,
   name,
@@ -139,7 +162,7 @@ var Textarea = ({
     const newValue = e.target.value;
     updateValue(newValue);
   };
-  return /* @__PURE__ */ React5.createElement("textarea", {
+  return /* @__PURE__ */ React6.createElement("textarea", {
     className: "input__style input__style--t",
     id,
     name,
@@ -158,7 +181,7 @@ var Textarea = ({
 };
 
 // src/form/InputWrapper.tsx
-var React6 = __toESM(require("react"));
+var React7 = __toESM(require("react"));
 var InputWrapper = ({
   id,
   input,
@@ -167,17 +190,17 @@ var InputWrapper = ({
   describedBy,
   className
 }) => {
-  return /* @__PURE__ */ React6.createElement("div", {
+  return /* @__PURE__ */ React7.createElement("div", {
     className: `input__wrapper ${className}`,
     id: `i-wrapper_${id}`
-  }, label ? /* @__PURE__ */ React6.createElement("label", {
+  }, label ? /* @__PURE__ */ React7.createElement("label", {
     className: "input__label",
     htmlFor: id
-  }, label) : null, input, /* @__PURE__ */ React6.createElement("a", {
+  }, label) : null, input, /* @__PURE__ */ React7.createElement("a", {
     href: `#${id}`,
     id: `${id ? id + "_error" : ""}`,
     className: "input__error"
-  }, /* @__PURE__ */ React6.createElement("p", null, error)), describedBy ? /* @__PURE__ */ React6.createElement("p", {
+  }, /* @__PURE__ */ React7.createElement("p", null, error)), describedBy ? /* @__PURE__ */ React7.createElement("p", {
     className: "input__describedby",
     id: `${id ? "i-describe_" + id : ""}`
   }, describedBy) : null);
@@ -208,6 +231,7 @@ var FormError = ({ errors }) => {
   Input,
   InputWrapper,
   Logo,
+  Picture,
   TextBlock,
   Textarea
 });

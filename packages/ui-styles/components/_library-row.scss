@@ -1,0 +1,74 @@
+@use './forward.scss' as *;
+
+.library-row {
+    display: block;
+    border: rem(1) solid var(--border-c);
+    border-radius: rem(5);
+    padding: rem(5);
+    display: flex;
+    align-items: center;
+    &--component {
+    }
+    &__image {
+        position: relative;
+        width: rem(280);
+        &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            padding-top: 56%;
+        }
+        &__inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    }
+    &__textarea {
+        padding: rem(10) rem(10) rem(10) rem(15);
+        width: calc(100% - rem(280));
+        .t__title {
+            margin-bottom: rem(5);
+        }
+        .t__body {
+            margin-bottom: rem(15);
+            max-width: rem(400);
+        }
+        &__btn-row {
+            a {
+                &:first-child {
+                    margin-right: rem(10);
+                }
+            }
+        }
+        &__icons {
+            margin-bottom: rem(15);
+            span {
+                margin-right: rem(10);
+                font-size: rem(14);
+                color: var(--body);
+                display: flex;
+                align-items: center;
+                svg {
+                    height: rem(16);
+                    color: var(--main);
+                    margin-right: rem(5);
+                }
+            }
+        }
+    }
+
+    @include mobile {
+        flex-direction: column;
+        align-items: stretch;
+        &__textarea {
+            width: 100%;
+            padding: rem(10);
+        }
+        &__image {
+            width: 100%;
+        }
+    }
+}

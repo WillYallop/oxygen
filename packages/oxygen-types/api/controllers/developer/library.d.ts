@@ -1,6 +1,7 @@
 // Key D_Library_
 import { Res_JSONBodyData, Res_JSONBody } from '../../responses';
 import { Library } from '@prisma/client';
+import { Util_GetImagesResponse } from '../../utilities/get-image';
 
 // -------------------------------
 // Create Library
@@ -38,4 +39,30 @@ interface D_Library_CreateLibraryResBodyData extends Res_JSONBodyData {
 }
 export interface D_Library_CreateLibraryRes extends Res_JSONBody {
     data: Array<D_Library_CreateLibraryResBodyData>;
+}
+
+// -------------------------------
+// Get Multiple Library
+// -------------------------------
+
+// body
+export interface D_Library_GetMultipleLibraryBody {}
+// res
+export interface D_Library_GetMultipleLibraryResBodyData
+    extends Res_JSONBodyData {
+    attributes: {
+        id: Library['id'];
+        type: Library['type'];
+        deactivated: Library['deactivated'];
+        verified: Library['verified'];
+        created: Library['created'];
+        modified: Library['modified'];
+        name: Library['name'];
+        description: Library['description'];
+        public: Library['public'];
+        images: Util_GetImagesResponse;
+    };
+}
+export interface D_Library_GetMultipleLibraryRes extends Res_JSONBody {
+    data: Array<D_Library_GetMultipleLibraryResBodyData>;
 }

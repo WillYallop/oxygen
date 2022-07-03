@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import {
+    D_Library_GetMultipleLibraryRes,
+    Res_ExpressError,
+} from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import { Library } from '@prisma/client';
@@ -45,7 +48,7 @@ const getMultiple = async (
 
         if (passed) {
             // response
-            const response: Res_JSONBody = {
+            const response: D_Library_GetMultipleLibraryRes = {
                 links: {
                     self: `${C.API_DOMAIN}/v1/dev/library/${req.params.type}/${req.params.cursor}/${req.params.take}/${req.params.order}`,
                 },
@@ -83,16 +86,11 @@ const getMultiple = async (
                     type: library.type,
                     deactivated: library.deactivated,
                     verified: library.verified,
-                    developerId: library.developer_id,
                     created: library.created,
                     modified: library.modified,
                     name: library.name,
                     description: library.description,
-                    tags: library.tags,
                     public: library.public,
-                    free: library.free,
-                    price: library.price,
-                    currencyCode: library.currency_code,
                     images: await getImages(library.id, 'multiple'),
                 },
             });

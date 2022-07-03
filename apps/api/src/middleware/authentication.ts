@@ -7,6 +7,7 @@ import { generateErrorString, parseErrorString } from '../utils/error-handler';
 export default async (req: Request, res: Response, next: NextFunction) => {
     // Then try standard auth check
     try {
+        console.log('HERE', req.signedCookies.authCookie);
         const token = req.signedCookies.authCookie;
         if (token !== undefined) {
             const decoded = jsonwebtoken.verify(

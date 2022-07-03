@@ -44,7 +44,7 @@ const createSingle = async (
                 public: 'required|boolean',
                 free: 'required|boolean',
                 price: 'required|integer',
-                content: 'required|string',
+                content: 'string',
             },
         );
 
@@ -72,7 +72,7 @@ const createSingle = async (
                         public: req.body.public,
                         free: req.body.free,
                         price: req.body.price,
-                        content: req.body.content,
+                        content: req.body.content || '',
                     },
                 });
 

@@ -42,6 +42,18 @@ const SignIn = () => {
     const [usernameEmail, setUsernameEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const signIn = async () => {
+        const res = await axiosWrapper<C_Auth_SignInRes, C_Auth_SignInBody>({
+            path: '/v1/core/authentication/signin',
+            method: 'post',
+            body: {
+                usernameOrEmail: usernameEmail,
+                password: password,
+            },
+        });
+        console.log(res);
+    };
+
     // Inputs
     const usernameEmailInp = (
         <Input

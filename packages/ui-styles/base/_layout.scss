@@ -1,6 +1,7 @@
 @use '../settings/vars' as *;
 @use '../settings/colours' as *;
 @use '../mixins/breakpoints' as *;
+@use '../functions/rem' as *;
 
 // ------------------------------------
 // Layout Block
@@ -315,6 +316,46 @@
             padding-right: map-get($block_padding, _small_mobile);
         }
     }
+    // -- top
+    &--bp-t-l {
+        padding-top: map-get($block_margin, _large);
+    } // padding top large
+    &--bp-t-m {
+        padding-top: map-get($block_margin, _medium);
+    } // padding top medium
+    &--bp-t-s {
+        padding-top: map-get($block_margin, _small);
+    } // padding top small
+    // -- bot
+    &--bp-b-l {
+        padding-bottom: map-get($block_margin, _large);
+    } // padding bottom large
+    &--bp-b-m {
+        padding-bottom: map-get($block_margin, _medium);
+    } // padding bottom medium
+    &--bp-b-s {
+        padding-bottom: map-get($block_margin, _small);
+    } // padding bottom small
+    // -- left
+    &--bp-l-l {
+        padding-left: map-get($block_margin, _large);
+    } // padding left large
+    &--bp-l-m {
+        padding-left: map-get($block_margin, _medium);
+    } // padding left medium
+    &--bp-l-s {
+        padding-left: map-get($block_margin, _small);
+    } // padding left small
+    // -- right
+    &--bp-r-l {
+        padding-right: map-get($block_margin, _large);
+    } // padding right large
+    &--bp-r-m {
+        padding-right: map-get($block_margin, _medium);
+    } // padding right medium
+    &--bp-r-s {
+        padding-right: map-get($block_margin, _small);
+    } // padding right small
 
     // ------------------------------------------------
     // Block Margin
@@ -413,5 +454,11 @@
 
     &--bg-acc {
         background-color: var(--accent);
+    }
+
+    // ------------------------------------------------
+    // border
+    &--border-t {
+        border-top: rem(1) solid var(--border-c);
     }
 }

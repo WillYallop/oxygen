@@ -5,7 +5,7 @@ import { useDetectClickOutside } from 'react-detect-click-outside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SlideDown } from 'react-slidedown';
 
-interface FilterDropdownCallbackRes {
+export interface FilterDropdownCallbackRes {
     order: 'asc' | 'desc';
 }
 
@@ -23,7 +23,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     // toggle state
     const [closed, setClosed] = useState(true);
     // filters state
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+    const [order, setOrder] = useState<'asc' | 'desc'>('desc');
 
     // handle close
     const detectOutsideRef = useDetectClickOutside({

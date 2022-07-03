@@ -22,6 +22,7 @@
         "@types/moment": "^2.13.0",
         "axios": "^0.27.2",
         "cookie": "^0.5.0",
+        "cookiejs": "^2.1.1",
         "markdown-it": "^13.0.1",
         "moment": "^2.29.3",
         "oxygen-constants": "*",

@@ -7,6 +7,7 @@ interface AxiosWrapperProps<BodyData> {
     method: 'get' | 'post' | 'patch' | 'delete';
     body?: BodyData;
     formData?: any;
+    baseURL?: string;
 }
 
 const axiosWrapper = async <ResponseData, BodyData>(
@@ -24,7 +25,7 @@ const axiosWrapper = async <ResponseData, BodyData>(
             data: props.body,
             headers: headers,
             method: props.method,
-            baseURL: process.env.API_DOMAIN,
+            baseURL: props.baseURL || process.env.API_DOMAIN,
             withCredentials: true,
         });
         return {

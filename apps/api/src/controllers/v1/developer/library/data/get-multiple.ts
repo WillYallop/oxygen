@@ -109,7 +109,7 @@ const getMultiple = async (
             }
             response.data.push(...(await Promise.all(buildLibResArr)));
 
-            if (libResults.length > take && response.links) {
+            if (libResults.length === take && response.links) {
                 response.links.next = `${C.API_DOMAIN}/v1/dev/library/${
                     req.params.type
                 }/${libResults[libResults.length - 1].id}/${req.params.take}/${

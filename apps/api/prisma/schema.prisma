@@ -201,7 +201,7 @@ model Library {
     modified           DateTime             @updatedAt
     name               String
     description        String
-    content            String
+    content            String               @default("")
     tags               String[]
     public             Boolean              @default(true)
     free               Boolean              @default(true)

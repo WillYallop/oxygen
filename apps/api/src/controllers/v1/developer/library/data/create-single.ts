@@ -7,8 +7,8 @@ import {
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import niv, { Validator } from 'node-input-validator';
-import { Library } from '@prisma/client';
 import {
+    generateErrorString,
     parseErrorString,
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
@@ -36,6 +36,7 @@ const createSingle = async (
         const v = new Validator(
             { ...req.body, ...req.params },
             {
+                library_name: 'required|string',
                 type: 'required|type_check',
                 name: 'required|string',
                 description: 'required|string',
@@ -60,12 +61,35 @@ const createSingle = async (
                 data: [],
             };
 
+            // check for exisiting library with this name
+            const checkUnique = await db.library.findFirst({
+                where: {
+                    library_name: {
+                        equals: req.body.library_name,
+                    },
+                    type: {
+                        equals: req.params.type,
+                    },
+                },
+            });
+            if (checkUnique) {
+                throw new Error(
+                    generateErrorString({
+                        status: 409,
+                        source: 'library_name',
+                        title: 'Library Exists',
+                        detail: `A library doc with a library_name of "${req.params.library_name}" already exists!`,
+                    }),
+                );
+            }
+
             if (req.auth?.id) {
                 const libraryRes = await db.library.create({
                     data: {
                         developer_id: req.auth.id,
                         type: req.params.type,
                         verified: false,
+                        library_name: req.body.library_name,
                         name: req.body.name,
                         description: req.body.description,
                         tags: req.body.tags || [],
@@ -88,6 +112,7 @@ const createSingle = async (
                         developerId: libraryRes.developer_id,
                         created: libraryRes.created,
                         modified: libraryRes.modified,
+                        library_name: libraryRes.library_name,
                         name: libraryRes.name,
                         description: libraryRes.description,
                         tags: libraryRes.tags,

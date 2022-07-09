@@ -90,6 +90,7 @@ const getMultiple = async (
                     verified: library.verified,
                     created: library.created,
                     modified: library.modified,
+                    library_name: library.library_name,
                     name: library.name,
                     description: library.description,
                     public: library.public,

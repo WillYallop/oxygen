@@ -9,6 +9,7 @@ import { Util_GetImagesResponse } from '../../utilities/get-image';
 
 // body
 export interface D_Library_CreateLibraryBody {
+    library_name: Library['library_name'];
     name: Library['name'];
     description: Library['description'];
     tags: Library['tags'];
@@ -27,6 +28,7 @@ interface D_Library_CreateLibraryResBodyData extends Res_JSONBodyData {
         developerId: Library['developer_id'];
         created: Library['created'];
         modified: Library['modified'];
+        library_name: Library['library_name'];
         name: Library['name'];
         description: Library['description'];
         content: Library['content'];
@@ -57,6 +59,7 @@ export interface D_Library_GetMultipleLibraryResBodyData
         verified: Library['verified'];
         created: Library['created'];
         modified: Library['modified'];
+        library_name: Library['library_name'];
         name: Library['name'];
         description: Library['description'];
         public: Library['public'];

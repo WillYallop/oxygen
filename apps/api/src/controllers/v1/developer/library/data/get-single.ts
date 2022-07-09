@@ -16,7 +16,7 @@ import db from '../../../../../utils/prisma-client';
 */
 
 export interface Params extends core.ParamsDictionary {
-    id: Library['id'];
+    library_name: Library['library_name'];
 }
 
 const getSingle = async (
@@ -27,37 +27,20 @@ const getSingle = async (
         // response
         const response: Res_JSONBody = {
             links: {
-                self: `${C.API_DOMAIN}/v1/dev/library/${req.params.id}`,
+                self: `${C.API_DOMAIN}/v1/dev/library/${req.params.library_name}`,
             },
             data: [],
         };
 
-        // check if the library exists
-        const libExists = await db.library.findFirst({
+        // get check if the library exists
+        const libraryRes = await db.library.findFirst({
             where: {
-                id: {
-                    equals: req.params.id,
+                library_name: {
+                    equals: req.params.library_name,
                 },
                 developer_id: {
                     equals: req.auth?.id,
                 },
-            },
-        });
-        if (!libExists) {
-            throw new Error(
-                generateErrorString({
-                    status: 404,
-                    source: 'id',
-                    title: 'Library Doc Doesnt Exist',
-                    detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
-                }),
-            );
-        }
-
-        // get
-        const libraryRes = await db.library.findUnique({
-            where: {
-                id: req.params.id,
             },
         });
 
@@ -74,6 +57,7 @@ const getSingle = async (
                     developerId: libraryRes.developer_id,
                     created: libraryRes.created,
                     modified: libraryRes.modified,
+                    library_name: libraryRes.library_name,
                     name: libraryRes.name,
                     description: libraryRes.description,
                     tags: libraryRes.tags,
@@ -92,9 +76,9 @@ const getSingle = async (
             throw new Error(
                 generateErrorString({
                     status: 404,
-                    source: 'id',
+                    source: 'library_name',
                     title: 'Library Doesnt Exist',
-                    detail: `A library doc with an ID of "${req.params.id}" cannt be found!`,
+                    detail: `A library doc with a library_name of "${req.params.library_name}" cannt be found!`,
                 }),
             );
         }

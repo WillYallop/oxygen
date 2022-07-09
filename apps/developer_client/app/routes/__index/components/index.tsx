@@ -2,11 +2,9 @@ import { Link, useLoaderData } from '@remix-run/react';
 import { json, LoaderFunction } from '@remix-run/node';
 import {
     D_Library_GetMultipleLibraryBody,
-    D_Library_GetMultipleLibraryResBodyData,
     D_Library_GetMultipleLibraryRes,
 } from 'oxygen-types';
 import axiosWrapper from '~/util/axios-wrapper';
-import cookie from 'cookiejs';
 // Components
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'ui';

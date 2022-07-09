@@ -1,14 +1,43 @@
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { json, LoaderFunction } from '@remix-run/node';
+import {
+    D_Library_GetMultipleLibraryBody,
+    D_Library_GetMultipleLibraryRes,
+} from 'oxygen-types';
+import axiosWrapper from '~/util/axios-wrapper';
 // Components
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'ui';
 import BackBar from '~/components/Layout/BackBar';
 
-export const loader: LoaderFunction = ({ params }) => {
-    const id = params.id;
+export const loader: LoaderFunction = async ({ request }) => {
+    const cookieHeader = request.headers.get('Cookie');
 
-    return json({});
+    const env = {
+        API_DOMAIN: process.env.API_DOMAIN,
+    };
+
+    const componentsRes = await axiosWrapper<
+        D_Library_GetMultipleLibraryRes,
+        D_Library_GetMultipleLibraryBody
+    >({
+        path: `v1/dev/library/component/start/${0}/desc`,
+        method: 'get',
+        Cookie: cookieHeader,
+    });
+    if (componentsRes.success) {
+        return json({
+            success: true,
+            components: componentsRes.response?.data,
+            env,
+        });
+    } else {
+        return json({
+            success: false,
+            components: [],
+            env,
+        });
+    }
 };
 
 const RegisterComponentPage: React.FC = () => {

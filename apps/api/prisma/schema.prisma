@@ -199,6 +199,7 @@ model Library {
     developer_id       String
     created            DateTime             @default(now())
     modified           DateTime             @updatedAt
+    library_name       String // only unique for same library types
     name               String
     description        String
     content            String               @default("")

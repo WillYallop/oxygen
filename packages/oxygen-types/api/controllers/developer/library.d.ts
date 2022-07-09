@@ -9,7 +9,7 @@ import { Util_GetImagesResponse } from '../../utilities/get-image';
 
 // body
 export interface D_Library_CreateLibraryBody {
-    library_name: Library['library_name'];
+    libraryName: Library['library_name'];
     name: Library['name'];
     description: Library['description'];
     tags: Library['tags'];

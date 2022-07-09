@@ -127,6 +127,9 @@
     &__describedby {
         margin-top: rem(10);
         font-size: rem(14);
+        padding: rem(5);
+        background-color: var(--section-m-h);
+        border-radius: rem(5);
     }
 
     // ------------------------------------

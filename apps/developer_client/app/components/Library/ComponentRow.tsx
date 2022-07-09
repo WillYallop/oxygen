@@ -180,13 +180,13 @@ const LibraryComponentRow: React.FC<LibraryComponentRowProps> = ({
                 </div>
                 <div className="library-row__textarea__btn-row l--f">
                     <Link
-                        to={`/components/edit/${component.id}`}
+                        to={`/components/edit/${component.attributes.libraryName}`}
                         className="btn-style__main"
                     >
                         Edit
                     </Link>
                     <Link
-                        to={`/components/preview/${component.id}`}
+                        to={`/components/preview/${component.attributes.libraryName}`}
                         className="btn-style__main btn-style__main--inverse"
                     >
                         Preview

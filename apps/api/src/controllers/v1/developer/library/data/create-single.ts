@@ -40,7 +40,7 @@ const createSingle = async (
         const v = new Validator(
             { ...req.body, ...req.params },
             {
-                library_name: 'required|library_name',
+                libraryName: 'required|library_name',
                 type: 'required|type_check',
                 name: 'required|string',
                 description: 'required|string',
@@ -69,7 +69,7 @@ const createSingle = async (
             const checkUnique = await db.library.findFirst({
                 where: {
                     library_name: {
-                        equals: req.body.library_name,
+                        equals: req.body.libraryName,
                     },
                     type: {
                         equals: req.params.type,
@@ -82,7 +82,7 @@ const createSingle = async (
                         status: 409,
                         source: 'library_name',
                         title: 'Library Exists',
-                        detail: `A library doc with a library_name of "${req.body.library_name}" already exists!`,
+                        detail: `A library doc with a Library Name of "${req.body.libraryName}" already exists!`,
                     }),
                 );
             }
@@ -93,7 +93,7 @@ const createSingle = async (
                         developer_id: req.auth.id,
                         type: req.params.type,
                         verified: false,
-                        library_name: req.body.library_name,
+                        library_name: req.body.libraryName,
                         name: req.body.name,
                         description: req.body.description,
                         tags: req.body.tags || [],

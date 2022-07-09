@@ -16,6 +16,7 @@ interface LibraryMetaProps {
 
 const LibraryMeta: React.FC<LibraryMetaProps> = ({ title, body, values }) => {
     const [name, setName] = useState(values.name);
+    const [libraryName, setLibraryName] = useState(values.name);
     const [description, setDescription] = useState(values.description);
     const [tags, setTags] = useState<Array<string>>([]);
 
@@ -27,6 +28,18 @@ const LibraryMeta: React.FC<LibraryMetaProps> = ({ title, body, values }) => {
             value={name}
             updateValue={val => setName(val)}
             required={true}
+        />
+    );
+    const LibraryNameInput = (
+        <Input
+            id={'libraryNameInp'}
+            name={'libraryName'}
+            type={'text'}
+            value={libraryName}
+            updateValue={val => setLibraryName(val)}
+            required={true}
+            placeholder={'my-component'}
+            pattern={'[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž∂ð-]+$'}
         />
     );
     const DescriptionTextarea = (
@@ -57,6 +70,16 @@ const LibraryMeta: React.FC<LibraryMetaProps> = ({ title, body, values }) => {
                     label="Name *"
                     error="There is an issue with this field!"
                     input={NameInput}
+                />
+                {/* Library Name */}
+                <InputWrapper
+                    id={LibraryNameInput.props.id}
+                    label={'Library Name *'}
+                    error={'There is an error'}
+                    input={LibraryNameInput}
+                    describedBy={
+                        'This should be a unique name that only contains a-z letters and dashes (-).'
+                    }
                 />
                 {/* Tags */}
                 <InputWrapper

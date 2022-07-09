@@ -43,6 +43,12 @@ meter {
     appearance: revert;
 }
 
+input {
+    &::placeholder {
+        color: var(--body);
+    }
+}
+
 /* reset default text opacity of input placeholder */
 ::placeholder {
     all: unset;

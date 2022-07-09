@@ -766,6 +766,9 @@ p {
 .input__describedby {
   margin-top: 0.625rem;
   font-size: 0.875rem;
+  padding: 0.3125rem;
+  background-color: var(--section-m-h);
+  border-radius: 0.3125rem;
 }
 
 /* Preferred box-sizing value */
@@ -807,6 +810,10 @@ textarea {
 /* minimum style to allow to style meter element */
 meter {
   appearance: revert;
+}
+
+input::placeholder {
+  color: var(--body);
 }
 
 /* reset default text opacity of input placeholder */

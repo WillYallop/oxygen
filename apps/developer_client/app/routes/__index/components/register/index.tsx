@@ -9,7 +9,7 @@ import { ActionFunction, redirect } from '@remix-run/node';
 import Header from '~/components/Layout/Header';
 import BackBar from '~/components/Layout/BackBar';
 import FormWrapper from '~/components/Form/FormWrapper';
-import { TextBlock } from 'ui';
+import { TextBlock } from 'frontend-ui';
 import LibraryPageContent from '~/components/Library/Inputs/Content';
 import LibraryMeta from '~/components/Library/Inputs/Meta';
 

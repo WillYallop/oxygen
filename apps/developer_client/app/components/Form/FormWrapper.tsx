@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormError } from 'ui';
+import { FormError } from 'frontend-ui';
 import { Form, useActionData, useTransition } from '@remix-run/react';
 import formIsValid, { CustomValidation } from '../../util/form-valid';
 import { AxiosWrapperRes } from 'oxygen-types';

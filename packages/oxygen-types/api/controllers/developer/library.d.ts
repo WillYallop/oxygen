@@ -28,7 +28,7 @@ interface D_Library_CreateLibraryResBodyData extends Res_JSONBodyData {
         developerId: Library['developer_id'];
         created: Library['created'];
         modified: Library['modified'];
-        library_name: Library['library_name'];
+        libraryName: Library['library_name'];
         name: Library['name'];
         description: Library['description'];
         content: Library['content'];
@@ -59,7 +59,7 @@ export interface D_Library_GetMultipleLibraryResBodyData
         verified: Library['verified'];
         created: Library['created'];
         modified: Library['modified'];
-        library_name: Library['library_name'];
+        libraryName: Library['library_name'];
         name: Library['name'];
         description: Library['description'];
         public: Library['public'];
@@ -68,4 +68,37 @@ export interface D_Library_GetMultipleLibraryResBodyData
 }
 export interface D_Library_GetMultipleLibraryRes extends Res_JSONBody {
     data: Array<D_Library_GetMultipleLibraryResBodyData>;
+}
+
+// -------------------------------
+// Get Single Library
+// -------------------------------
+
+// body
+export interface D_Library_GetSingleLibraryBody {}
+// res
+export interface D_Library_GetSingleLibraryResBodyData
+    extends Res_JSONBodyData {
+    attributes: {
+        id: Library['id'];
+        type: Library['type'];
+        deactivated: Library['deactivated'];
+        verified: Library['verified'];
+        created: Library['created'];
+        modified: Library['modified'];
+        libraryName: Library['library_name'];
+        name: Library['name'];
+        description: Library['description'];
+        public: Library['public'];
+        developerId: Library['developer_id'];
+        tags: Library['tags'];
+        free: Library['free'];
+        price: Library['price'];
+        currencyCode: Library['currency_code'];
+        content: Library['content'];
+        images: Util_GetImagesResponse;
+    };
+}
+export interface D_Library_GetSingleLibraryRes extends Res_JSONBody {
+    data: Array<D_Library_GetSingleLibraryResBodyData>;
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 // components
 import InputSection from '../InputSection';
-import { Input, Textarea, InputWrapper } from 'ui';
+import { Input, Textarea, InputWrapper } from 'frontend-ui';
 import { TagsInput } from 'react-tag-input-component';
 
 interface LibraryMetaProps {

@@ -1,45 +1,45 @@
 {
-  "name": "oxygen",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "test": "turbo run test",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/user-event": "^14.2.0",
-    "@types/jest": "^27.4.0",
-    "esbuild": "^0.14.10",
-    "esbuild-jest": "^0.5.0",
-    "jest": "^27.4.7",
-    "jest-watch-typeahead": "^1.0.0",
-    "lint-staged": "^12.1.3",
-    "prettier": "latest",
-    "prettier-plugin-prisma": "^3.14.0",
-    "turbo": "latest"
-  },
-  "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
-  },
-  "packageManager": "npm@8.5.5",
-  "lint-staged": {
-    "apps/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
+    "name": "oxygen",
+    "version": "0.0.0",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
     ],
-    "packages/ui/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
-    ],
-    "*.json": [
-      "prettier --write"
-    ]
-  }
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev --parallel",
+        "test": "turbo run test",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/user-event": "^14.2.0",
+        "@types/jest": "^27.4.0",
+        "esbuild": "^0.14.10",
+        "esbuild-jest": "^0.5.0",
+        "jest": "^27.4.7",
+        "jest-watch-typeahead": "^1.0.0",
+        "lint-staged": "^12.1.3",
+        "prettier": "latest",
+        "prettier-plugin-prisma": "^3.14.0",
+        "turbo": "latest"
+    },
+    "engines": {
+        "npm": ">=7.0.0",
+        "node": ">=14.0.0"
+    },
+    "packageManager": "npm@8.5.5",
+    "lint-staged": {
+        "apps/**/*.{js,ts,jsx,tsx}": [
+            "eslint --fix"
+        ],
+        "packages/frontend-ui/**/*.{js,ts,jsx,tsx}": [
+            "eslint --fix"
+        ],
+        "*.json": [
+            "prettier --write"
+        ]
+    }
 }

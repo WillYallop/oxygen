@@ -2,7 +2,7 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import { json, LoaderFunction } from '@remix-run/node';
 // Components
 import Header from '~/components/Layout/Header';
-import { TextBlock } from 'ui';
+import { TextBlock } from 'frontend-ui';
 import BackBar from '~/components/Layout/BackBar';
 
 export const loader: LoaderFunction = ({ params }) => {

@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { Res_JSONBody, Res_ExpressError } from 'oxygen-types';
+import {
+    Res_ExpressError,
+    D_Library_GetSingleLibraryBody,
+    D_Library_GetSingleLibraryRes,
+} from 'oxygen-types';
 import C from 'oxygen-constants';
 import * as core from 'express-serve-static-core';
 import { Library } from '@prisma/client';
@@ -20,12 +24,12 @@ export interface Params extends core.ParamsDictionary {
 }
 
 const getSingle = async (
-    req: Request<Params>,
+    req: Request<Params, any, D_Library_GetSingleLibraryBody>,
     res: Response<Res_ExpressError>,
 ) => {
     try {
         // response
-        const response: Res_JSONBody = {
+        const response: D_Library_GetSingleLibraryRes = {
             links: {
                 self: `${C.API_DOMAIN}/v1/dev/library/${req.params.library_name}`,
             },
@@ -57,7 +61,7 @@ const getSingle = async (
                     developerId: libraryRes.developer_id,
                     created: libraryRes.created,
                     modified: libraryRes.modified,
-                    library_name: libraryRes.library_name,
+                    libraryName: libraryRes.library_name,
                     name: libraryRes.name,
                     description: libraryRes.description,
                     tags: libraryRes.tags,

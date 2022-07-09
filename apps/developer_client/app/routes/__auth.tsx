@@ -1,5 +1,5 @@
 import { Outlet, Link } from '@remix-run/react';
-import { Logo } from 'ui';
+import { Logo } from 'frontend-ui';
 
 const AuthLayout = () => {
     return (

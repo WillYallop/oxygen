@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Picture } from 'ui';
+import { Picture } from 'frontend-ui';
 
 interface LibraryComponentRowProps {
     component: D_Library_GetMultipleLibraryResBodyData;

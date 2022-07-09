@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faUikit } from '@fortawesome/free-brands-svg-icons';
 // Components
-import { Logo } from 'ui';
+import { Logo } from 'frontend-ui';
 import { NavLink } from '@remix-run/react';
 import NavItem from '~/components/Partials/NavItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

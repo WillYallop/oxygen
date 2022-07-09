@@ -5,7 +5,7 @@ import { CustomValidation } from '../../util/form-valid';
 import axiosWrapper from '../../util/axios-wrapper';
 import { C_Auth_RegisterUserRes, C_Auth_RegisterUserBody } from 'oxygen-types';
 // Components
-import { Input, InputWrapper } from 'ui';
+import { Input, InputWrapper } from 'frontend-ui';
 import FormWrapper from '~/components/Form/FormWrapper';
 
 export const action: ActionFunction = async ({ request }) => {

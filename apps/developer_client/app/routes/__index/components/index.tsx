@@ -7,7 +7,7 @@ import {
 import axiosWrapper from '~/util/axios-wrapper';
 // Components
 import Header from '~/components/Layout/Header';
-import { TextBlock } from 'ui';
+import { TextBlock } from 'frontend-ui';
 import LibraryComponentRow from '~/components/Library/ComponentRow';
 import FilterDropdown, {
     FilterDropdownCallbackRes,

@@ -1,15 +1,15 @@
 import C from 'oxygen-constants';
 
 interface NIVExtendProps {
-    value: string | number;
+    value: string;
 }
 
-export const nameRegexCb = (data: { value: string }) => {
+export const nameRegexCb = (data: NIVExtendProps) => {
     const regex = new RegExp(C.REGEX.NAME_VALIDATOR);
     return regex.test(data.value);
 };
 
-export const libraryTypeCb = (data: { value: string }) => {
+export const libraryTypeCb = (data: NIVExtendProps) => {
     if (
         data.value === 'component' ||
         data.value === 'plugin' ||
@@ -17,4 +17,9 @@ export const libraryTypeCb = (data: { value: string }) => {
     )
         return true;
     return false;
+};
+
+export const libraryNameCb = (data: NIVExtendProps) => {
+    const regex = new RegExp(C.REGEX.LIBRARY_NAME_VALIDATOR);
+    return regex.test(data.value);
 };

@@ -4,7 +4,7 @@ import { ActionFunction, redirect } from '@remix-run/node';
 import axiosWrapper from '../../util/axios-wrapper';
 import { C_Auth_SignInRes, C_Auth_SignInBody } from 'oxygen-types';
 // Components
-import { Input, InputWrapper } from 'ui';
+import { Input, InputWrapper } from 'frontend-ui';
 import FormWrapper from '~/components/Form/FormWrapper';
 
 export const action: ActionFunction = async ({ request }) => {

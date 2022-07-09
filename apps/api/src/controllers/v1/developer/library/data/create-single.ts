@@ -12,7 +12,10 @@ import {
     parseErrorString,
     resNodeInputValidatorError,
 } from '../../../../../utils/error-handler';
-import { libraryTypeCb } from '../../../../../utils/niv-extend-callbacks';
+import {
+    libraryTypeCb,
+    libraryNameCb,
+} from '../../../../../utils/niv-extend-callbacks';
 import db from '../../../../../utils/prisma-client';
 
 // * Description
@@ -31,12 +34,13 @@ const createSingle = async (
     try {
         // extend niv validator
         niv.extend('type_check', libraryTypeCb);
+        niv.extend('library_name', libraryNameCb);
 
         // validate body config
         const v = new Validator(
             { ...req.body, ...req.params },
             {
-                library_name: 'required|string',
+                library_name: 'required|library_name',
                 type: 'required|type_check',
                 name: 'required|string',
                 description: 'required|string',
@@ -78,7 +82,7 @@ const createSingle = async (
                         status: 409,
                         source: 'library_name',
                         title: 'Library Exists',
-                        detail: `A library doc with a library_name of "${req.params.library_name}" already exists!`,
+                        detail: `A library doc with a library_name of "${req.body.library_name}" already exists!`,
                     }),
                 );
             }
@@ -112,7 +116,7 @@ const createSingle = async (
                         developerId: libraryRes.developer_id,
                         created: libraryRes.created,
                         modified: libraryRes.modified,
-                        library_name: libraryRes.library_name,
+                        libraryName: libraryRes.library_name,
                         name: libraryRes.name,
                         description: libraryRes.description,
                         tags: libraryRes.tags,

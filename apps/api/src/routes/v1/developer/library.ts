@@ -13,7 +13,7 @@ const router = express.Router();
 // ------------------------------------
 
 router.post('/media/:id/:tag', middleware.auth, library.uploadImage);
-router.get('/:library_name', middleware.auth, library.getSingle);
+router.get('/:type/:library_name', middleware.auth, library.getSingle);
 router.get('/:type/:cursor/:take/:order', middleware.auth, library.getMultiple);
 router.post('/:type', middleware.auth, library.createSingle);
 router.patch('/:id', middleware.auth, library.updateSingle);

@@ -90,7 +90,7 @@ const deactivateSingle = async (
                         developerId: libraryRes.developer_id,
                         created: libraryRes.created,
                         modified: libraryRes.modified,
-                        name: libraryRes.name,
+                        displayName: libraryRes.display_name,
                         description: libraryRes.description,
                         tags: libraryRes.tags,
                         public: libraryRes.public,

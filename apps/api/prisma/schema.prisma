@@ -200,7 +200,7 @@ model Library {
     created            DateTime             @default(now())
     modified           DateTime             @updatedAt
     library_name       String // only unique for same library types
-    name               String
+    display_name       String
     description        String
     content            String               @default("")
     tags               String[]

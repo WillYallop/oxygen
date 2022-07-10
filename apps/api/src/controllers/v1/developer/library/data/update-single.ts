@@ -17,7 +17,7 @@ import db from '../../../../../utils/prisma-client';
 */
 
 export interface Body {
-    name?: Library['name'];
+    displayName?: Library['display_name'];
     tags?: Library['tags'];
     description?: Library['description'];
     public?: Library['public'];
@@ -40,7 +40,7 @@ const updateSingle = async (
             { ...req.body, ...req.params },
             {
                 id: 'required|string',
-                name: 'string',
+                displayName: 'string',
                 description: 'string',
                 tags: 'array',
                 'tags.**': 'string',
@@ -85,8 +85,19 @@ const updateSingle = async (
                 );
             }
 
-            const updateData: Body = {};
-            if (req.body.name !== undefined) updateData.name = req.body.name;
+            interface UpdateBody {
+                display_name?: Library['display_name'];
+                tags?: Library['tags'];
+                description?: Library['description'];
+                public?: Library['public'];
+                free?: Library['free'];
+                price?: Library['price'];
+                content?: Library['content'];
+            }
+
+            const updateData: UpdateBody = {};
+            if (req.body.displayName !== undefined)
+                updateData.display_name = req.body.displayName;
             if (req.body.description !== undefined)
                 updateData.description = req.body.description;
             if (req.body.tags !== undefined) updateData.tags = req.body.tags;
@@ -116,7 +127,8 @@ const updateSingle = async (
                     developerId: updateRes.developer_id,
                     created: updateRes.created,
                     modified: updateRes.modified,
-                    name: updateRes.name,
+                    libraryName: updateRes.library_name,
+                    displayName: updateRes.display_name,
                     description: updateRes.description,
                     tags: updateRes.tags,
                     public: updateRes.public,

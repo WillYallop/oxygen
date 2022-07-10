@@ -15,7 +15,8 @@ describe('Test developer component library get single route', () => {
     // component library data
     let compLibId = '';
     const compLibData = {
-        name: 'banner',
+        displayName: 'banner',
+        libraryName: 'banner-one',
         description: 'This is a description',
         tags: ['free', 'choice'],
         public: true,
@@ -99,7 +100,7 @@ describe('Test developer component library get single route', () => {
     test('successfull POST request', async () => {
         // get req
         const response = await request(app)
-            .get(`/v1/dev/library/${compLibId}`)
+            .get(`/v1/dev/library/component/${compLibData.libraryName}`)
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
             .expect('Content-Type', /json/);
@@ -113,7 +114,8 @@ describe('Test developer component library get single route', () => {
                 id: response.body.data[0].id,
                 verified: false,
                 deactivated: false,
-                name: compLibData.name,
+                displayName: compLibData.displayName,
+                libraryName: compLibData.libraryName,
                 description: compLibData.description,
                 tags: compLibData.tags,
                 public: compLibData.public,

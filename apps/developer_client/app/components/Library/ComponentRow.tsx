@@ -155,7 +155,7 @@ const LibraryComponentRow: React.FC<LibraryComponentRowProps> = ({
             </div>
             {/* textarea */}
             <div className="library-row__textarea">
-                <p className="t__title">{component.attributes.name}</p>
+                <p className="t__title">{component.attributes.displayName}</p>
                 <p className="t__body">{component.attributes.description}</p>
                 <div className="library-row__textarea__icons l--f">
                     <span>

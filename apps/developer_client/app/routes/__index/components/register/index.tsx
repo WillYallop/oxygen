@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({ request }) => {
     let res;
     if (intent === 'registerForm') {
         const postData: D_Library_CreateLibraryBody = {
-            name: formData.get('name') as string,
+            displayName: formData.get('displayName') as string,
             libraryName: formData.get('libraryName') as string,
             description: formData.get('description') as string,
             tags: JSON.parse((formData.get('tags') as string) || '[]'),

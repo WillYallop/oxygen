@@ -91,7 +91,7 @@ const getMultiple = async (
                     created: library.created,
                     modified: library.modified,
                     libraryName: library.library_name,
-                    name: library.name,
+                    displayName: library.display_name,
                     description: library.description,
                     public: library.public,
                     images: await getImages(library.id, 'multiple'),

@@ -15,7 +15,8 @@ describe('Test developer component library create single route', () => {
     };
     // component library data
     const compLibData = {
-        name: 'banner',
+        displayName: 'banner',
+        libraryName: 'banner-three',
         description: 'This is a description',
         tags: ['free', 'choice'],
         public: true,
@@ -88,7 +89,8 @@ describe('Test developer component library create single route', () => {
                 id: response.body.data[0].id,
                 type,
                 verified: false,
-                name: compLibData.name,
+                displayName: compLibData.displayName,
+                libraryName: compLibData.libraryName,
                 deactivated: false,
                 description: compLibData.description,
                 tags: compLibData.tags,

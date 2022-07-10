@@ -15,7 +15,8 @@ describe('Test developer component library update single route', () => {
     // component library data
     let compLibId = '';
     const compLibData = {
-        name: 'banner',
+        displayName: 'banner',
+        libraryName: 'banner-two',
         description: 'This is a description',
         tags: ['free', 'choice'],
         public: true,
@@ -105,7 +106,7 @@ describe('Test developer component library update single route', () => {
             .set('Accept', 'application/json')
             .set('Cookie', [...cookies])
             .send({
-                name: newCompName,
+                displayName: newCompName,
             })
             .expect('Content-Type', /json/);
 
@@ -118,7 +119,8 @@ describe('Test developer component library update single route', () => {
                 id: response.body.data[0].id,
                 verified: false,
                 deactivated: false,
-                name: newCompName,
+                displayName: newCompName,
+                libraryName: compLibData.libraryName,
                 description: compLibData.description,
                 tags: compLibData.tags,
                 public: compLibData.public,

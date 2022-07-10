@@ -5,10 +5,16 @@ import {
     D_Library_GetSingleLibraryRes,
 } from 'oxygen-types';
 import axiosWrapper from '~/util/axios-wrapper';
+// Context
+import {
+    LibraryComponentContext,
+    defaultLibraryComponentContext,
+} from '~/context/libraryComponent';
 // Components
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'frontend-ui';
 import BackBar from '~/components/Layout/BackBar';
+import { useState } from 'react';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const libraryName = params.name;
@@ -43,9 +49,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 const RegisterComponentPage: React.FC = () => {
     const data = useLoaderData();
-    console.log(data);
+
+    const [component, setComponent] = useState(
+        defaultLibraryComponentContext.component,
+    );
+
     return (
-        <>
+        <LibraryComponentContext.Provider value={{ component, setComponent }}>
             <Header hasSearch={false} />
             <BackBar text={'Back'} link={'/components'} />
             <div className="l--bp">
@@ -64,7 +74,7 @@ const RegisterComponentPage: React.FC = () => {
                 </TextBlock>
             </div>
             <Outlet />
-        </>
+        </LibraryComponentContext.Provider>
     );
 };
 

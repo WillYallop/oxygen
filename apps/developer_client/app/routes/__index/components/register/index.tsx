@@ -85,8 +85,7 @@ const RegisterComponent: React.FC = () => {
                         <h1>Register a new component</h1>
                         <p>
                             The better listing you create for your component:
-                            the higher chance it has to become popular! Start by
-                            entering the core information about your component.
+                            the higher chance it has to become popular!
                         </p>
                     </>
                 </TextBlock>

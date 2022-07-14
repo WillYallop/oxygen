@@ -1,20 +1,18 @@
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
+import { useState } from 'react';
 import { json, LoaderFunction } from '@remix-run/node';
 import {
     D_Library_GetSingleLibraryBody,
     D_Library_GetSingleLibraryRes,
+    D_Library_GetSingleLibraryResBodyData,
 } from 'oxygen-types';
 import axiosWrapper from '~/util/axios-wrapper';
 // Context
-import {
-    LibraryComponentContext,
-    defaultLibraryComponentContext,
-} from '~/context/libraryComponent';
+import { LibraryComponentContext } from '~/context/libraryComponent';
 // Components
 import Header from '~/components/Layout/Header';
 import { TextBlock } from 'frontend-ui';
 import BackBar from '~/components/Layout/BackBar';
-import { useState } from 'react';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const libraryName = params.name;
@@ -47,12 +45,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 };
 
-const RegisterComponentPage: React.FC = () => {
-    const data = useLoaderData();
+interface LoaderData {
+    success: boolean;
+    component: D_Library_GetSingleLibraryResBodyData;
+    env: {
+        API_DOMAIN: string;
+    };
+}
 
-    const [component, setComponent] = useState(
-        defaultLibraryComponentContext.component,
-    );
+const RegisterComponentPage: React.FC = () => {
+    const data = useLoaderData<LoaderData>();
+
+    const [component, setComponent] = useState(data.component);
 
     return (
         <LibraryComponentContext.Provider value={{ component, setComponent }}>
@@ -72,8 +76,52 @@ const RegisterComponentPage: React.FC = () => {
                         </p>
                     </>
                 </TextBlock>
+                <nav>
+                    <ul>
+                        <li>
+                            <NavLink
+                                to={`/components/edit/${component?.attributes.libraryName}`}
+                                className={({ isActive }) =>
+                                    isActive ? '' : undefined
+                                }
+                            >
+                                Overview
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/components/edit/${component?.attributes.libraryName}/gallery`}
+                                className={({ isActive }) =>
+                                    isActive ? '' : undefined
+                                }
+                            >
+                                Gallery
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/components/edit/${component?.attributes.libraryName}/config`}
+                                className={({ isActive }) =>
+                                    isActive ? '' : undefined
+                                }
+                            >
+                                Config
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/components/edit/${component?.attributes.libraryName}/versions`}
+                                className={({ isActive }) =>
+                                    isActive ? '' : undefined
+                                }
+                            >
+                                Versions
+                            </NavLink>
+                        </li>
+                    </ul>
+                </nav>
+                <Outlet />
             </div>
-            <Outlet />
         </LibraryComponentContext.Provider>
     );
 };

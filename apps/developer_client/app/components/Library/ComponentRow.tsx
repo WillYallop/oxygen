@@ -186,7 +186,7 @@ const LibraryComponentRow: React.FC<LibraryComponentRowProps> = ({
                         Edit
                     </Link>
                     <Link
-                        to={`/components/preview/${component.attributes.libraryName}`}
+                        to={`/components/${component.attributes.libraryName}`}
                         className="btn-style__main btn-style__main--inverse"
                     >
                         Preview
